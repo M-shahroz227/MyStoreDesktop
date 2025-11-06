@@ -1,23 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.Entity;
+using MyStoreDesktop.Data;
 
 namespace MyStoreDesktop
 {
     internal static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LoginForm());
 
+            Database.SetInitializer(new CreateDatabaseIfNotExists<DatabaseHelper>());
+
+            try
+            {
+                using (var db = new DatabaseHelper())
+                {
+                    db.Database.CreateIfNotExists();
+                    Application.Run(new LoginForm(db));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Database connection failed:\n\n{ex.Message}",
+                    "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

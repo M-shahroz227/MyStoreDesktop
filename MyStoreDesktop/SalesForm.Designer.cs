@@ -66,9 +66,9 @@ namespace MyStoreDesktop
             // 
             // dtpFrom
             // 
-            this.dtpFrom.Location = new System.Drawing.Point(110, 75);
+            this.dtpFrom.Location = new System.Drawing.Point(107, 75);
             this.dtpFrom.Name = "dtpFrom";
-            this.dtpFrom.Size = new System.Drawing.Size(164, 25);
+            this.dtpFrom.Size = new System.Drawing.Size(167, 25);
             this.dtpFrom.TabIndex = 2;
             // 
             // lblTo
@@ -82,7 +82,7 @@ namespace MyStoreDesktop
             // 
             // dtpTo
             // 
-            this.dtpTo.Location = new System.Drawing.Point(320, 75);
+            this.dtpTo.Location = new System.Drawing.Point(311, 74);
             this.dtpTo.Name = "dtpTo";
             this.dtpTo.Size = new System.Drawing.Size(150, 25);
             this.dtpTo.TabIndex = 4;
@@ -94,7 +94,7 @@ namespace MyStoreDesktop
             this.btnFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnFilter.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFilter.ForeColor = System.Drawing.Color.White;
-            this.btnFilter.Location = new System.Drawing.Point(500, 72);
+            this.btnFilter.Location = new System.Drawing.Point(485, 68);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Size = new System.Drawing.Size(120, 32);
             this.btnFilter.TabIndex = 5;
@@ -108,7 +108,7 @@ namespace MyStoreDesktop
             this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRefresh.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRefresh.ForeColor = System.Drawing.Color.White;
-            this.btnRefresh.Location = new System.Drawing.Point(640, 72);
+            this.btnRefresh.Location = new System.Drawing.Point(625, 68);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(120, 32);
             this.btnRefresh.TabIndex = 6;

@@ -1,42 +1,64 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
+using MyStoreDesktop.Models;
+using MyStoreDesktop.Services.UserService;
 
 namespace MyStoreDesktop
 {
     public partial class LoginForm : Form
     {
-        DatabaseHelper db = new DatabaseHelper();
+        private readonly UserService _userService;
 
         public LoginForm()
         {
+        }
+
+        public LoginForm(Data.DatabaseHelper db)
+        {
             InitializeComponent();
+            _userService = new UserService();
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            string username = txtUsername.Text;
-            string password = txtPassword.Text;
-            string role;
+            string username = txtUsername.Text.Trim();
+            string password = txtPassword.Text.Trim();
 
-            DatabaseHelper db = new DatabaseHelper();
-
-            if (db.ValidateUser(username, password, out role))
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("Welcome " + username + "!", "Login Successful");
+                MessageBox.Show("Please enter username and password", "Warning");
+                return;
+            }
 
-                // 🔹 Home form open karo
+            // 🔹 Get all users from DB
+            var user = _userService.GetAll()
+                .FirstOrDefault(u => u.UserName == username);
+
+            if (user == null)
+            {
+                MessageBox.Show("User not found!", "Error");
+                return;
+            }
+
+            // 🔹 Simple password validation (NOTE: add real hashing later)
+            var dbPassword = System.Text.Encoding.UTF8.GetString(user.PasswordHash);
+            if (dbPassword == password)
+            {
+                MessageBox.Show($"Welcome {username}!", "Login Successful");
+
+                // 🔹 Open Home Form
                 Home home = new Home();
                 home.Show();
 
-                // 🔹 Login form hide kar do
+                // 🔹 Hide login
                 this.Hide();
             }
             else
             {
-                MessageBox.Show("Invalid username or password", "Error");
+                MessageBox.Show("Invalid password!", "Error");
             }
         }
-
 
         private void linkRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
