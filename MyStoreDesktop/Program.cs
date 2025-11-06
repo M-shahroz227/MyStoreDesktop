@@ -16,7 +16,8 @@ namespace MyStoreDesktop
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Home());
+            Application.Run(new LoginForm());
+
         }
     }
 }

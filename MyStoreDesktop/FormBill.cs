@@ -11,6 +11,12 @@ namespace MyStoreDesktop
         PrintDocument printDoc = billPrintDocument;
         private DataGridView dgvCart;
         private Label lblTaxValue;
+
+        public FormBill(Label lblTaxValue)
+        {
+            this.lblTaxValue = lblTaxValue;
+        }
+
         private Label lblSubTotalValue;
         
 
