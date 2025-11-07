@@ -34,6 +34,7 @@
             this.lblTitle = new System.Windows.Forms.Label();
             this.picLogo = new System.Windows.Forms.PictureBox();
             this.panelMenu = new System.Windows.Forms.Panel();
+            this.panelMainContent = new System.Windows.Forms.Panel();
             this.btnReports = new System.Windows.Forms.Button();
             this.btnSales = new System.Windows.Forms.Button();
             this.btnUsers = new System.Windows.Forms.Button();
@@ -65,6 +66,7 @@
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.panelMenu.SuspendLayout();
+            this.panelMainContent.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCart)).BeginInit();
             this.SuspendLayout();
@@ -225,15 +227,17 @@
             this.panel1.Controls.Add(this.lblTotalValue);
             this.panel1.Controls.Add(this.lblTotal);
             this.panel1.Controls.Add(this.txtDiscount);
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.lblDiscount);
             this.panel1.Controls.Add(this.lblTaxValue);
             this.panel1.Controls.Add(this.lblTax);
             this.panel1.Controls.Add(this.lblSubTotalValue);
             this.panel1.Controls.Add(this.lblSubTotal);
-            this.panel1.Location = new System.Drawing.Point(780, 70);
+            this.panel1.Location = new System.Drawing.Point(620, 20);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(250, 450);
-            this.panel1.TabIndex = 12;
+            this.panel1.TabIndex = 1;
             // 
             // btnClear
             // 
@@ -442,34 +446,49 @@
             this.lblSubTotal.Text = "Sub Total";
             // 
             // dgvCart
-            // 
+            //
+            this.dgvCart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvCart.BackgroundColor = System.Drawing.Color.White;
             this.dgvCart.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCart.Location = new System.Drawing.Point(160, 70);
+            this.dgvCart.Location = new System.Drawing.Point(10, 20);
             this.dgvCart.Name = "dgvCart";
-            this.dgvCart.Size = new System.Drawing.Size(603, 450);
-            this.dgvCart.TabIndex = 11;
+            this.dgvCart.Size = new System.Drawing.Size(600, 450);
+            this.dgvCart.TabIndex = 0;
+            //
+            // panelMainContent
+            //
+            this.panelMainContent.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panelMainContent.Controls.Add(this.panel1);
+            this.panelMainContent.Controls.Add(this.dgvCart);
+            this.panelMainContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelMainContent.Location = new System.Drawing.Point(150, 50);
+            this.panelMainContent.Name = "panelMainContent";
+            this.panelMainContent.Padding = new System.Windows.Forms.Padding(10);
+            this.panelMainContent.Size = new System.Drawing.Size(884, 511);
+            this.panelMainContent.TabIndex = 2;
             // 
             // Home
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(1034, 561);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.dgvCart);
+            this.Controls.Add(this.panelMainContent);
             this.Controls.Add(this.panelMenu);
             this.Controls.Add(this.panelHeader);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "Home";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "My Store - POS System";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Home_Load);
             this.panelHeader.ResumeLayout(false);
             this.panelHeader.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             this.panelMenu.ResumeLayout(false);
+            this.panelMainContent.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCart)).EndInit();
@@ -484,6 +503,7 @@
         private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Panel panelMenu;
+        private System.Windows.Forms.Panel panelMainContent;
         private System.Windows.Forms.Button btnProducts;
         private System.Windows.Forms.Button btnHome;
         private System.Windows.Forms.Button btnReports;

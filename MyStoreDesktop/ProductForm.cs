@@ -16,6 +16,8 @@ namespace MyStoreDesktop
         private readonly IQrTableDataService _qrService = new QrTableDataService();
         private int selectedProductId = 0;
         private string selectedImagePath = "";
+        private Bitmap currentQRCode = null;
+        private string currentQRCodeGuid = "";
 
         public ProductForm()
         {
@@ -185,6 +187,42 @@ namespace MyStoreDesktop
                 txtCompany.Text = row.Cells["Company"].Value.ToString();
                 txtModel.Text = row.Cells["Model"].Value.ToString();
                 txtDescription.Text = row.Cells["Description"].Value.ToString();
+            }
+        }
+
+        // 🔹 Generate QR Code Button Click
+        private void btnGenerateQR_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Generate new GUID for QR code
+                currentQRCodeGuid = Guid.NewGuid().ToString();
+
+                // Generate QR Code using QRCoder
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(currentQRCodeGuid, QRCodeGenerator.ECCLevel.Q);
+                QRCode qrCode = new QRCode(qrCodeData);
+
+                // Create high-quality bitmap for printing
+                currentQRCode = qrCode.GetGraphic(20); // Higher pixels per module for better print quality
+
+                // Show popup dialog
+                QRCodePopup popup = new QRCodePopup();
+                popup.QRCodeImage = currentQRCode;
+                popup.QRCodeGuid = currentQRCodeGuid;
+
+                if (popup.ShowDialog() == DialogResult.OK)
+                {
+                    // Display QR code in the preview picture box
+                    picQRPreview.Image = currentQRCode;
+                    MessageBox.Show($"QR Code added to product!\nGUID: {currentQRCodeGuid}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                popup.Dispose();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error generating QR Code: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

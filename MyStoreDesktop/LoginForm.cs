@@ -61,9 +61,10 @@ namespace MyStoreDesktop
 
                 // 🔹 Open Home Form
                 Home home = new Home();
+                home.FormClosed += (s, args) => Application.Exit(); // Exit app when Home closes
                 home.Show();
 
-                // 🔹 Hide login
+                // 🔹 Close login properly
                 this.Hide();
             }
             else

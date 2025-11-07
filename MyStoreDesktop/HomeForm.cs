@@ -8,9 +8,32 @@ namespace MyStoreDesktop
 {
     public partial class Home : Form
     {
+        private Form activeForm = null;
+
         public Home()
         {
             InitializeComponent();
+        }
+
+        // Helper method to load child forms into main panel
+        private void LoadFormInPanel(Form childForm)
+        {
+            // Dispose previous form if exists
+            if (activeForm != null)
+            {
+                activeForm.Close();
+                activeForm.Dispose();
+            }
+
+            activeForm = childForm;
+            childForm.TopLevel = false;
+            childForm.FormBorderStyle = FormBorderStyle.None;
+            childForm.Dock = DockStyle.Fill;
+            panelMainContent.Controls.Clear();
+            panelMainContent.Controls.Add(childForm);
+            panelMainContent.Tag = childForm;
+            childForm.BringToFront();
+            childForm.Show();
         }
 
         // 🔹 FORM LOAD
@@ -164,35 +187,36 @@ namespace MyStoreDesktop
         // 🔹 LEFT MENU NAVIGATION
         private void BtnHome_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("🏠 You are already on the Home page.", "Info");
+            // Close any open form and show POS interface
+            if (activeForm != null)
+            {
+                activeForm.Close();
+                activeForm.Dispose();
+                activeForm = null;
+            }
+            panelMainContent.Controls.Clear();
+            panelMainContent.Controls.Add(dgvCart);
+            panelMainContent.Controls.Add(panel1);
         }
 
         private void BtnProducts_Click(object sender, EventArgs e)
         {
-            var products = new ProductForm();
-            products.Show();
-            
+            LoadFormInPanel(new ProductForm());
         }
 
         private void BtnUsers_Click(object sender, EventArgs e)
         {
-            var users = new UserForm();
-            users.Show();
-            
+            LoadFormInPanel(new UserForm());
         }
 
         private void BtnSales_Click(object sender, EventArgs e)
         {
-            var sales = new SalesForm(); // This will now refer to the real SalesForm
-            sales.Show();
-            
+            LoadFormInPanel(new SalesForm());
         }
 
         private void BtnReports_Click(object sender, EventArgs e)
         {
-            var reports = new ReportForm();
-            reports.Show();
-            
+            LoadFormInPanel(new ReportForm());
         }
 
         // Optional (Header Paint)
