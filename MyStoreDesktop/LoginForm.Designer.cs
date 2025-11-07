@@ -31,6 +31,7 @@ namespace MyStoreDesktop
         private void InitializeComponent()
         {
             this.panelLogin = new System.Windows.Forms.Panel();
+            this.chkRememberMe = new System.Windows.Forms.CheckBox();
             this.linkRegister = new System.Windows.Forms.LinkLabel();
             this.btnLogin = new System.Windows.Forms.Button();
             this.txtPassword = new System.Windows.Forms.TextBox();
@@ -42,9 +43,10 @@ namespace MyStoreDesktop
             this.SuspendLayout();
             // 
             // panelLogin
-            // 
+            //
             this.panelLogin.BackColor = System.Drawing.Color.White;
             this.panelLogin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelLogin.Controls.Add(this.chkRememberMe);
             this.panelLogin.Controls.Add(this.linkRegister);
             this.panelLogin.Controls.Add(this.btnLogin);
             this.panelLogin.Controls.Add(this.txtPassword);
@@ -56,6 +58,18 @@ namespace MyStoreDesktop
             this.panelLogin.Name = "panelLogin";
             this.panelLogin.Size = new System.Drawing.Size(400, 400);
             this.panelLogin.TabIndex = 0;
+            //
+            // chkRememberMe
+            //
+            this.chkRememberMe.AutoSize = true;
+            this.chkRememberMe.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkRememberMe.ForeColor = System.Drawing.Color.Gray;
+            this.chkRememberMe.Location = new System.Drawing.Point(50, 240);
+            this.chkRememberMe.Name = "chkRememberMe";
+            this.chkRememberMe.Size = new System.Drawing.Size(114, 21);
+            this.chkRememberMe.TabIndex = 7;
+            this.chkRememberMe.Text = "Remember Me";
+            this.chkRememberMe.UseVisualStyleBackColor = true;
             // 
             // linkRegister
             // 
@@ -166,5 +180,6 @@ namespace MyStoreDesktop
         private System.Windows.Forms.TextBox txtUsername;
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.LinkLabel linkRegister;
+        private System.Windows.Forms.CheckBox chkRememberMe;
     }
 }

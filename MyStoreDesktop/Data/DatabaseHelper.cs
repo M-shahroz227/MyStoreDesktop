@@ -5,7 +5,11 @@ namespace MyStoreDesktop.Data
 {
     public class DatabaseHelper : DbContext   // 👈 Name changed
     {
-        public DatabaseHelper() : base("name=DefaultConnection") { }
+        public DatabaseHelper() : base("name=DefaultConnection")
+        {
+            // Configure to automatically migrate to latest version
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DatabaseHelper, Migrations.Configuration>());
+        }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }

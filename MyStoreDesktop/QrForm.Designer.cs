@@ -49,7 +49,7 @@
             this.lblTitle.Location = new System.Drawing.Point(20, 30);
             this.lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(269, 32);
+            this.lblTitle.Size = new System.Drawing.Size(335, 41);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "📦 QR Code Generator";
             // 
@@ -59,7 +59,7 @@
             this.lblProduct.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProduct.Location = new System.Drawing.Point(50, 90);
             this.lblProduct.Name = "lblProduct";
-            this.lblProduct.Size = new System.Drawing.Size(107, 20);
+            this.lblProduct.Size = new System.Drawing.Size(137, 25);
             this.lblProduct.TabIndex = 1;
             this.lblProduct.Text = "Select Product:";
             // 
@@ -69,7 +69,7 @@
             this.cmbProducts.FormattingEnabled = true;
             this.cmbProducts.Location = new System.Drawing.Point(200, 85);
             this.cmbProducts.Name = "cmbProducts";
-            this.cmbProducts.Size = new System.Drawing.Size(300, 25);
+            this.cmbProducts.Size = new System.Drawing.Size(300, 29);
             this.cmbProducts.TabIndex = 2;
             // 
             // lblQrText
@@ -78,7 +78,7 @@
             this.lblQrText.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblQrText.Location = new System.Drawing.Point(50, 140);
             this.lblQrText.Name = "lblQrText";
-            this.lblQrText.Size = new System.Drawing.Size(102, 20);
+            this.lblQrText.Size = new System.Drawing.Size(128, 25);
             this.lblQrText.TabIndex = 3;
             this.lblQrText.Text = "QR Code Text:";
             // 
@@ -87,7 +87,7 @@
             this.txtQrCode.Location = new System.Drawing.Point(200, 135);
             this.txtQrCode.Name = "txtQrCode";
             this.txtQrCode.ReadOnly = true;
-            this.txtQrCode.Size = new System.Drawing.Size(300, 25);
+            this.txtQrCode.Size = new System.Drawing.Size(300, 29);
             this.txtQrCode.TabIndex = 4;
             // 
             // btnGenerate
@@ -102,6 +102,7 @@
             this.btnGenerate.TabIndex = 5;
             this.btnGenerate.Text = "Generate QR";
             this.btnGenerate.UseVisualStyleBackColor = false;
+            this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click_1);
             // 
             // btnSave
             // 
@@ -126,6 +127,7 @@
             this.dgvQrCodes.Name = "dgvQrCodes";
             this.dgvQrCodes.ReadOnly = true;
             this.dgvQrCodes.RowHeadersVisible = false;
+            this.dgvQrCodes.RowHeadersWidth = 51;
             this.dgvQrCodes.Size = new System.Drawing.Size(820, 200);
             this.dgvQrCodes.TabIndex = 8;
             // 
@@ -142,7 +144,7 @@
             // 
             // QrForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
             this.ClientSize = new System.Drawing.Size(900, 600);
@@ -157,7 +159,7 @@
             this.Controls.Add(this.lblTitle);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "QrForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "QR Code Generator";

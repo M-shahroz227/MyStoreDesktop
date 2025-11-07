@@ -11,8 +11,7 @@ namespace MyStoreDesktop.Models
 
         public int ProductId { get; set; }
 
-        [MaxLength(255)]
-        public string QrCode { get; set; }
+        public Guid QrCode { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 

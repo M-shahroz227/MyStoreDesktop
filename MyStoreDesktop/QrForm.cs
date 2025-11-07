@@ -86,7 +86,7 @@ namespace MyStoreDesktop
             var qr = new QrTableData
             {
                 ProductId = Convert.ToInt32(cmbProducts.SelectedValue),
-                QrCode = txtQrCode.Text,
+                QrCode = Guid.NewGuid(),
                 CreatedAt = DateTime.Now
             };
 
@@ -114,6 +114,11 @@ namespace MyStoreDesktop
                 MessageBox.Show("🗑 QR Code deleted successfully!");
                 LoadQrCodes();
             }
+        }
+
+        private void btnGenerate_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

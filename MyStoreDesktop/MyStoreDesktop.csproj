@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -104,6 +104,10 @@
     <Compile Include="Migrations\202511071244006_UpdateModels.Designer.cs">
       <DependentUpon>202511071244006_UpdateModels.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202511071834200_ChangeQrCodeToGuid.cs" />
+    <Compile Include="Migrations\202511071834200_ChangeQrCodeToGuid.Designer.cs">
+      <DependentUpon>202511071834200_ChangeQrCodeToGuid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bill.cs" />
     <Compile Include="Models\BillProduct.cs" />
@@ -144,6 +148,7 @@
     </Compile>
     <Compile Include="Services\BillService\BillService.cs" />
     <Compile Include="Services\BillService\IBillService.cs" />
+    <Compile Include="Services\CredentialManager.cs" />
     <Compile Include="Services\ProductService\IProductService.cs" />
     <Compile Include="Services\ProductService\ProductService.cs" />
     <Compile Include="Services\QrTableDataService\IQrTableDataService.cs" />
@@ -179,6 +184,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202511071244006_UpdateModels.resx">
       <DependentUpon>202511071244006_UpdateModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202511071834200_ChangeQrCodeToGuid.resx">
+      <DependentUpon>202511071834200_ChangeQrCodeToGuid.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProductForm.resx">
       <DependentUpon>ProductForm.cs</DependentUpon>
@@ -225,7 +233,9 @@
   <ItemGroup>
     <None Include="Resources\download.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Resources\QrCodes\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

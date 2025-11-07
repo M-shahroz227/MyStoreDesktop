@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 using MyStoreDesktop.Models;
+using MyStoreDesktop.Services;
 using MyStoreDesktop.Services.UserService;
 
 namespace MyStoreDesktop
@@ -18,6 +19,9 @@ namespace MyStoreDesktop
         {
             InitializeComponent();
             _userService = new UserService();
+
+            // Load saved credentials if Remember Me was checked previously
+            LoadSavedCredentials();
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -45,7 +49,15 @@ namespace MyStoreDesktop
             var dbPassword = System.Text.Encoding.UTF8.GetString(user.PasswordHash);
             if (dbPassword == password)
             {
-                
+                // Handle Remember Me functionality
+                if (chkRememberMe.Checked)
+                {
+                    CredentialManager.SaveCredentials(username, password);
+                }
+                else
+                {
+                    CredentialManager.ClearCredentials();
+                }
 
                 // 🔹 Open Home Form
                 Home home = new Home();
@@ -65,6 +77,21 @@ namespace MyStoreDesktop
             RegisterForm reg = new RegisterForm();
             reg.Show();
             this.Hide();
+        }
+
+        /// <summary>
+        /// Load saved credentials if Remember Me was previously checked
+        /// </summary>
+        private void LoadSavedCredentials()
+        {
+            var (username, password, rememberMe) = CredentialManager.LoadCredentials();
+
+            if (rememberMe)
+            {
+                txtUsername.Text = username;
+                txtPassword.Text = password;
+                chkRememberMe.Checked = true;
+            }
         }
     }
 }

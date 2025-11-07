@@ -160,7 +160,7 @@ namespace MyStoreDesktop
                     var qrDataModel = new QrTableData
                     {
                         ProductId = product.ProductId,
-                        QrCode = qrFilePath,
+                        QrCode = Guid.NewGuid(),
                         CreatedAt = DateTime.Now
                     };
 
