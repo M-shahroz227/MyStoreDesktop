@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using MyStoreDesktop.Models;
+using MyStoreDesktop.Services.ProductService;
 
 namespace MyStoreDesktop
 {
     public partial class ProductForm : Form
     {
+        private readonly ProductService _productService = new ProductService();
+        private int selectedProductId = 0;
+
         public ProductForm()
         {
             InitializeComponent();
@@ -19,36 +18,116 @@ namespace MyStoreDesktop
 
         private void ProductForm_Load(object sender, EventArgs e)
         {
-            dgvProducts.Columns.Add("ProductName", "Name");
-            dgvProducts.Columns.Add("Category", "Category");
-            dgvProducts.Columns.Add("Price", "Price");
-            dgvProducts.Columns.Add("Stock", "Stock");
-
-            var editBtn = new DataGridViewButtonColumn()
-            {
-                Name = "Edit",
-                Text = "✎",
-                UseColumnTextForButtonValue = true
-            };
-            var delBtn = new DataGridViewButtonColumn()
-            {
-                Name = "Delete",
-                Text = "🗑",
-                UseColumnTextForButtonValue = true
-            };
-
-            dgvProducts.Columns.Add(editBtn);
-            dgvProducts.Columns.Add(delBtn);
-
+            LoadProducts();
         }
+
+        private void LoadProducts()
+        {
+            var products = _productService.GetAll()
+                .Select(p => new
+                {
+                    p.ProductId,
+                    p.Title,
+                    p.Category,
+                    p.Quantity,
+                    p.SalePrice,
+                    p.PurchasePrice,
+                    p.Discount,
+                    p.Company,
+                    p.Model
+                }).ToList();
+
+            dgvProducts.DataSource = products;
+        }
+
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            dgvProducts.Rows.Add(txtName.Text, cmbCategory.Text, txtPrice.Text, txtStock.Text);
-            txtName.Clear();
-            txtPrice.Clear();
-            txtStock.Clear();
-            cmbCategory.SelectedIndex = -1;
+            var product = new Product
+            {
+                Title = txtTitle.Text,
+                Category = txtCategory.Text,
+                Quantity = int.Parse(txtQuantity.Text),
+                SalePrice = decimal.Parse(txtSalePrice.Text),
+                PurchasePrice = decimal.Parse(txtPurchasePrice.Text),
+                Discount = decimal.Parse(txtDiscount.Text),
+                Company = txtCompany.Text,
+                Model = txtModel.Text
+            };
+
+            _productService.Add(product);
+            MessageBox.Show("✅ Product added successfully!");
+            LoadProducts();
+            ClearForm();
         }
 
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            if (selectedProductId == 0)
+            {
+                MessageBox.Show("Please select a product to update.");
+                return;
+            }
+
+            var product = _productService.GetById(selectedProductId);
+            if (product != null)
+            {
+                product.Title = txtTitle.Text;
+                product.Category = txtCategory.Text;
+                product.Quantity = int.Parse(txtQuantity.Text);
+                product.SalePrice = decimal.Parse(txtSalePrice.Text);
+                product.PurchasePrice = decimal.Parse(txtPurchasePrice.Text);
+                product.Discount = decimal.Parse(txtDiscount.Text);
+                product.Company = txtCompany.Text;
+                product.Model = txtModel.Text;
+
+                _productService.Update(product);
+                MessageBox.Show("✅ Product updated successfully!");
+                LoadProducts();
+                ClearForm();
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (selectedProductId == 0)
+            {
+                MessageBox.Show("Please select a product to delete.");
+                return;
+            }
+
+            _productService.Delete(selectedProductId);
+            MessageBox.Show("🗑 Product deleted successfully!");
+            LoadProducts();
+            ClearForm();
+        }
+
+        private void dgvProducts_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                selectedProductId = Convert.ToInt32(dgvProducts.Rows[e.RowIndex].Cells["ProductId"].Value);
+                txtTitle.Text = dgvProducts.Rows[e.RowIndex].Cells["Title"].Value.ToString();
+                txtCategory.Text = dgvProducts.Rows[e.RowIndex].Cells["Category"].Value.ToString();
+                txtQuantity.Text = dgvProducts.Rows[e.RowIndex].Cells["Quantity"].Value.ToString();
+                txtSalePrice.Text = dgvProducts.Rows[e.RowIndex].Cells["SalePrice"].Value.ToString();
+                txtPurchasePrice.Text = dgvProducts.Rows[e.RowIndex].Cells["PurchasePrice"].Value.ToString();
+                txtDiscount.Text = dgvProducts.Rows[e.RowIndex].Cells["Discount"].Value.ToString();
+                txtCompany.Text = dgvProducts.Rows[e.RowIndex].Cells["Company"].Value?.ToString();
+                txtModel.Text = dgvProducts.Rows[e.RowIndex].Cells["Model"].Value?.ToString();
+            }
+        }
+
+        private void ClearForm()
+        {
+            txtTitle.Clear();
+            txtCategory.Clear();
+            txtQuantity.Clear();
+            txtSalePrice.Clear();
+            txtPurchasePrice.Clear();
+            txtDiscount.Clear();
+            txtCompany.Clear();
+            txtModel.Clear();
+            selectedProductId = 0;
+        }
     }
 }

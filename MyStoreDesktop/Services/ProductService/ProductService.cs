@@ -8,22 +8,16 @@ namespace MyStoreDesktop.Services.ProductService
 {
     public class ProductService : IProductService
     {
-        private readonly AppDbContext _context;
+        private readonly DatabaseHelper _context;
 
         public ProductService()
         {
-            _context = new AppDbContext();
+            _context = new DatabaseHelper();
         }
 
-        public IEnumerable<Product> GetAll()
-        {
-            return _context.Products.ToList();
-        }
+        public IEnumerable<Product> GetAll() => _context.Products.ToList();
 
-        public Product GetById(int id)
-        {
-            return _context.Products.Find(id);
-        }
+        public Product GetById(int id) => _context.Products.Find(id);
 
         public void Add(Product product)
         {
