@@ -10,6 +10,7 @@ namespace MyStoreDesktop
     {
         private readonly ProductService _productService = new ProductService();
         private int selectedProductId = 0;
+        private string selectedImagePath = ""; // Image path track karne ke liye
 
         public ProductForm()
         {
@@ -34,7 +35,9 @@ namespace MyStoreDesktop
                     p.PurchasePrice,
                     p.Discount,
                     p.Company,
-                    p.Model
+                    p.Model,
+                    p.Description,
+                    p.UrlImage // Assuming Product model me ImagePath property hai
                 }).ToList();
 
             dgvProducts.DataSource = products;
@@ -51,7 +54,9 @@ namespace MyStoreDesktop
                 PurchasePrice = decimal.Parse(txtPurchasePrice.Text),
                 Discount = decimal.Parse(txtDiscount.Text),
                 Company = txtCompany.Text,
-                Model = txtModel.Text
+                Model = txtModel.Text,
+                Description = txtDescription.Text,
+                UrlImage = selectedImagePath
             };
 
             _productService.Add(product);
@@ -79,6 +84,8 @@ namespace MyStoreDesktop
                 product.Discount = decimal.Parse(txtDiscount.Text);
                 product.Company = txtCompany.Text;
                 product.Model = txtModel.Text;
+                product.Description = txtDescription.Text;
+                product.UrlImage = selectedImagePath;
 
                 _productService.Update(product);
                 MessageBox.Show("✅ Product updated successfully!");
@@ -114,6 +121,31 @@ namespace MyStoreDesktop
                 txtDiscount.Text = dgvProducts.Rows[e.RowIndex].Cells["Discount"].Value.ToString();
                 txtCompany.Text = dgvProducts.Rows[e.RowIndex].Cells["Company"].Value?.ToString();
                 txtModel.Text = dgvProducts.Rows[e.RowIndex].Cells["Model"].Value?.ToString();
+                txtDescription.Text = dgvProducts.Rows[e.RowIndex].Cells["Description"].Value?.ToString();
+
+                // Load Image into PictureBox
+                selectedImagePath = dgvProducts.Rows[e.RowIndex].Cells["ImagePath"].Value?.ToString();
+                if (!string.IsNullOrEmpty(selectedImagePath))
+                {
+                    UrlImage.ImageLocation = selectedImagePath;
+                }
+                else
+                {
+                    UrlImage.Image = null;
+                }
+            }
+        }
+
+        private void btnSelectImage_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;";
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    selectedImagePath = ofd.FileName;
+                    UrlImage.ImageLocation = selectedImagePath;
+                }
             }
         }
 
@@ -127,7 +159,11 @@ namespace MyStoreDesktop
             txtDiscount.Clear();
             txtCompany.Clear();
             txtModel.Clear();
+            txtDescription.Clear();
+            UrlImage.Image = null;
+            selectedImagePath = "";
             selectedProductId = 0;
         }
     }
 }
+

@@ -48,7 +48,11 @@
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.dgvProducts = new System.Windows.Forms.DataGridView();
+            this.txtDescription = new System.Windows.Forms.TextBox();
+            this.lbDescription = new System.Windows.Forms.Label();
+            this.UrlImage = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UrlImage)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -183,7 +187,7 @@
             // 
             this.btnAdd.BackColor = System.Drawing.Color.SeaGreen;
             this.btnAdd.ForeColor = System.Drawing.Color.White;
-            this.btnAdd.Location = new System.Drawing.Point(30, 370);
+            this.btnAdd.Location = new System.Drawing.Point(26, 451);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(100, 35);
             this.btnAdd.TabIndex = 16;
@@ -194,7 +198,7 @@
             // 
             this.btnUpdate.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnUpdate.ForeColor = System.Drawing.Color.White;
-            this.btnUpdate.Location = new System.Drawing.Point(140, 370);
+            this.btnUpdate.Location = new System.Drawing.Point(136, 451);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(100, 35);
             this.btnUpdate.TabIndex = 17;
@@ -205,7 +209,7 @@
             // 
             this.btnDelete.BackColor = System.Drawing.Color.Crimson;
             this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(250, 370);
+            this.btnDelete.Location = new System.Drawing.Point(246, 451);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(100, 35);
             this.btnDelete.TabIndex = 18;
@@ -222,8 +226,32 @@
             this.dgvProducts.Name = "dgvProducts";
             this.dgvProducts.ReadOnly = true;
             this.dgvProducts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProducts.Size = new System.Drawing.Size(700, 370);
+            this.dgvProducts.Size = new System.Drawing.Size(718, 370);
             this.dgvProducts.TabIndex = 19;
+            // 
+            // txtDescription
+            // 
+            this.txtDescription.Location = new System.Drawing.Point(150, 353);
+            this.txtDescription.Name = "txtDescription";
+            this.txtDescription.Size = new System.Drawing.Size(220, 20);
+            this.txtDescription.TabIndex = 21;
+            // 
+            // lbDescription
+            // 
+            this.lbDescription.AutoSize = true;
+            this.lbDescription.Location = new System.Drawing.Point(30, 358);
+            this.lbDescription.Name = "lbDescription";
+            this.lbDescription.Size = new System.Drawing.Size(60, 13);
+            this.lbDescription.TabIndex = 20;
+            this.lbDescription.Text = "Description";
+            // 
+            // UrlImage
+            // 
+            this.UrlImage.Location = new System.Drawing.Point(150, 379);
+            this.UrlImage.Name = "UrlImage";
+            this.UrlImage.Size = new System.Drawing.Size(100, 50);
+            this.UrlImage.TabIndex = 22;
+            this.UrlImage.TabStop = false;
             // 
             // ProductForm
             // 
@@ -231,6 +259,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(1184, 561);
+            this.Controls.Add(this.UrlImage);
+            this.Controls.Add(this.txtDescription);
+            this.Controls.Add(this.lbDescription);
             this.Controls.Add(this.dgvProducts);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnUpdate);
@@ -257,6 +288,7 @@
             this.Text = "Product Management";
             this.Load += new System.EventHandler(this.ProductForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UrlImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -284,5 +316,8 @@
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.DataGridView dgvProducts;
+        private System.Windows.Forms.TextBox txtDescription;
+        private System.Windows.Forms.Label lbDescription;
+        private System.Windows.Forms.PictureBox UrlImage;
     }
 }

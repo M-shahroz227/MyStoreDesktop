@@ -45,7 +45,7 @@ namespace MyStoreDesktop
             var dbPassword = System.Text.Encoding.UTF8.GetString(user.PasswordHash);
             if (dbPassword == password)
             {
-                MessageBox.Show($"Welcome {username}!", "Login Successful");
+                
 
                 // 🔹 Open Home Form
                 Home home = new Home();

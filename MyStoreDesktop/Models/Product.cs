@@ -8,8 +8,8 @@ namespace MyStoreDesktop.Models
         [Key]
         public int ProductId { get; set; }
 
-        [MaxLength(50)]
-        public string BarCodeId { get; set; }
+        [MaxLength(255)]
+        public string QrCode { get; set; }
 
         [Required, MaxLength(200)]
         public string Title { get; set; }
