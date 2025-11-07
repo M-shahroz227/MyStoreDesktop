@@ -73,7 +73,7 @@ namespace MyStoreDesktop
             float availableHeight = marginBounds.Height;
 
             // Target QR size: 2 inches = 200 hundredths of an inch
-            const float targetSizeHundredths = 100f;
+            const float targetSizeHundredths = 200f;
 
             // If printable area smaller than 2 inches, scale down to fit while keeping square
             float scale = Math.Min(1f, Math.Min(availableWidth / targetSizeHundredths, availableHeight / targetSizeHundredths));

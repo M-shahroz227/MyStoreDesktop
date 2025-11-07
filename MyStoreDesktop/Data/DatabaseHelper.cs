@@ -16,6 +16,8 @@ namespace MyStoreDesktop.Data
         public DbSet<Bill> Bills { get; set; }
         public DbSet<BillProduct> BillProducts { get; set; }
         public DbSet<QrTableData> QrTableDatas { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Company> Companies { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -38,6 +40,20 @@ namespace MyStoreDesktop.Data
                 .HasMany(u => u.Bills)
                 .WithRequired(b => b.User)
                 .HasForeignKey(b => b.UserId)
+                .WillCascadeOnDelete(false);
+
+            // Category → Products (1-Many)
+            modelBuilder.Entity<Category>()
+                .HasMany(c => c.Products)
+                .WithRequired(p => p.Category)
+                .HasForeignKey(p => p.CategoryId)
+                .WillCascadeOnDelete(false);
+
+            // Company → Products (1-Many)
+            modelBuilder.Entity<Company>()
+                .HasMany(c => c.Products)
+                .WithRequired(p => p.Company)
+                .HasForeignKey(p => p.CompanyId)
                 .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);

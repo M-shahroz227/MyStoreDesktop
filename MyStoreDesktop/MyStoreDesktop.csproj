@@ -88,32 +88,24 @@
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202511061259260_InitialCreate.cs" />
-    <Compile Include="Migrations\202511061259260_InitialCreate.Designer.cs">
-      <DependentUpon>202511061259260_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202511070808175_addedQrCode.cs" />
-    <Compile Include="Migrations\202511070808175_addedQrCode.Designer.cs">
-      <DependentUpon>202511070808175_addedQrCode.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202511070812291_addedNewTable.cs" />
-    <Compile Include="Migrations\202511070812291_addedNewTable.Designer.cs">
-      <DependentUpon>202511070812291_addedNewTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202511071244006_UpdateModels.cs" />
-    <Compile Include="Migrations\202511071244006_UpdateModels.Designer.cs">
-      <DependentUpon>202511071244006_UpdateModels.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202511071834200_ChangeQrCodeToGuid.cs" />
-    <Compile Include="Migrations\202511071834200_ChangeQrCodeToGuid.Designer.cs">
-      <DependentUpon>202511071834200_ChangeQrCodeToGuid.cs</DependentUpon>
+    <Compile Include="Migrations\202511071912487_InitialCreate.cs" />
+    <Compile Include="Migrations\202511071912487_InitialCreate.Designer.cs">
+      <DependentUpon>202511071912487_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bill.cs" />
     <Compile Include="Models\BillProduct.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\QrTableData.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="CategoryManagerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CompanyManagerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ProductForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,20 +171,8 @@
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202511061259260_InitialCreate.resx">
-      <DependentUpon>202511061259260_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202511070808175_addedQrCode.resx">
-      <DependentUpon>202511070808175_addedQrCode.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202511070812291_addedNewTable.resx">
-      <DependentUpon>202511070812291_addedNewTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202511071244006_UpdateModels.resx">
-      <DependentUpon>202511071244006_UpdateModels.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202511071834200_ChangeQrCodeToGuid.resx">
-      <DependentUpon>202511071834200_ChangeQrCodeToGuid.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202511071912487_InitialCreate.resx">
+      <DependentUpon>202511071912487_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProductForm.resx">
       <DependentUpon>ProductForm.cs</DependentUpon>

@@ -63,30 +63,76 @@
                 c => new
                     {
                         ProductId = c.Int(nullable: false, identity: true),
-                        BarCodeId = c.String(maxLength: 50),
+                        QrCode = c.String(maxLength: 255),
                         Title = c.String(nullable: false, maxLength: 200),
-                        Company = c.String(),
+                        CompanyId = c.Int(nullable: false),
                         Model = c.String(),
                         Quantity = c.Int(nullable: false),
                         SalePrice = c.Decimal(nullable: false, precision: 18, scale: 2),
                         PurchasePrice = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Discount = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        Category = c.String(maxLength: 100),
+                        CategoryId = c.Int(nullable: false),
                         UrlImage = c.String(),
                         Description = c.String(),
                     })
-                .PrimaryKey(t => t.ProductId);
+                .PrimaryKey(t => t.ProductId)
+                .ForeignKey("dbo.Categories", t => t.CategoryId)
+                .ForeignKey("dbo.Companies", t => t.CompanyId)
+                .Index(t => t.CompanyId)
+                .Index(t => t.CategoryId);
+            
+            CreateTable(
+                "dbo.Categories",
+                c => new
+                    {
+                        CategoryId = c.Int(nullable: false, identity: true),
+                        Title = c.String(nullable: false, maxLength: 200),
+                        Description = c.String(),
+                    })
+                .PrimaryKey(t => t.CategoryId);
+            
+            CreateTable(
+                "dbo.Companies",
+                c => new
+                    {
+                        CompanyId = c.Int(nullable: false, identity: true),
+                        Title = c.String(nullable: false, maxLength: 200),
+                        Description = c.String(),
+                    })
+                .PrimaryKey(t => t.CompanyId);
+            
+            CreateTable(
+                "dbo.QrTableDatas",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ProductId = c.Int(nullable: false),
+                        QrCode = c.Guid(nullable: false),
+                        CreatedAt = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Products", t => t.ProductId, cascadeDelete: true)
+                .Index(t => t.ProductId);
             
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.QrTableDatas", "ProductId", "dbo.Products");
+            DropForeignKey("dbo.Products", "CompanyId", "dbo.Companies");
+            DropForeignKey("dbo.Products", "CategoryId", "dbo.Categories");
             DropForeignKey("dbo.BillProducts", "ProductId", "dbo.Products");
             DropForeignKey("dbo.Bills", "UserId", "dbo.Users");
             DropForeignKey("dbo.BillProducts", "BillId", "dbo.Bills");
+            DropIndex("dbo.QrTableDatas", new[] { "ProductId" });
+            DropIndex("dbo.Products", new[] { "CategoryId" });
+            DropIndex("dbo.Products", new[] { "CompanyId" });
             DropIndex("dbo.Bills", new[] { "UserId" });
             DropIndex("dbo.BillProducts", new[] { "ProductId" });
             DropIndex("dbo.BillProducts", new[] { "BillId" });
+            DropTable("dbo.QrTableDatas");
+            DropTable("dbo.Companies");
+            DropTable("dbo.Categories");
             DropTable("dbo.Products");
             DropTable("dbo.Users");
             DropTable("dbo.Bills");
