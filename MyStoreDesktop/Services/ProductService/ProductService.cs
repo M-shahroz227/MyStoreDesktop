@@ -19,10 +19,12 @@ namespace MyStoreDesktop.Services.ProductService
 
         public Product GetById(int id) => _context.Products.Find(id);
 
-        public void Add(Product product)
+        // 🔹 Return type change kiya: void → Product
+        public Product Add(Product product)
         {
             _context.Products.Add(product);
-            _context.SaveChanges();
+            _context.SaveChanges(); // yahan ProductId generate hota hai
+            return product; // ✅ ab ProductId return karega
         }
 
         public void Update(Product product)

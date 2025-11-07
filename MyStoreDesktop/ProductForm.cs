@@ -3,14 +3,19 @@ using System.Linq;
 using System.Windows.Forms;
 using MyStoreDesktop.Models;
 using MyStoreDesktop.Services.ProductService;
+using MyStoreDesktop.Services.QrTableDataService;
+using QRCoder;
+using System.Drawing;
+using System.IO;
 
 namespace MyStoreDesktop
 {
     public partial class ProductForm : Form
     {
-        private readonly ProductService _productService = new ProductService();
+        private readonly IProductService _productService = new ProductService();
+        private readonly IQrTableDataService _qrService = new QrTableDataService();
         private int selectedProductId = 0;
-        private string selectedImagePath = ""; // Image path track karne ke liye
+        private string selectedImagePath = "";
 
         public ProductForm()
         {
@@ -22,6 +27,7 @@ namespace MyStoreDesktop
             LoadProducts();
         }
 
+        // 🔹 Load all products into DataGridView
         private void LoadProducts()
         {
             var products = _productService.GetAll()
@@ -37,39 +43,70 @@ namespace MyStoreDesktop
                     p.Company,
                     p.Model,
                     p.Description,
-                    p.UrlImage // Assuming Product model me ImagePath property hai
-                }).ToList();
+                    p.UrlImage
+                })
+                .ToList();
 
             dgvProducts.DataSource = products;
         }
 
-        private void btnAdd_Click(object sender, EventArgs e)
+        // 🔹 Clear input fields
+        private void ClearForm()
         {
-            var product = new Product
-            {
-                Title = txtTitle.Text,
-                Category = txtCategory.Text,
-                Quantity = int.Parse(txtQuantity.Text),
-                SalePrice = decimal.Parse(txtSalePrice.Text),
-                PurchasePrice = decimal.Parse(txtPurchasePrice.Text),
-                Discount = decimal.Parse(txtDiscount.Text),
-                Company = txtCompany.Text,
-                Model = txtModel.Text,
-                Description = txtDescription.Text,
-                UrlImage = selectedImagePath
-            };
-
-            _productService.Add(product);
-            MessageBox.Show("✅ Product added successfully!");
-            LoadProducts();
-            ClearForm();
+            txtTitle.Clear();
+            txtCategory.Clear();
+            txtQuantity.Clear();
+            txtSalePrice.Clear();
+            txtPurchasePrice.Clear();
+            txtDiscount.Clear();
+            txtCompany.Clear();
+            txtModel.Clear();
+            txtDescription.Clear();
+            selectedProductId = 0;
+            selectedImagePath = "";
         }
 
+        // 🔹 Add Product + Generate QR
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var product = new Product
+                {
+                    Title = txtTitle.Text,
+                    Category = txtCategory.Text,
+                    Quantity = int.Parse(txtQuantity.Text),
+                    SalePrice = decimal.Parse(txtSalePrice.Text),
+                    PurchasePrice = decimal.Parse(txtPurchasePrice.Text),
+                    Discount = decimal.Parse(txtDiscount.Text),
+                    Company = txtCompany.Text,
+                    Model = txtModel.Text,
+                    Description = txtDescription.Text,
+                    UrlImage = selectedImagePath
+                };
+
+                // ✅ Add Product (returns product with ProductId)
+                var addedProduct = _productService.Add(product);
+
+                // ✅ Generate QR for new product
+                GenerateAndSaveQrCode(addedProduct);
+
+                MessageBox.Show("✅ Product added successfully!");
+                LoadProducts();
+                ClearForm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("❌ Error adding product: " + ex.Message);
+            }
+        }
+
+        // 🔹 Update Product + Regenerate QR
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             if (selectedProductId == 0)
             {
-                MessageBox.Show("Please select a product to update.");
+                MessageBox.Show("⚠️ Please select a product to update.");
                 return;
             }
 
@@ -88,82 +125,67 @@ namespace MyStoreDesktop
                 product.UrlImage = selectedImagePath;
 
                 _productService.Update(product);
+                GenerateAndSaveQrCode(product); // update QR too
+
                 MessageBox.Show("✅ Product updated successfully!");
                 LoadProducts();
                 ClearForm();
             }
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        // 🔹 Generate QR Code and Save in Database
+        private void GenerateAndSaveQrCode(Product product)
         {
-            if (selectedProductId == 0)
-            {
-                MessageBox.Show("Please select a product to delete.");
-                return;
-            }
+            string qrText = $"Product ID: {product.ProductId}\n" +
+                            $"Name: {product.Title}\n" +
+                            $"Price: {product.SalePrice:C}\n" +
+                            $"Company: {product.Company}";
 
-            _productService.Delete(selectedProductId);
-            MessageBox.Show("🗑 Product deleted successfully!");
-            LoadProducts();
-            ClearForm();
+            using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
+            {
+                QRCodeData qrData = qrGenerator.CreateQrCode(qrText, QRCodeGenerator.ECCLevel.Q);
+                using (QRCode qrCode = new QRCode(qrData))
+                {
+                    Bitmap qrImage = qrCode.GetGraphic(20);
+
+                    // 🔹 Save QR image to folder
+                    string folderPath = Path.Combine(Application.StartupPath, "QRCodes");
+                    if (!Directory.Exists(folderPath))
+                        Directory.CreateDirectory(folderPath);
+
+                    string qrFilePath = Path.Combine(folderPath, $"QR_{product.ProductId}.png");
+                    qrImage.Save(qrFilePath);
+
+                    // 🔹 Save in database
+                    var qrDataModel = new QrTableData
+                    {
+                        ProductId = product.ProductId,
+                        QrCode = qrFilePath,
+                        CreatedAt = DateTime.Now
+                    };
+
+                    _qrService.Add(qrDataModel);
+                }
+            }
         }
 
+        // 🔹 When product row is selected
         private void dgvProducts_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                selectedProductId = Convert.ToInt32(dgvProducts.Rows[e.RowIndex].Cells["ProductId"].Value);
-                txtTitle.Text = dgvProducts.Rows[e.RowIndex].Cells["Title"].Value.ToString();
-                txtCategory.Text = dgvProducts.Rows[e.RowIndex].Cells["Category"].Value.ToString();
-                txtQuantity.Text = dgvProducts.Rows[e.RowIndex].Cells["Quantity"].Value.ToString();
-                txtSalePrice.Text = dgvProducts.Rows[e.RowIndex].Cells["SalePrice"].Value.ToString();
-                txtPurchasePrice.Text = dgvProducts.Rows[e.RowIndex].Cells["PurchasePrice"].Value.ToString();
-                txtDiscount.Text = dgvProducts.Rows[e.RowIndex].Cells["Discount"].Value.ToString();
-                txtCompany.Text = dgvProducts.Rows[e.RowIndex].Cells["Company"].Value?.ToString();
-                txtModel.Text = dgvProducts.Rows[e.RowIndex].Cells["Model"].Value?.ToString();
-                txtDescription.Text = dgvProducts.Rows[e.RowIndex].Cells["Description"].Value?.ToString();
-
-                // Load Image into PictureBox
-                selectedImagePath = dgvProducts.Rows[e.RowIndex].Cells["ImagePath"].Value?.ToString();
-                if (!string.IsNullOrEmpty(selectedImagePath))
-                {
-                    UrlImage.ImageLocation = selectedImagePath;
-                }
-                else
-                {
-                    UrlImage.Image = null;
-                }
+                var row = dgvProducts.Rows[e.RowIndex];
+                selectedProductId = Convert.ToInt32(row.Cells["ProductId"].Value);
+                txtTitle.Text = row.Cells["Title"].Value.ToString();
+                txtCategory.Text = row.Cells["Category"].Value.ToString();
+                txtQuantity.Text = row.Cells["Quantity"].Value.ToString();
+                txtSalePrice.Text = row.Cells["SalePrice"].Value.ToString();
+                txtPurchasePrice.Text = row.Cells["PurchasePrice"].Value.ToString();
+                txtDiscount.Text = row.Cells["Discount"].Value.ToString();
+                txtCompany.Text = row.Cells["Company"].Value.ToString();
+                txtModel.Text = row.Cells["Model"].Value.ToString();
+                txtDescription.Text = row.Cells["Description"].Value.ToString();
             }
-        }
-
-        private void btnSelectImage_Click(object sender, EventArgs e)
-        {
-            using (OpenFileDialog ofd = new OpenFileDialog())
-            {
-                ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;";
-                if (ofd.ShowDialog() == DialogResult.OK)
-                {
-                    selectedImagePath = ofd.FileName;
-                    UrlImage.ImageLocation = selectedImagePath;
-                }
-            }
-        }
-
-        private void ClearForm()
-        {
-            txtTitle.Clear();
-            txtCategory.Clear();
-            txtQuantity.Clear();
-            txtSalePrice.Clear();
-            txtPurchasePrice.Clear();
-            txtDiscount.Clear();
-            txtCompany.Clear();
-            txtModel.Clear();
-            txtDescription.Clear();
-            UrlImage.Image = null;
-            selectedImagePath = "";
-            selectedProductId = 0;
         }
     }
 }
-

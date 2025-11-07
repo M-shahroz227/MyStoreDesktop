@@ -7,7 +7,10 @@ namespace MyStoreDesktop.Services.ProductService
     {
         IEnumerable<Product> GetAll();
         Product GetById(int id);
-        void Add(Product product);
+
+        // 🔹 Return type change kiya (void → Product)
+        Product Add(Product product);
+
         void Update(Product product);
         void Delete(int id);
     }
