@@ -247,7 +247,7 @@
             // 
             // UrlImage
             // 
-            this.UrlImage.Location = new System.Drawing.Point(150, 379);
+            this.UrlImage.Location = new System.Drawing.Point(136, 379);
             this.UrlImage.Name = "UrlImage";
             this.UrlImage.Size = new System.Drawing.Size(100, 50);
             this.UrlImage.TabIndex = 22;

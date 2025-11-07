@@ -100,6 +100,10 @@
     <Compile Include="Migrations\202511070812291_addedNewTable.Designer.cs">
       <DependentUpon>202511070812291_addedNewTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202511071244006_UpdateModels.cs" />
+    <Compile Include="Migrations\202511071244006_UpdateModels.Designer.cs">
+      <DependentUpon>202511071244006_UpdateModels.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bill.cs" />
     <Compile Include="Models\BillProduct.cs" />
@@ -172,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202511070812291_addedNewTable.resx">
       <DependentUpon>202511070812291_addedNewTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202511071244006_UpdateModels.resx">
+      <DependentUpon>202511071244006_UpdateModels.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProductForm.resx">
       <DependentUpon>ProductForm.cs</DependentUpon>

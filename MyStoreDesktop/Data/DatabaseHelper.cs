@@ -11,6 +11,7 @@ namespace MyStoreDesktop.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Bill> Bills { get; set; }
         public DbSet<BillProduct> BillProducts { get; set; }
+        public DbSet<QrTableData> QrTableDatas { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

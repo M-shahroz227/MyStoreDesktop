@@ -1,0 +1,32 @@
+﻿namespace MyStoreDesktop.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class UpdateModels : DbMigration
+    {
+        public override void Up()
+        {
+            CreateTable(
+                "dbo.QrTableDatas",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ProductId = c.Int(nullable: false),
+                        QrCode = c.String(maxLength: 255),
+                        CreatedAt = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Products", t => t.ProductId, cascadeDelete: true)
+                .Index(t => t.ProductId);
+            
+        }
+        
+        public override void Down()
+        {
+            DropForeignKey("dbo.QrTableDatas", "ProductId", "dbo.Products");
+            DropIndex("dbo.QrTableDatas", new[] { "ProductId" });
+            DropTable("dbo.QrTableDatas");
+        }
+    }
+}
