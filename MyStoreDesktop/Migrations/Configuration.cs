@@ -9,8 +9,7 @@
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(MyStoreDesktop.Data.DatabaseHelper context)
@@ -19,25 +18,6 @@
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
-
-            // Seed default admin user
-            string adminPassword = "PakBahLah@2";
-            byte[] passwordHash = System.Text.Encoding.UTF8.GetBytes(adminPassword);
-            byte[] passwordSalt = new byte[0]; // Using the same approach as RegisterForm
-
-            context.Users.AddOrUpdate(
-                u => u.UserName, // Key selector to check for existing user
-                new Models.User
-                {
-                    UserName = "admin",
-                    PasswordHash = passwordHash,
-                    PasswordSalt = passwordSalt,
-                    Email = "admin@mystore.com",
-                    Phone = ""
-                }
-            );
-
-            context.SaveChanges();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace MyStoreDesktop.Data
         public DatabaseHelper() : base("name=DefaultConnection")
         {
             // Configure to automatically migrate to latest version
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DatabaseHelper, Migrations.Configuration>());
+            
         }
 
         public DbSet<User> Users { get; set; }

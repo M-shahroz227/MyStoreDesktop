@@ -88,9 +88,9 @@
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202511080517414_InitialCreate.cs" />
-    <Compile Include="Migrations\202511080517414_InitialCreate.Designer.cs">
-      <DependentUpon>202511080517414_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\202511090732058_InitialCreate.cs" />
+    <Compile Include="Migrations\202511090732058_InitialCreate.Designer.cs">
+      <DependentUpon>202511090732058_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bill.cs" />
@@ -171,8 +171,8 @@
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202511080517414_InitialCreate.resx">
-      <DependentUpon>202511080517414_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202511090732058_InitialCreate.resx">
+      <DependentUpon>202511090732058_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProductForm.resx">
       <DependentUpon>ProductForm.cs</DependentUpon>

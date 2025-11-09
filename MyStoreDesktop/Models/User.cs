@@ -18,7 +18,7 @@ namespace MyStoreDesktop.Models
         public byte[] PasswordSalt { get; set; }
 
         [MaxLength(150)]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
 
         [MaxLength(20)]
         public string Phone { get; set; }

@@ -13,7 +13,7 @@ namespace MyStoreDesktop.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202511071912487_InitialCreate"; }
+            get { return "202511090732058_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

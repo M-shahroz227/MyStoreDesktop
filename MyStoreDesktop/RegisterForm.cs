@@ -19,7 +19,8 @@ namespace MyStoreDesktop
         {
             string username = txtUsername.Text.Trim();
             string password = txtPassword.Text.Trim();
-            string fullname = txtFullName.Text.Trim();
+            string Email = txtFullEmail.Text.Trim();
+            string Phone = txtFullPhone.Text.Trim();
 
             // simple password hash example
             byte[] passwordHash = System.Text.Encoding.UTF8.GetBytes(password);
@@ -30,14 +31,18 @@ namespace MyStoreDesktop
                 UserName = username,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
-                Email = fullname
+                Email = Email,
+                Phone = Phone
+
             };
 
             try
             {
                 _userService.Add(user);
                 MessageBox.Show("Registration successful! Please login.");
-                this.Close();
+                LoginForm login = new LoginForm();
+                login.Show();
+                this.Hide();
             }
             catch (Exception ex)
             {
