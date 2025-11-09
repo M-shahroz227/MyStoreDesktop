@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MyStoreDesktop.Models;
+using MyStoreDesktop.Services.ProductService;
+using System;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
@@ -8,6 +10,7 @@ namespace MyStoreDesktop
 {
     public partial class Home : Form
     {
+        private readonly ProductService productService = new ProductService();
         private Form activeForm = null;
 
         public Home()
@@ -42,21 +45,53 @@ namespace MyStoreDesktop
             SetupCartGrid();
             SetupEventHandlers();
             RecalculateTotals();
+            LoadAvliableProduct();
         }
+        private void LoadAvliableProduct() {
+            // Dummy data for available products
+            dgvProductsAvailable.Rows.Clear();
+            foreach (var product in productService.GetAll())
+            {
+                dgvProductsAvailable.Rows.Add(
+                    product.ProductId,
+                    product.Title,
+                     product.Category.Title,
+                     product.Company.Title,
+                    product.Quantity,
+                    product.SalePrice,
+                    product.PurchasePrice,
+                    product.Discount,
+                    product.Model,
+                    product.Description,
+                    product.UrlImage);
+            }
+
+        }
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            string searchText = txtSearch.Text.Trim().ToLower();
+            foreach (DataGridViewRow row in dgvProductsAvailable.Rows)
+            {
+                string title = row.Cells["ItemName"].Value.ToString().ToLower();
+                string model = row.Cells["Size"].Value.ToString().ToLower();
+                row.Visible = title.Contains(searchText) || model.Contains(searchText);
+            }
+        }
+
 
         // 🔹 GRID SETUP
         private void SetupCartGrid()
         {
-            dgvCart.Columns.Clear();
-            dgvCart.AllowUserToAddRows = true;
-            dgvCart.AllowUserToDeleteRows = true;
-            dgvCart.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvProductsAvailable.Columns.Clear();
+            dgvProductsAvailable.AllowUserToAddRows = true;
+            dgvProductsAvailable.AllowUserToDeleteRows = true;
+            dgvProductsAvailable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            dgvCart.Columns.Add("ItemName", "Item");
-            dgvCart.Columns.Add("Size", "Size");
-            dgvCart.Columns.Add("Quantity", "Qty");
-            dgvCart.Columns.Add("UnitPrice", "Price");
-            dgvCart.Columns.Add("Total", "Total");
+            dgvProductsAvailable.Columns.Add("ItemName", "Item");
+            dgvProductsAvailable.Columns.Add("Size", "Size");
+            dgvProductsAvailable.Columns.Add("Quantity", "Qty");
+            dgvProductsAvailable.Columns.Add("UnitPrice", "Price");
+            dgvProductsAvailable.Columns.Add("Total", "Total");
 
             var editBtn = new DataGridViewButtonColumn()
             {
@@ -74,25 +109,25 @@ namespace MyStoreDesktop
                 Width = 50
             };
 
-            dgvCart.Columns.Add(editBtn);
-            dgvCart.Columns.Add(delBtn);
+            dgvProductsAvailable.Columns.Add(editBtn);
+            dgvProductsAvailable.Columns.Add(delBtn);
 
-            dgvCart.Columns["Quantity"].ValueType = typeof(int);
-            dgvCart.Columns["UnitPrice"].ValueType = typeof(decimal);
-            dgvCart.Columns["Total"].ReadOnly = true;
+            dgvProductsAvailable.Columns["Quantity"].ValueType = typeof(int);
+            dgvProductsAvailable.Columns["UnitPrice"].ValueType = typeof(decimal);
+            dgvProductsAvailable.Columns["Total"].ReadOnly = true;
         }
 
         // 🔹 EVENT HANDLERS SETUP
         private void SetupEventHandlers()
         {
-            dgvCart.CellValueChanged += (s, e) => RecalculateTotals();
-            dgvCart.RowsAdded += (s, e) => RecalculateTotals();
-            dgvCart.RowsRemoved += (s, e) => RecalculateTotals();
+            dgvProductsAvailable.CellValueChanged += (s, e) => RecalculateTotals();
+            dgvProductsAvailable.RowsAdded += (s, e) => RecalculateTotals();
+            dgvProductsAvailable.RowsRemoved += (s, e) => RecalculateTotals();
 
-            dgvCart.CurrentCellDirtyStateChanged += (s, e) =>
+            dgvProductsAvailable.CurrentCellDirtyStateChanged += (s, e) =>
             {
-                if (dgvCart.IsCurrentCellDirty)
-                    dgvCart.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                if (dgvProductsAvailable.IsCurrentCellDirty)
+                    dgvProductsAvailable.CommitEdit(DataGridViewDataErrorContexts.Commit);
             };
 
             txtDiscount.TextChanged += (s, e) => RecalculateTotals();
@@ -126,7 +161,7 @@ namespace MyStoreDesktop
         {
             decimal subtotal = 0m;
 
-            foreach (DataGridViewRow row in dgvCart.Rows)
+            foreach (DataGridViewRow row in dgvProductsAvailable.Rows)
             {
                 if (row.IsNewRow) continue;
 
@@ -195,7 +230,7 @@ namespace MyStoreDesktop
                 activeForm = null;
             }
             panelMainContent.Controls.Clear();
-            panelMainContent.Controls.Add(dgvCart);
+            panelMainContent.Controls.Add(dgvProductsAvailable);
             panelMainContent.Controls.Add(panel1);
         }
 
@@ -223,6 +258,12 @@ namespace MyStoreDesktop
         private void panelHeader_Paint(object sender, PaintEventArgs e)
         {
             // Optional gradient or shadow effect
+        }
+
+        private void dgvProductsAvailable_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+
         }
     }
 

@@ -34,12 +34,15 @@
             this.lblTitle = new System.Windows.Forms.Label();
             this.picLogo = new System.Windows.Forms.PictureBox();
             this.panelMenu = new System.Windows.Forms.Panel();
-            this.panelMainContent = new System.Windows.Forms.Panel();
             this.btnReports = new System.Windows.Forms.Button();
             this.btnSales = new System.Windows.Forms.Button();
             this.btnUsers = new System.Windows.Forms.Button();
             this.btnProducts = new System.Windows.Forms.Button();
             this.btnHome = new System.Windows.Forms.Button();
+            this.panelMainContent = new System.Windows.Forms.Panel();
+            this.dgvCart = new System.Windows.Forms.DataGridView();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.txtSearch = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnConfirm = new System.Windows.Forms.Button();
@@ -62,13 +65,14 @@
             this.lblTax = new System.Windows.Forms.Label();
             this.lblSubTotalValue = new System.Windows.Forms.Label();
             this.lblSubTotal = new System.Windows.Forms.Label();
-            this.dgvCart = new System.Windows.Forms.DataGridView();
+            this.dgvProductsAvailable = new System.Windows.Forms.DataGridView();
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.panelMenu.SuspendLayout();
             this.panelMainContent.SuspendLayout();
-            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCart)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProductsAvailable)).BeginInit();
             this.SuspendLayout();
             // 
             // panelHeader
@@ -207,8 +211,59 @@
             this.btnHome.Text = "🏠 Home";
             this.btnHome.UseVisualStyleBackColor = false;
             // 
+            // panelMainContent
+            // 
+            this.panelMainContent.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panelMainContent.Controls.Add(this.dgvCart);
+            this.panelMainContent.Controls.Add(this.btnSearch);
+            this.panelMainContent.Controls.Add(this.txtSearch);
+            this.panelMainContent.Controls.Add(this.panel1);
+            this.panelMainContent.Controls.Add(this.dgvProductsAvailable);
+            this.panelMainContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelMainContent.Location = new System.Drawing.Point(150, 50);
+            this.panelMainContent.Name = "panelMainContent";
+            this.panelMainContent.Padding = new System.Windows.Forms.Padding(10);
+            this.panelMainContent.Size = new System.Drawing.Size(884, 511);
+            this.panelMainContent.TabIndex = 2;
+            // 
+            // dgvCart
+            // 
+            this.dgvCart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvCart.BackgroundColor = System.Drawing.Color.White;
+            this.dgvCart.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCart.Location = new System.Drawing.Point(10, 342);
+            this.dgvCart.Name = "dgvCart";
+            this.dgvCart.Size = new System.Drawing.Size(600, 165);
+            this.dgvCart.TabIndex = 4;
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSearch.ForeColor = System.Drawing.Color.White;
+            this.btnSearch.Location = new System.Drawing.Point(535, 21);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(75, 25);
+            this.btnSearch.TabIndex = 3;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = false;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Location = new System.Drawing.Point(13, 23);
+            this.txtSearch.Multiline = true;
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(516, 25);
+            this.txtSearch.TabIndex = 2;
+            this.txtSearch.Text = "search";
+            // 
             // panel1
             // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.btnClear);
@@ -227,16 +282,14 @@
             this.panel1.Controls.Add(this.lblTotalValue);
             this.panel1.Controls.Add(this.lblTotal);
             this.panel1.Controls.Add(this.txtDiscount);
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.lblDiscount);
             this.panel1.Controls.Add(this.lblTaxValue);
             this.panel1.Controls.Add(this.lblTax);
             this.panel1.Controls.Add(this.lblSubTotalValue);
             this.panel1.Controls.Add(this.lblSubTotal);
-            this.panel1.Location = new System.Drawing.Point(620, 20);
+            this.panel1.Location = new System.Drawing.Point(620, 6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(250, 450);
+            this.panel1.Size = new System.Drawing.Size(250, 501);
             this.panel1.TabIndex = 1;
             // 
             // btnClear
@@ -445,32 +498,21 @@
             this.lblSubTotal.TabIndex = 0;
             this.lblSubTotal.Text = "Sub Total";
             // 
-            // dgvCart
-            //
-            this.dgvCart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            // dgvProductsAvailable
+            // 
+            this.dgvProductsAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvCart.BackgroundColor = System.Drawing.Color.White;
-            this.dgvCart.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCart.Location = new System.Drawing.Point(10, 20);
-            this.dgvCart.Name = "dgvCart";
-            this.dgvCart.Size = new System.Drawing.Size(600, 450);
-            this.dgvCart.TabIndex = 0;
-            //
-            // panelMainContent
-            //
-            this.panelMainContent.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panelMainContent.Controls.Add(this.panel1);
-            this.panelMainContent.Controls.Add(this.dgvCart);
-            this.panelMainContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelMainContent.Location = new System.Drawing.Point(150, 50);
-            this.panelMainContent.Name = "panelMainContent";
-            this.panelMainContent.Padding = new System.Windows.Forms.Padding(10);
-            this.panelMainContent.Size = new System.Drawing.Size(884, 511);
-            this.panelMainContent.TabIndex = 2;
+            this.dgvProductsAvailable.BackgroundColor = System.Drawing.Color.White;
+            this.dgvProductsAvailable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvProductsAvailable.Location = new System.Drawing.Point(10, 57);
+            this.dgvProductsAvailable.Name = "dgvProductsAvailable";
+            this.dgvProductsAvailable.Size = new System.Drawing.Size(600, 279);
+            this.dgvProductsAvailable.TabIndex = 0;
+            this.dgvProductsAvailable.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProductsAvailable_CellContentClick);
             // 
             // Home
-            //
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -489,9 +531,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             this.panelMenu.ResumeLayout(false);
             this.panelMainContent.ResumeLayout(false);
+            this.panelMainContent.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCart)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProductsAvailable)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -510,7 +554,7 @@
         private System.Windows.Forms.Button btnSales;
         private System.Windows.Forms.Button btnUsers;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DataGridView dgvCart;
+        private System.Windows.Forms.DataGridView dgvProductsAvailable;
         private System.Windows.Forms.Label lblSubTotalValue;
         private System.Windows.Forms.Label lblSubTotal;
         private System.Windows.Forms.Label lblTaxValue;
@@ -532,5 +576,9 @@
         private System.Windows.Forms.Button btnNum6;
         private System.Windows.Forms.Button btnNum5;
         private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.DataGridView 
+            dgvCart;
     }
 }
