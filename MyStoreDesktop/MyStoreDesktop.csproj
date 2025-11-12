@@ -100,6 +100,10 @@
     <Compile Include="Migrations\202511111511410_AddTabless.Designer.cs">
       <DependentUpon>202511111511410_AddTabless.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202511121318266_Total.cs" />
+    <Compile Include="Migrations\202511121318266_Total.Designer.cs">
+      <DependentUpon>202511121318266_Total.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bill.cs" />
     <Compile Include="Models\BillProduct.cs" />
@@ -187,6 +191,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202511111511410_AddTabless.resx">
       <DependentUpon>202511111511410_AddTabless.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202511121318266_Total.resx">
+      <DependentUpon>202511121318266_Total.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProductForm.resx">
       <DependentUpon>ProductForm.cs</DependentUpon>

@@ -25,7 +25,7 @@ namespace MyStoreDesktop
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Database connection failed:\n\n{ex.Message}",
+                MessageBox.Show($"Exeption Occure:\n\n{ex.ToString()}",
                     "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

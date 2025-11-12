@@ -24,6 +24,7 @@ namespace MyStoreDesktop.Models
         public int Quantity { get; set; }
         public decimal SalePrice { get; set; }
         public decimal PurchasePrice { get; set; }
+        public decimal Total {  get; set; }
         public decimal Discount { get; set; }
 
         public int CategoryId { get; set; }

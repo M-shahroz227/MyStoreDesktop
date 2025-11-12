@@ -1,4 +1,6 @@
-﻿namespace MyStoreDesktop
+﻿using System;
+
+namespace MyStoreDesktop
 {
     partial class Home
     {
@@ -29,8 +31,8 @@
         private void InitializeComponent()
         {
             this.panelMenu = new System.Windows.Forms.Panel();
-            this.btnReports = new System.Windows.Forms.Button();
-            this.btnSales = new System.Windows.Forms.Button();
+            this.Reports = new System.Windows.Forms.Button();
+            this.Sales = new System.Windows.Forms.Button();
             this.btnUsers = new System.Windows.Forms.Button();
             this.btnProducts = new System.Windows.Forms.Button();
             this.btnHome = new System.Windows.Forms.Button();
@@ -60,29 +62,29 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnlogout = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.dgvSelectItem = new System.Windows.Forms.DataGridView();
-            this.ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UnitPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvAddToCard = new System.Windows.Forms.DataGridView();
             this.lstSuggestion = new System.Windows.Forms.ListBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
-            this.AddToCart = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SalePrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnEdit = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.panelMenu.SuspendLayout();
             this.panelMainContent.SuspendLayout();
             this.rightPanel.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSelectItem)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAddToCard)).BeginInit();
             this.SuspendLayout();
             // 
             // panelMenu
             // 
             this.panelMenu.BackColor = System.Drawing.Color.AliceBlue;
-            this.panelMenu.Controls.Add(this.btnReports);
-            this.panelMenu.Controls.Add(this.btnSales);
+            this.panelMenu.Controls.Add(this.Reports);
+            this.panelMenu.Controls.Add(this.Sales);
             this.panelMenu.Controls.Add(this.btnUsers);
             this.panelMenu.Controls.Add(this.btnProducts);
             this.panelMenu.Controls.Add(this.btnHome);
@@ -92,29 +94,31 @@
             this.panelMenu.Size = new System.Drawing.Size(202, 661);
             this.panelMenu.TabIndex = 0;
             // 
-            // btnReports
+            // Reports
             // 
-            this.btnReports.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnReports.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReports.ForeColor = System.Drawing.Color.White;
-            this.btnReports.Location = new System.Drawing.Point(27, 340);
-            this.btnReports.Name = "btnReports";
-            this.btnReports.Size = new System.Drawing.Size(129, 40);
-            this.btnReports.TabIndex = 4;
-            this.btnReports.Text = "Reports";
-            this.btnReports.UseVisualStyleBackColor = false;
+            this.Reports.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.Reports.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Reports.ForeColor = System.Drawing.Color.White;
+            this.Reports.Location = new System.Drawing.Point(27, 340);
+            this.Reports.Name = "Reports";
+            this.Reports.Size = new System.Drawing.Size(129, 40);
+            this.Reports.TabIndex = 4;
+            this.Reports.Text = "Reports";
+            this.Reports.UseVisualStyleBackColor = false;
+            this.Reports.Click += new System.EventHandler(this.LoginPanelReports);
             // 
-            // btnSales
+            // Sales
             // 
-            this.btnSales.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnSales.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSales.ForeColor = System.Drawing.Color.White;
-            this.btnSales.Location = new System.Drawing.Point(27, 266);
-            this.btnSales.Name = "btnSales";
-            this.btnSales.Size = new System.Drawing.Size(129, 40);
-            this.btnSales.TabIndex = 3;
-            this.btnSales.Text = "Sales";
-            this.btnSales.UseVisualStyleBackColor = false;
+            this.Sales.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.Sales.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Sales.ForeColor = System.Drawing.Color.White;
+            this.Sales.Location = new System.Drawing.Point(27, 266);
+            this.Sales.Name = "Sales";
+            this.Sales.Size = new System.Drawing.Size(129, 40);
+            this.Sales.TabIndex = 3;
+            this.Sales.Text = "Sales";
+            this.Sales.UseVisualStyleBackColor = false;
+            this.Sales.Click += new System.EventHandler(this.LoginPanelSales);
             // 
             // btnUsers
             // 
@@ -127,6 +131,7 @@
             this.btnUsers.TabIndex = 2;
             this.btnUsers.Text = "Users";
             this.btnUsers.UseVisualStyleBackColor = false;
+            this.btnUsers.Click += new System.EventHandler(this.LoginPanelUsers);
             // 
             // btnProducts
             // 
@@ -139,6 +144,7 @@
             this.btnProducts.TabIndex = 1;
             this.btnProducts.Text = "Products";
             this.btnProducts.UseVisualStyleBackColor = false;
+            this.btnProducts.Click += new System.EventHandler(this.LoginPanelProduct);
             // 
             // btnHome
             // 
@@ -151,14 +157,14 @@
             this.btnHome.TabIndex = 0;
             this.btnHome.Text = "Home";
             this.btnHome.UseVisualStyleBackColor = false;
-            this.btnHome.Click += new System.EventHandler(this.LoginPanelProduct);
+            this.btnHome.Click += new System.EventHandler(this.LoginPanelbtnHome);
             // 
             // panelMainContent
             // 
             this.panelMainContent.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panelMainContent.Controls.Add(this.rightPanel);
             this.panelMainContent.Controls.Add(this.panel1);
-            this.panelMainContent.Controls.Add(this.dgvSelectItem);
+            this.panelMainContent.Controls.Add(this.dgvAddToCard);
             this.panelMainContent.Controls.Add(this.lstSuggestion);
             this.panelMainContent.Controls.Add(this.btnSearch);
             this.panelMainContent.Controls.Add(this.txtSearch);
@@ -481,52 +487,26 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "MY STORE";
             // 
-            // dgvSelectItem
+            // dgvAddToCard
             // 
-            this.dgvSelectItem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgvAddToCard.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvSelectItem.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvSelectItem.BackgroundColor = System.Drawing.Color.White;
-            this.dgvSelectItem.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSelectItem.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvAddToCard.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvAddToCard.BackgroundColor = System.Drawing.Color.White;
+            this.dgvAddToCard.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAddToCard.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ProductId,
             this.Title,
             this.Quantity,
-            this.UnitPrice,
+            this.SalePrice,
             this.Total,
-            this.AddToCart,
+            this.btnEdit,
             this.Delete});
-            this.dgvSelectItem.GridColor = System.Drawing.Color.White;
-            this.dgvSelectItem.Location = new System.Drawing.Point(6, 127);
-            this.dgvSelectItem.Name = "dgvSelectItem";
-            this.dgvSelectItem.Size = new System.Drawing.Size(648, 503);
-            this.dgvSelectItem.TabIndex = 3;
-            // 
-            // ProductId
-            // 
-            this.ProductId.HeaderText = "Product ID";
-            this.ProductId.Name = "ProductId";
-            this.ProductId.Visible = false;
-            // 
-            // Title
-            // 
-            this.Title.HeaderText = "Product Name";
-            this.Title.Name = "Title";
-            // 
-            // Quantity
-            // 
-            this.Quantity.HeaderText = "Quantity";
-            this.Quantity.Name = "Quantity";
-            // 
-            // UnitPrice
-            // 
-            this.UnitPrice.HeaderText = "Price";
-            this.UnitPrice.Name = "UnitPrice";
-            // 
-            // Total
-            // 
-            this.Total.HeaderText = "Total";
-            this.Total.Name = "Total";
+            this.dgvAddToCard.GridColor = System.Drawing.Color.White;
+            this.dgvAddToCard.Location = new System.Drawing.Point(6, 127);
+            this.dgvAddToCard.Name = "dgvAddToCard";
+            this.dgvAddToCard.Size = new System.Drawing.Size(648, 503);
+            this.dgvAddToCard.TabIndex = 3;
             // 
             // lstSuggestion
             // 
@@ -536,6 +516,7 @@
             this.lstSuggestion.Size = new System.Drawing.Size(542, 108);
             this.lstSuggestion.TabIndex = 2;
             this.lstSuggestion.Visible = false;
+            this.lstSuggestion.Click += new System.EventHandler(this.lstSuggestion_Click);
             // 
             // btnSearch
             // 
@@ -558,10 +539,36 @@
             this.txtSearch.TabIndex = 0;
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
-            // AddToCart
+            // ProductId
             // 
-            this.AddToCart.HeaderText = "AddToCart";
-            this.AddToCart.Name = "AddToCart";
+            this.ProductId.HeaderText = "Product ID";
+            this.ProductId.Name = "ProductId";
+            this.ProductId.Visible = false;
+            // 
+            // Title
+            // 
+            this.Title.HeaderText = "Product Name";
+            this.Title.Name = "Title";
+            // 
+            // Quantity
+            // 
+            this.Quantity.HeaderText = "Quantity";
+            this.Quantity.Name = "Quantity";
+            // 
+            // SalePrice
+            // 
+            this.SalePrice.HeaderText = "SalePrice";
+            this.SalePrice.Name = "SalePrice";
+            // 
+            // Total
+            // 
+            this.Total.HeaderText = "Total";
+            this.Total.Name = "Total";
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.HeaderText = "Edit";
+            this.btnEdit.Name = "btnEdit";
             // 
             // Delete
             // 
@@ -587,9 +594,14 @@
             this.rightPanel.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSelectItem)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAddToCard)).EndInit();
             this.ResumeLayout(false);
 
+        }
+
+        private void lstSuggestion_click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -597,19 +609,14 @@
         private System.Windows.Forms.Panel panelMenu;
         private System.Windows.Forms.Button btnHome;
         private System.Windows.Forms.Panel panelMainContent;
-        private System.Windows.Forms.Button btnReports;
-        private System.Windows.Forms.Button btnSales;
+        private System.Windows.Forms.Button Reports;
+        private System.Windows.Forms.Button Sales;
         private System.Windows.Forms.Button btnUsers;
         private System.Windows.Forms.Button btnProducts;
         private System.Windows.Forms.ListBox lstSuggestion;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.TextBox txtSearch;
-        private System.Windows.Forms.DataGridView dgvSelectItem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProductId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Title;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
-        private System.Windows.Forms.DataGridViewTextBoxColumn UnitPrice;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
+        private System.Windows.Forms.DataGridView dgvAddToCard;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnlogout;
         private System.Windows.Forms.Label label1;
@@ -635,7 +642,12 @@
         private System.Windows.Forms.Button btnNum5;
         private System.Windows.Forms.Button btnNum4;
         private System.Windows.Forms.Button btnNum3;
-        private System.Windows.Forms.DataGridViewButtonColumn AddToCart;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProductId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Title;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SalePrice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
+        private System.Windows.Forms.DataGridViewButtonColumn btnEdit;
         private System.Windows.Forms.DataGridViewButtonColumn Delete;
     }
 }
