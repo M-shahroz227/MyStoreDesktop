@@ -9,7 +9,9 @@ namespace MyStoreDesktop.Models
         public int ProductId { get; set; }
 
         [MaxLength(255)]
-        public string QrCode { get; set; }
+        public string ProductCode { get; set; }
+        public int CodeType { get; set; }
+        
 
         [Required, MaxLength(200)]
         public string Title { get; set; }

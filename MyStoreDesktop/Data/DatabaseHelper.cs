@@ -35,6 +35,7 @@ namespace MyStoreDesktop.Data
                 .HasForeignKey(bp => bp.ProductId)
                 .WillCascadeOnDelete(false);
 
+
             // User → Bills (1-Many)
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Bills)
