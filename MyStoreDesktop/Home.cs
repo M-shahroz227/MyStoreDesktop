@@ -22,9 +22,49 @@ namespace MyStoreDesktop
         {
             InitializeComponent();
             lstSuggestion.Visible = false;
+
+            // Setup grid when form loads
+            SetupGridColumns();
+            SetupGridButtons();
+
+            // Set default colors
+            dgvAddToCard.DefaultCellStyle.ForeColor = Color.Black;
+            dgvAddToCard.DefaultCellStyle.BackColor = Color.White;
+            dgvAddToCard.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;
+
+            // Attach event for button clicks in grid
+            dgvAddToCard.CellContentClick += dgvAddToCard_CellContentClick;
         }
 
-        // ======================== SEARCH BOX ========================
+        // ======================== GRID SETUP ========================
+        private void SetupGridColumns()
+        {
+            dgvAddToCard.Columns.Clear();
+            dgvAddToCard.Columns.Add("ProductId", "Product ID");
+            dgvAddToCard.Columns.Add("Title", "Title");
+            dgvAddToCard.Columns.Add("Quantity", "Qty");
+            dgvAddToCard.Columns.Add("SalePrice", "Price");
+            dgvAddToCard.Columns.Add("Total", "Total");
+        }
+
+        private void SetupGridButtons()
+        {
+            // EDIT BUTTON
+            DataGridViewButtonColumn editButton = new DataGridViewButtonColumn();
+            editButton.Name = "Edit";
+            editButton.HeaderText = "";
+            editButton.Text = "Edit";
+            editButton.UseColumnTextForButtonValue = true;
+            dgvAddToCard.Columns.Add(editButton);
+
+            DataGridViewButtonColumn deleteButton = new DataGridViewButtonColumn();
+            deleteButton.Name = "Delete";
+            deleteButton.HeaderText = "";
+            deleteButton.Text = "Delete";
+            deleteButton.UseColumnTextForButtonValue = true;
+            dgvAddToCard.Columns.Add(deleteButton);
+        }
+
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             string search = txtSearch.Text.Trim().ToLower();
@@ -50,7 +90,6 @@ namespace MyStoreDesktop
             lstSuggestion.Visible = products.Any();
         }
 
-        // ======================== LIST SUGGESTION CLICK ========================
         private void lstSuggestion_Click(object sender, EventArgs e)
         {
             if (lstSuggestion.SelectedItem == null)
@@ -63,7 +102,6 @@ namespace MyStoreDesktop
             txtSearch.Clear();
         }
 
-        // ======================== ADD TO CART ========================
         private void AddToCartData(Product product)
         {
             foreach (DataGridViewRow row in dgvAddToCard.Rows)
@@ -87,7 +125,6 @@ namespace MyStoreDesktop
             UpdateTotals();
         }
 
-        // ======================== TOTAL CALCULATION ========================
         private void UpdateTotals()
         {
             _subtotal = 0;
@@ -111,14 +148,42 @@ namespace MyStoreDesktop
             lblTotalValue.Text = total.ToString("N2");
         }
 
-        // ======================== NUMERIC BUTTONS ========================
+        private void dgvAddToCard_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            string columnName = dgvAddToCard.Columns[e.ColumnIndex].Name;
+
+            if (columnName == "Edit")
+            {
+                
+                int currentQty = Convert.ToInt32(dgvAddToCard.Rows[e.RowIndex].Cells["Quantity"].Value);
+                double price = Convert.ToDouble(dgvAddToCard.Rows[e.RowIndex].Cells["SalePrice"].Value);
+                int newQty = currentQty + 1;
+
+                dgvAddToCard.Rows[e.RowIndex].Cells["Quantity"].Value = newQty;
+                dgvAddToCard.Rows[e.RowIndex].Cells["Total"].Value = newQty * price;
+                UpdateTotals();
+            }
+            else if (columnName == "Delete")
+            {
+                var confirm = MessageBox.Show("Are you sure you want to delete this item?",
+                    "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    dgvAddToCard.Rows.RemoveAt(e.RowIndex);
+                    UpdateTotals();
+                }
+            }
+        }
+
         private void NumberButton_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
             txtSearch.Text += btn.Text; // add clicked number to search box
         }
-
-        // ======================== PANEL NAVIGATION ========================
         private void LoginPanelbtnHome(object sender, EventArgs e)
         {
             var home = new Home();
