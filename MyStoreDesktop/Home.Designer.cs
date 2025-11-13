@@ -30,6 +30,7 @@ namespace MyStoreDesktop
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.Reports = new System.Windows.Forms.Button();
             this.Sales = new System.Windows.Forms.Button();
@@ -51,7 +52,7 @@ namespace MyStoreDesktop
             this.btnClear = new System.Windows.Forms.Button();
             this.btnDot = new System.Windows.Forms.Button();
             this.btnZero = new System.Windows.Forms.Button();
-            this.txtDiscount = new System.Windows.Forms.Label();
+            this.lblSubtotalValue = new System.Windows.Forms.Label();
             this.lblDiscount = new System.Windows.Forms.Label();
             this.lblTotal = new System.Windows.Forms.Label();
             this.lblTax = new System.Windows.Forms.Label();
@@ -63,9 +64,6 @@ namespace MyStoreDesktop
             this.btnlogout = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvAddToCard = new System.Windows.Forms.DataGridView();
-            this.lstSuggestion = new System.Windows.Forms.ListBox();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.txtSearch = new System.Windows.Forms.TextBox();
             this.ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -73,6 +71,9 @@ namespace MyStoreDesktop
             this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnEdit = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.lstSuggestion = new System.Windows.Forms.ListBox();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.txtSearch = new System.Windows.Forms.TextBox();
             this.panelMenu.SuspendLayout();
             this.panelMainContent.SuspendLayout();
             this.rightPanel.SuspendLayout();
@@ -190,7 +191,7 @@ namespace MyStoreDesktop
             this.rightPanel.Controls.Add(this.btnClear);
             this.rightPanel.Controls.Add(this.btnDot);
             this.rightPanel.Controls.Add(this.btnZero);
-            this.rightPanel.Controls.Add(this.txtDiscount);
+            this.rightPanel.Controls.Add(this.lblSubtotalValue);
             this.rightPanel.Controls.Add(this.lblDiscount);
             this.rightPanel.Controls.Add(this.lblTotal);
             this.rightPanel.Controls.Add(this.lblTax);
@@ -215,6 +216,7 @@ namespace MyStoreDesktop
             this.btnConfirm.TabIndex = 20;
             this.btnConfirm.Text = "Bill Confirm";
             this.btnConfirm.UseVisualStyleBackColor = false;
+            this.btnConfirm.Click += new System.EventHandler(this.NumberButton_Click);
             // 
             // btnNum9
             // 
@@ -227,6 +229,7 @@ namespace MyStoreDesktop
             this.btnNum9.TabIndex = 19;
             this.btnNum9.Text = "9";
             this.btnNum9.UseVisualStyleBackColor = false;
+            this.btnNum9.Click += new System.EventHandler(this.NumberButton_Click);
             // 
             // btnNum8
             // 
@@ -239,6 +242,7 @@ namespace MyStoreDesktop
             this.btnNum8.TabIndex = 18;
             this.btnNum8.Text = "8";
             this.btnNum8.UseVisualStyleBackColor = false;
+            this.btnNum8.Click += new System.EventHandler(this.NumberButton_Click);
             // 
             // btnNum7
             // 
@@ -251,6 +255,7 @@ namespace MyStoreDesktop
             this.btnNum7.TabIndex = 17;
             this.btnNum7.Text = "7";
             this.btnNum7.UseVisualStyleBackColor = false;
+            this.btnNum7.Click += new System.EventHandler(this.NumberButton_Click);
             // 
             // btnNum6
             // 
@@ -263,6 +268,7 @@ namespace MyStoreDesktop
             this.btnNum6.TabIndex = 16;
             this.btnNum6.Text = "6";
             this.btnNum6.UseVisualStyleBackColor = false;
+            this.btnNum6.Click += new System.EventHandler(this.NumberButton_Click);
             // 
             // btnNum5
             // 
@@ -275,6 +281,7 @@ namespace MyStoreDesktop
             this.btnNum5.TabIndex = 15;
             this.btnNum5.Text = "5";
             this.btnNum5.UseVisualStyleBackColor = false;
+            this.btnNum5.Click += new System.EventHandler(this.NumberButton_Click);
             // 
             // btnNum4
             // 
@@ -287,6 +294,7 @@ namespace MyStoreDesktop
             this.btnNum4.TabIndex = 14;
             this.btnNum4.Text = "4";
             this.btnNum4.UseVisualStyleBackColor = false;
+            this.btnNum4.Click += new System.EventHandler(this.NumberButton_Click);
             // 
             // btnNum3
             // 
@@ -299,6 +307,7 @@ namespace MyStoreDesktop
             this.btnNum3.TabIndex = 13;
             this.btnNum3.Text = "3";
             this.btnNum3.UseVisualStyleBackColor = false;
+            this.btnNum3.Click += new System.EventHandler(this.NumberButton_Click);
             // 
             // btnNum2
             // 
@@ -311,6 +320,7 @@ namespace MyStoreDesktop
             this.btnNum2.TabIndex = 12;
             this.btnNum2.Text = "2";
             this.btnNum2.UseVisualStyleBackColor = false;
+            this.btnNum2.Click += new System.EventHandler(this.NumberButton_Click);
             // 
             // btnNum1
             // 
@@ -323,7 +333,7 @@ namespace MyStoreDesktop
             this.btnNum1.TabIndex = 11;
             this.btnNum1.Text = "1";
             this.btnNum1.UseVisualStyleBackColor = false;
-            this.btnNum1.Click += new System.EventHandler(this.button3_Click);
+            this.btnNum1.Click += new System.EventHandler(this.NumberButton_Click);
             // 
             // btnClear
             // 
@@ -336,7 +346,7 @@ namespace MyStoreDesktop
             this.btnClear.TabIndex = 10;
             this.btnClear.Text = "C";
             this.btnClear.UseVisualStyleBackColor = false;
-            this.btnClear.Click += new System.EventHandler(this.button2_Click);
+            this.btnClear.Click += new System.EventHandler(this.NumberButton_Click);
             // 
             // btnDot
             // 
@@ -349,6 +359,7 @@ namespace MyStoreDesktop
             this.btnDot.TabIndex = 9;
             this.btnDot.Text = ".";
             this.btnDot.UseVisualStyleBackColor = false;
+            this.btnDot.Click += new System.EventHandler(this.NumberButton_Click);
             // 
             // btnZero
             // 
@@ -361,18 +372,19 @@ namespace MyStoreDesktop
             this.btnZero.TabIndex = 8;
             this.btnZero.Text = "0";
             this.btnZero.UseVisualStyleBackColor = false;
+            this.btnZero.Click += new System.EventHandler(this.NumberButton_Click);
             // 
-            // txtDiscount
+            // lblSubtotalValue
             // 
-            this.txtDiscount.AutoSize = true;
-            this.txtDiscount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtDiscount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDiscount.ForeColor = System.Drawing.Color.Black;
-            this.txtDiscount.Location = new System.Drawing.Point(225, 24);
-            this.txtDiscount.Name = "txtDiscount";
-            this.txtDiscount.Size = new System.Drawing.Size(37, 18);
-            this.txtDiscount.TabIndex = 7;
-            this.txtDiscount.Text = "0.00";
+            this.lblSubtotalValue.AutoSize = true;
+            this.lblSubtotalValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblSubtotalValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSubtotalValue.ForeColor = System.Drawing.Color.Black;
+            this.lblSubtotalValue.Location = new System.Drawing.Point(225, 24);
+            this.lblSubtotalValue.Name = "lblSubtotalValue";
+            this.lblSubtotalValue.Size = new System.Drawing.Size(37, 18);
+            this.lblSubtotalValue.TabIndex = 7;
+            this.lblSubtotalValue.Text = "0.00";
             // 
             // lblDiscount
             // 
@@ -502,42 +514,19 @@ namespace MyStoreDesktop
             this.Total,
             this.btnEdit,
             this.Delete});
-            this.dgvAddToCard.GridColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAddToCard.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvAddToCard.GridColor = System.Drawing.Color.LightGray;
             this.dgvAddToCard.Location = new System.Drawing.Point(6, 127);
             this.dgvAddToCard.Name = "dgvAddToCard";
             this.dgvAddToCard.Size = new System.Drawing.Size(648, 503);
             this.dgvAddToCard.TabIndex = 3;
-            // 
-            // lstSuggestion
-            // 
-            this.lstSuggestion.FormattingEnabled = true;
-            this.lstSuggestion.Location = new System.Drawing.Point(6, 102);
-            this.lstSuggestion.Name = "lstSuggestion";
-            this.lstSuggestion.Size = new System.Drawing.Size(542, 108);
-            this.lstSuggestion.TabIndex = 2;
-            this.lstSuggestion.Visible = false;
-            this.lstSuggestion.Click += new System.EventHandler(this.lstSuggestion_Click);
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.BackColor = System.Drawing.Color.RosyBrown;
-            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSearch.Location = new System.Drawing.Point(554, 68);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(100, 32);
-            this.btnSearch.TabIndex = 1;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = false;
-            // 
-            // txtSearch
-            // 
-            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(6, 68);
-            this.txtSearch.Multiline = true;
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(542, 28);
-            this.txtSearch.TabIndex = 0;
-            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // ProductId
             // 
@@ -574,6 +563,37 @@ namespace MyStoreDesktop
             // 
             this.Delete.HeaderText = "Delete";
             this.Delete.Name = "Delete";
+            // 
+            // lstSuggestion
+            // 
+            this.lstSuggestion.FormattingEnabled = true;
+            this.lstSuggestion.Location = new System.Drawing.Point(6, 102);
+            this.lstSuggestion.Name = "lstSuggestion";
+            this.lstSuggestion.Size = new System.Drawing.Size(542, 108);
+            this.lstSuggestion.TabIndex = 2;
+            this.lstSuggestion.Visible = false;
+            this.lstSuggestion.Click += new System.EventHandler(this.lstSuggestion_Click);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.BackColor = System.Drawing.Color.RosyBrown;
+            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSearch.Location = new System.Drawing.Point(554, 68);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(100, 32);
+            this.btnSearch.TabIndex = 1;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = false;
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.Location = new System.Drawing.Point(6, 68);
+            this.txtSearch.Multiline = true;
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(542, 28);
+            this.txtSearch.TabIndex = 0;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // Home
             // 
@@ -627,7 +647,7 @@ namespace MyStoreDesktop
         private System.Windows.Forms.Label lblDiscountValue;
         private System.Windows.Forms.Label lblTotal;
         private System.Windows.Forms.Label lblTax;
-        private System.Windows.Forms.Label txtDiscount;
+        private System.Windows.Forms.Label lblSubtotalValue;
         private System.Windows.Forms.Label lblDiscount;
         private System.Windows.Forms.Button btnZero;
         private System.Windows.Forms.Button btnNum1;
