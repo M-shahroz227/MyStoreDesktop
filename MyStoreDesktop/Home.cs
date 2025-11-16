@@ -185,8 +185,11 @@ namespace MyStoreDesktop
         }
         private void BillConfirm_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("bill comformed");
             
+            var form = new PrintForm();
+            form.Show();
+
+
 
         }
         private void LoginPanelbtnHome(object sender, EventArgs e)
