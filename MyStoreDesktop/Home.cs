@@ -3,6 +3,7 @@ using MyStoreDesktop.Services.ProductService;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -12,19 +13,21 @@ namespace MyStoreDesktop
     public partial class Home : Form
     {
         private readonly ProductService _productService = new ProductService();
+        
+        
+        
 
         // Value holders for totals
         private double _subtotal = 0;
-        private double _discountPercent = 10; // Example 10%
-        private double _taxPercent = 5;       // Example 5%
-
+        private double _discountPercent = 0; // Example 10%
+        private double _taxPercent = 0;       // Example 5%
         public Home()
         {
             InitializeComponent();
             lstSuggestion.Visible = false;
 
             // Setup grid when form loads
-            SetupGridColumns();
+            
             SetupGridButtons();
 
             // Set default colors
@@ -37,32 +40,21 @@ namespace MyStoreDesktop
         }
 
         // ======================== GRID SETUP ========================
-        private void SetupGridColumns()
-        {
-            dgvAddToCard.Columns.Clear();
-            dgvAddToCard.Columns.Add("ProductId", "Product ID");
-            dgvAddToCard.Columns.Add("Title", "Title");
-            dgvAddToCard.Columns.Add("Quantity", "Qty");
-            dgvAddToCard.Columns.Add("SalePrice", "Price");
-            dgvAddToCard.Columns.Add("Total", "Total");
-        }
+        
 
         private void SetupGridButtons()
         {
-            // EDIT BUTTON
-            DataGridViewButtonColumn editButton = new DataGridViewButtonColumn();
-            editButton.Name = "Edit";
-            editButton.HeaderText = "";
-            editButton.Text = "Edit";
-            editButton.UseColumnTextForButtonValue = true;
-            dgvAddToCard.Columns.Add(editButton);
-
             DataGridViewButtonColumn deleteButton = new DataGridViewButtonColumn();
             deleteButton.Name = "Delete";
-            deleteButton.HeaderText = "";
+            deleteButton.HeaderText = "Delete";
             deleteButton.Text = "Delete";
+            deleteButton.DefaultCellStyle.SelectionBackColor= Color.IndianRed;
             deleteButton.UseColumnTextForButtonValue = true;
             dgvAddToCard.Columns.Add(deleteButton);
+        }
+        private void lblTaxValue_TextChanged_1(object sender, EventArgs e)
+        {
+
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
@@ -120,7 +112,7 @@ namespace MyStoreDesktop
             }
 
             double total = (double)(product.SalePrice * 1);
-            dgvAddToCard.Rows.Add(product.ProductId, product.Title, 1, product.SalePrice, total);
+            dgvAddToCard.Rows.Add(product.ProductId, product.Title, 1, product.SalePrice,product.Discount, total);
 
             UpdateTotals();
         }
@@ -144,8 +136,25 @@ namespace MyStoreDesktop
 
             lblSubtotalValue.Text = _subtotal.ToString("N2");
             lblDiscountValue.Text = discount.ToString("N2");
-            lblTaxValue.Text = tax.ToString("N2");
+            txtTaxValue.Text = tax.ToString("N2");
             lblTotalValue.Text = total.ToString("N2");
+        }
+        private void dgvAddToCard_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == dgvAddToCard.Columns["Quantity"].Index)
+            {
+                UpdateRowTotal(e.RowIndex);
+            }
+
+        }
+        private void UpdateRowTotal(int RowIndex)
+        {
+             DataGridViewRow row = dgvAddToCard.Rows[RowIndex];
+            double price = Convert.ToDouble(row.Cells["SalePrice"].Value);
+            double qunatity = Convert.ToDouble(row.Cells["Quantity"].Value);
+            double total = price * qunatity;
+            row.Cells["Total"].Value = total;
+            UpdateTotals();
         }
 
         private void dgvAddToCard_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -155,18 +164,7 @@ namespace MyStoreDesktop
 
             string columnName = dgvAddToCard.Columns[e.ColumnIndex].Name;
 
-            if (columnName == "Edit")
-            {
-                
-                int currentQty = Convert.ToInt32(dgvAddToCard.Rows[e.RowIndex].Cells["Quantity"].Value);
-                double price = Convert.ToDouble(dgvAddToCard.Rows[e.RowIndex].Cells["SalePrice"].Value);
-                int newQty = currentQty + 1;
-
-                dgvAddToCard.Rows[e.RowIndex].Cells["Quantity"].Value = newQty;
-                dgvAddToCard.Rows[e.RowIndex].Cells["Total"].Value = newQty * price;
-                UpdateTotals();
-            }
-            else if (columnName == "Delete")
+             if (columnName == "Delete")
             {
                 var confirm = MessageBox.Show("Are you sure you want to delete this item?",
                     "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -182,7 +180,14 @@ namespace MyStoreDesktop
         private void NumberButton_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            txtSearch.Text += btn.Text; // add clicked number to search box
+            txtSearch.Text += btn.Text;
+           
+        }
+        private void BillConfirm_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("bill comformed");
+            
+
         }
         private void LoginPanelbtnHome(object sender, EventArgs e)
         {
@@ -218,5 +223,41 @@ namespace MyStoreDesktop
             report.Show();
             this.Hide();
         }
+        private void txtTaxValue_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter) 
+            {
+                double taxPercent;
+                if(double.TryParse(txtTaxValue.Text,out taxPercent))
+                {
+                    _taxPercent = taxPercent;
+                }
+                else
+                {
+                    _taxPercent= 0;
+                }
+                UpdateTotals();
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void lblDiscountValue_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                double discountPercent;
+                if(double.TryParse(lblDiscountValue.Text,out discountPercent))
+                {
+                    _discountPercent = discountPercent;
+                }
+                else { 
+                    _discountPercent= 0;
+                }
+                UpdateTotals();
+                e.SuppressKeyPress = true;
+            }
+        }
     }
+
 }
+

@@ -104,11 +104,16 @@
     <Compile Include="Migrations\202511121318266_Total.Designer.cs">
       <DependentUpon>202511121318266_Total.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202511141235322_ConfiguratonModelAdded.cs" />
+    <Compile Include="Migrations\202511141235322_ConfiguratonModelAdded.Designer.cs">
+      <DependentUpon>202511141235322_ConfiguratonModelAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bill.cs" />
     <Compile Include="Models\BillProduct.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\QrTableData.cs" />
     <Compile Include="Models\User.cs" />
@@ -158,6 +163,8 @@
     </Compile>
     <Compile Include="Services\BillService\BillService.cs" />
     <Compile Include="Services\BillService\IBillService.cs" />
+    <Compile Include="Services\ConfigurationService\ConfigurationService.cs" />
+    <Compile Include="Services\ConfigurationService\IConfigurationService.cs" />
     <Compile Include="Services\CredentialManager.cs" />
     <Compile Include="Services\ProductService\IProductService.cs" />
     <Compile Include="Services\ProductService\ProductService.cs" />
@@ -194,6 +201,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202511121318266_Total.resx">
       <DependentUpon>202511121318266_Total.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202511141235322_ConfiguratonModelAdded.resx">
+      <DependentUpon>202511141235322_ConfiguratonModelAdded.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProductForm.resx">
       <DependentUpon>ProductForm.cs</DependentUpon>

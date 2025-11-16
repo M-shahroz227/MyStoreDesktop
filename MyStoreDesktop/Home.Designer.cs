@@ -30,7 +30,8 @@ namespace MyStoreDesktop
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.Reports = new System.Windows.Forms.Button();
             this.Sales = new System.Windows.Forms.Button();
@@ -39,6 +40,10 @@ namespace MyStoreDesktop
             this.btnHome = new System.Windows.Forms.Button();
             this.panelMainContent = new System.Windows.Forms.Panel();
             this.rightPanel = new System.Windows.Forms.Panel();
+            this.lblTotalValue = new System.Windows.Forms.TextBox();
+            this.lblDiscountValue = new System.Windows.Forms.TextBox();
+            this.lblSubtotalValue = new System.Windows.Forms.TextBox();
+            this.txtTaxValue = new System.Windows.Forms.TextBox();
             this.btnConfirm = new System.Windows.Forms.Button();
             this.btnNum9 = new System.Windows.Forms.Button();
             this.btnNum8 = new System.Windows.Forms.Button();
@@ -52,14 +57,10 @@ namespace MyStoreDesktop
             this.btnClear = new System.Windows.Forms.Button();
             this.btnDot = new System.Windows.Forms.Button();
             this.btnZero = new System.Windows.Forms.Button();
-            this.lblSubtotalValue = new System.Windows.Forms.Label();
             this.lblDiscount = new System.Windows.Forms.Label();
             this.lblTotal = new System.Windows.Forms.Label();
             this.lblTax = new System.Windows.Forms.Label();
             this.lblSubTotal = new System.Windows.Forms.Label();
-            this.lblTotalValue = new System.Windows.Forms.Label();
-            this.lblTaxValue = new System.Windows.Forms.Label();
-            this.lblDiscountValue = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnlogout = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -68,9 +69,8 @@ namespace MyStoreDesktop
             this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SalePrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Discount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnEdit = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.lstSuggestion = new System.Windows.Forms.ListBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
@@ -178,6 +178,10 @@ namespace MyStoreDesktop
             // 
             // rightPanel
             // 
+            this.rightPanel.Controls.Add(this.lblTotalValue);
+            this.rightPanel.Controls.Add(this.lblDiscountValue);
+            this.rightPanel.Controls.Add(this.lblSubtotalValue);
+            this.rightPanel.Controls.Add(this.txtTaxValue);
             this.rightPanel.Controls.Add(this.btnConfirm);
             this.rightPanel.Controls.Add(this.btnNum9);
             this.rightPanel.Controls.Add(this.btnNum8);
@@ -191,18 +195,44 @@ namespace MyStoreDesktop
             this.rightPanel.Controls.Add(this.btnClear);
             this.rightPanel.Controls.Add(this.btnDot);
             this.rightPanel.Controls.Add(this.btnZero);
-            this.rightPanel.Controls.Add(this.lblSubtotalValue);
             this.rightPanel.Controls.Add(this.lblDiscount);
             this.rightPanel.Controls.Add(this.lblTotal);
             this.rightPanel.Controls.Add(this.lblTax);
             this.rightPanel.Controls.Add(this.lblSubTotal);
-            this.rightPanel.Controls.Add(this.lblTotalValue);
-            this.rightPanel.Controls.Add(this.lblTaxValue);
-            this.rightPanel.Controls.Add(this.lblDiscountValue);
             this.rightPanel.Location = new System.Drawing.Point(660, 124);
             this.rightPanel.Name = "rightPanel";
             this.rightPanel.Size = new System.Drawing.Size(288, 503);
             this.rightPanel.TabIndex = 5;
+            // 
+            // lblTotalValue
+            // 
+            this.lblTotalValue.Location = new System.Drawing.Point(177, 121);
+            this.lblTotalValue.Name = "lblTotalValue";
+            this.lblTotalValue.Size = new System.Drawing.Size(84, 20);
+            this.lblTotalValue.TabIndex = 24;
+            // 
+            // lblDiscountValue
+            // 
+            this.lblDiscountValue.Location = new System.Drawing.Point(177, 56);
+            this.lblDiscountValue.Name = "lblDiscountValue";
+            this.lblDiscountValue.Size = new System.Drawing.Size(84, 20);
+            this.lblDiscountValue.TabIndex = 23;
+            this.lblDiscountValue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lblDiscountValue_KeyDown);
+            // 
+            // lblSubtotalValue
+            // 
+            this.lblSubtotalValue.Location = new System.Drawing.Point(177, 24);
+            this.lblSubtotalValue.Name = "lblSubtotalValue";
+            this.lblSubtotalValue.Size = new System.Drawing.Size(84, 20);
+            this.lblSubtotalValue.TabIndex = 22;
+            // 
+            // txtTaxValue
+            // 
+            this.txtTaxValue.Location = new System.Drawing.Point(177, 87);
+            this.txtTaxValue.Name = "txtTaxValue";
+            this.txtTaxValue.Size = new System.Drawing.Size(84, 20);
+            this.txtTaxValue.TabIndex = 21;
+            this.txtTaxValue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtTaxValue_KeyDown);
             // 
             // btnConfirm
             // 
@@ -216,7 +246,7 @@ namespace MyStoreDesktop
             this.btnConfirm.TabIndex = 20;
             this.btnConfirm.Text = "Bill Confirm";
             this.btnConfirm.UseVisualStyleBackColor = false;
-            this.btnConfirm.Click += new System.EventHandler(this.NumberButton_Click);
+            this.btnConfirm.Click += new System.EventHandler(this.BillConfirm_Click);
             // 
             // btnNum9
             // 
@@ -374,18 +404,6 @@ namespace MyStoreDesktop
             this.btnZero.UseVisualStyleBackColor = false;
             this.btnZero.Click += new System.EventHandler(this.NumberButton_Click);
             // 
-            // lblSubtotalValue
-            // 
-            this.lblSubtotalValue.AutoSize = true;
-            this.lblSubtotalValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblSubtotalValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSubtotalValue.ForeColor = System.Drawing.Color.Black;
-            this.lblSubtotalValue.Location = new System.Drawing.Point(225, 24);
-            this.lblSubtotalValue.Name = "lblSubtotalValue";
-            this.lblSubtotalValue.Size = new System.Drawing.Size(37, 18);
-            this.lblSubtotalValue.TabIndex = 7;
-            this.lblSubtotalValue.Text = "0.00";
-            // 
             // lblDiscount
             // 
             this.lblDiscount.AutoSize = true;
@@ -429,42 +447,6 @@ namespace MyStoreDesktop
             this.lblSubTotal.Size = new System.Drawing.Size(67, 16);
             this.lblSubTotal.TabIndex = 3;
             this.lblSubTotal.Text = "Discount";
-            // 
-            // lblTotalValue
-            // 
-            this.lblTotalValue.AutoSize = true;
-            this.lblTotalValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblTotalValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalValue.ForeColor = System.Drawing.Color.Red;
-            this.lblTotalValue.Location = new System.Drawing.Point(219, 122);
-            this.lblTotalValue.Name = "lblTotalValue";
-            this.lblTotalValue.Size = new System.Drawing.Size(42, 20);
-            this.lblTotalValue.TabIndex = 2;
-            this.lblTotalValue.Text = "0.00";
-            // 
-            // lblTaxValue
-            // 
-            this.lblTaxValue.AutoSize = true;
-            this.lblTaxValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblTaxValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTaxValue.ForeColor = System.Drawing.Color.Black;
-            this.lblTaxValue.Location = new System.Drawing.Point(224, 91);
-            this.lblTaxValue.Name = "lblTaxValue";
-            this.lblTaxValue.Size = new System.Drawing.Size(37, 18);
-            this.lblTaxValue.TabIndex = 1;
-            this.lblTaxValue.Text = "0.00";
-            // 
-            // lblDiscountValue
-            // 
-            this.lblDiscountValue.AutoSize = true;
-            this.lblDiscountValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblDiscountValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDiscountValue.ForeColor = System.Drawing.Color.Black;
-            this.lblDiscountValue.Location = new System.Drawing.Point(224, 55);
-            this.lblDiscountValue.Name = "lblDiscountValue";
-            this.lblDiscountValue.Size = new System.Drawing.Size(37, 18);
-            this.lblDiscountValue.TabIndex = 0;
-            this.lblDiscountValue.Text = "0.00";
             // 
             // panel1
             // 
@@ -511,22 +493,22 @@ namespace MyStoreDesktop
             this.Title,
             this.Quantity,
             this.SalePrice,
-            this.Total,
-            this.btnEdit,
-            this.Delete});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAddToCard.DefaultCellStyle = dataGridViewCellStyle1;
+            this.Discount,
+            this.Total});
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAddToCard.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgvAddToCard.GridColor = System.Drawing.Color.LightGray;
             this.dgvAddToCard.Location = new System.Drawing.Point(6, 127);
             this.dgvAddToCard.Name = "dgvAddToCard";
             this.dgvAddToCard.Size = new System.Drawing.Size(648, 503);
             this.dgvAddToCard.TabIndex = 3;
+            this.dgvAddToCard.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAddToCard_CellEndEdit);
             // 
             // ProductId
             // 
@@ -543,26 +525,27 @@ namespace MyStoreDesktop
             // 
             this.Quantity.HeaderText = "Quantity";
             this.Quantity.Name = "Quantity";
+            this.Quantity.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // SalePrice
             // 
             this.SalePrice.HeaderText = "SalePrice";
             this.SalePrice.Name = "SalePrice";
             // 
+            // Discount
+            // 
+            this.Discount.HeaderText = "Discount";
+            this.Discount.Name = "Discount";
+            // 
             // Total
             // 
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
+            this.Total.DefaultCellStyle = dataGridViewCellStyle5;
             this.Total.HeaderText = "Total";
             this.Total.Name = "Total";
-            // 
-            // btnEdit
-            // 
-            this.btnEdit.HeaderText = "Edit";
-            this.btnEdit.Name = "btnEdit";
-            // 
-            // Delete
-            // 
-            this.Delete.HeaderText = "Delete";
-            this.Delete.Name = "Delete";
+            this.Total.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Total.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // lstSuggestion
             // 
@@ -642,12 +625,8 @@ namespace MyStoreDesktop
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel rightPanel;
         private System.Windows.Forms.Label lblSubTotal;
-        private System.Windows.Forms.Label lblTotalValue;
-        private System.Windows.Forms.Label lblTaxValue;
-        private System.Windows.Forms.Label lblDiscountValue;
         private System.Windows.Forms.Label lblTotal;
         private System.Windows.Forms.Label lblTax;
-        private System.Windows.Forms.Label lblSubtotalValue;
         private System.Windows.Forms.Label lblDiscount;
         private System.Windows.Forms.Button btnZero;
         private System.Windows.Forms.Button btnNum1;
@@ -666,8 +645,11 @@ namespace MyStoreDesktop
         private System.Windows.Forms.DataGridViewTextBoxColumn Title;
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn SalePrice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Discount;
         private System.Windows.Forms.DataGridViewTextBoxColumn Total;
-        private System.Windows.Forms.DataGridViewButtonColumn btnEdit;
-        private System.Windows.Forms.DataGridViewButtonColumn Delete;
+        private System.Windows.Forms.TextBox txtTaxValue;
+        private System.Windows.Forms.TextBox lblSubtotalValue;
+        private System.Windows.Forms.TextBox lblTotalValue;
+        private System.Windows.Forms.TextBox lblDiscountValue;
     }
 }

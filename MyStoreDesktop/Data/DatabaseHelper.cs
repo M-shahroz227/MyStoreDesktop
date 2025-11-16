@@ -18,7 +18,7 @@ namespace MyStoreDesktop.Data
         public DbSet<QrTableData> QrTableDatas { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Company> Companies { get; set; }
-
+        public DbSet<Configuration> Configurations { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             // Bill → BillProducts (1-Many)
