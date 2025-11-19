@@ -185,13 +185,44 @@ namespace MyStoreDesktop
         }
         private void BillConfirm_Click(object sender, EventArgs e)
         {
-            
-            var form = new PrintForm();
+            DataTable billData = new DataTable();
+
+            billData.Columns.Add("ProductId");
+            billData.Columns.Add("ProductName");
+            billData.Columns.Add("Quantity");
+            billData.Columns.Add("SalePrice");
+            billData.Columns.Add("Discount");
+            billData.Columns.Add("Tax");
+            billData.Columns.Add("Total");
+
+            foreach (DataGridViewRow row in dgvAddToCard.Rows)
+            {
+                if (!row.IsNewRow)
+                {
+                    billData.Rows.Add(
+                        row.Cells["ProductId"].Value,
+                        row.Cells["Title"].Value,
+                        row.Cells["Quantity"].Value,
+                        row.Cells["SalePrice"].Value,
+                        row.Cells["Discount"].Value,
+                        "0",  // If tax per item nahi hai to 0
+                        row.Cells["Total"].Value
+                    );
+                }
+            }
+
+            // TOTAL VALUE PRINT KE LIYE
+            PrintForm form = new PrintForm(billData, lblTotalValue.Text);
             form.Show();
 
-
-
         }
+
+
+
+
+
+
+
         private void LoginPanelbtnHome(object sender, EventArgs e)
         {
             var home = new Home();

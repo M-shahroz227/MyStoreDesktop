@@ -108,6 +108,10 @@
     <Compile Include="Migrations\202511141235322_ConfiguratonModelAdded.Designer.cs">
       <DependentUpon>202511141235322_ConfiguratonModelAdded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202511190252366_Updated....cs" />
+    <Compile Include="Migrations\202511190252366_Updated....Designer.cs">
+      <DependentUpon>202511190252366_Updated....cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bill.cs" />
     <Compile Include="Models\BillProduct.cs" />
@@ -210,6 +214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202511141235322_ConfiguratonModelAdded.resx">
       <DependentUpon>202511141235322_ConfiguratonModelAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202511190252366_Updated....resx">
+      <DependentUpon>202511190252366_Updated....cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PrintForm.resx">
       <DependentUpon>PrintForm.cs</DependentUpon>

@@ -9,14 +9,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MyStoreDesktop
 {
     public partial class PrintForm : Form
     {
+        private DataTable _billData;
+        private string _txtGrandTotal;
         public PrintForm()
         {
             InitializeComponent();
+        }
+
+
+        public PrintForm(DataTable billData, string txtGrandTotal)
+        {
+            InitializeComponent();
+            _billData = billData;
+            dataGridView.DataSource = _billData;
+            _txtGrandTotal = txtGrandTotal;  
+            this.txtGrandTotal.Text = _txtGrandTotal; 
+
+
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
@@ -66,16 +81,17 @@ namespace MyStoreDesktop
             {
                 if (row.IsNewRow) continue;
 
-                string productId = row.Cells["productId"].Value.ToString();
-                string productName = row.Cells["productName"].Value.ToString();
-                string qty = row.Cells["quantity"].Value.ToString();
-                string price = row.Cells["price"].Value.ToString();
-                string discount = row.Cells["discount"].Value.ToString();
-                string tax = row.Cells["tax"].Value.ToString();
-                string total = row.Cells["total"].Value.ToString();
+                string productId = row.Cells["ProductId"].Value.ToString() ?? "";
+                string productName = row.Cells["ProductName"].Value.ToString() ?? "";
+                string qty = row.Cells["Quantity"].Value.ToString() ?? "";
+                string salePrice = row.Cells["SalePrice"].Value.ToString() ?? "";
+                string discount = row.Cells["Discount"].Value.ToString() ?? "";
+                string tax = row.Cells["Tax"].Value.ToString() ?? "";
+                string total = row.Cells["Total"].Value.ToString() ?? "";
+
 
                 e.Graphics.DrawString(
-                    $"{productId}     {productName}     {qty}     {price}     {discount}     {tax}     {total}",
+                    $"{productId}     {productName}     {qty}     {salePrice}     {discount}     {tax}     {total}",
                     subFont,
                     Brushes.Black,
                     20,
@@ -88,7 +104,7 @@ namespace MyStoreDesktop
             y += 30;
 
             // ******** GRAND TOTAL ********
-            e.Graphics.DrawString("Grand Total: " + txtGrandTotal.Text,
+            e.Graphics.DrawString("Grand Total: " + _txtGrandTotal,
                 new Font("Arial", 14, FontStyle.Bold),
                 Brushes.Black,
                 20,

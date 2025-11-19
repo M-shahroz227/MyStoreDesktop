@@ -13,6 +13,10 @@ namespace MyStoreDesktop.Models
 
         [ForeignKey("Product")]
         public int ProductId { get; set; }
+        public string Title { get; set; }
+        public double SalePrice { get; set; }
+        public double Total { get; set; }
+
 
         public int Quantity { get; set; }
         public decimal Amount { get; set; }
