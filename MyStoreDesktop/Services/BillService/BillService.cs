@@ -1,38 +1,51 @@
-﻿using System.Data.Entity;
+﻿using MyStoreDesktop.Data;
 using MyStoreDesktop.Models;
+using System.Collections.Generic;
+using System.Data.Entity.Migrations;
+using System.Linq;
 
-namespace MyStoreDesktop.Data
+namespace MyStoreDesktop.Services.BillService
 {
-    public class AppDbContext : DbContext
+    internal class BillService : IBillService
     {
-        public AppDbContext() : base("name=DefaultConnection") { }
+        private readonly DatabaseHelper _context;
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Bill> Bills { get; set; }
-        public DbSet<BillProduct> BillProducts { get; set; }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        public BillService()
         {
-            modelBuilder.Entity<Bill>()
-                .HasMany(b => b.BillProducts)
-                .WithRequired(bp => bp.Bill)
-                .HasForeignKey(bp => bp.BillId)
-                .WillCascadeOnDelete(true);
+            _context = new DatabaseHelper();
+        }
 
-            modelBuilder.Entity<Product>()
-                .HasMany(p => p.BillProducts)
-                .WithRequired(bp => bp.Product)
-                .HasForeignKey(bp => bp.ProductId)
-                .WillCascadeOnDelete(false);
+        public Bill Add(Bill bill)
+        {
+            _context.Bills.Add(bill);
+            _context.SaveChanges(); // ⭐ ضروری
+            return bill;
+        }
 
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.Bills)
-                .WithRequired(b => b.User)
-                .HasForeignKey(b => b.UserId)
-                .WillCascadeOnDelete(false);
+        public void Delete(int id)
+        {
+            var bill = _context.Bills.Find(id);
+            if (bill != null)
+            {
+                _context.Bills.Remove(bill);
+                _context.SaveChanges();
+            }
+        }
 
-            base.OnModelCreating(modelBuilder);
+        public IEnumerable<Bill> GetAll()
+        {
+            return _context.Bills.ToList();
+        }
+
+        public Bill GetById(int id)
+        {
+            return _context.Bills.FirstOrDefault(b => b.BillId == id);
+        }
+
+        public void Update(Bill bill)
+        {
+            _context.Bills.AddOrUpdate(bill);
+            _context.SaveChanges(); // ⭐ ضروری
         }
     }
 }

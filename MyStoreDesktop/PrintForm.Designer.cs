@@ -1,4 +1,6 @@
-﻿namespace MyStoreDesktop
+﻿using System;
+
+namespace MyStoreDesktop
 {
     partial class PrintForm
     {
@@ -233,6 +235,8 @@
             this.PerformLayout();
 
         }
+
+        
 
         #endregion
 

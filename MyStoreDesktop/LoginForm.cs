@@ -49,6 +49,9 @@ namespace MyStoreDesktop
             var dbPassword = System.Text.Encoding.UTF8.GetString(user.PasswordHash);
             if (dbPassword == password)
             {
+                SessionManager.UserId = user.Id;
+                SessionManager.UserName = user.UserName;
+                SessionManager.Role = user.Role;
                 // Handle Remember Me functionality
                 if (chkRememberMe.Checked)
                 {

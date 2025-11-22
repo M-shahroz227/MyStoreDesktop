@@ -1,97 +1,98 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using MyStoreDesktop.Models;
+using System;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MyStoreDesktop
 {
     public partial class PrintForm : Form
     {
-        private DataTable _billData;
-        private string _txtGrandTotal;
-        public PrintForm()
+        private Bill _bill;
+
+        public PrintForm(Bill bill)
         {
             InitializeComponent();
+            _bill = bill;
+            LoadBillInfo();
         }
 
-
-        public PrintForm(DataTable billData, string txtGrandTotal)
+        private void LoadBillInfo()
         {
-            InitializeComponent();
-            _billData = billData;
-            dataGridView.DataSource = _billData;
-            _txtGrandTotal = txtGrandTotal;  
-            this.txtGrandTotal.Text = _txtGrandTotal; 
+            // -------- Customer Info --------
+            txtName.Text = _bill.CustomerInvoice.CustomerName;
+            txtPhone.Text = _bill.CustomerInvoice.CustomerPhone;
+            txtAddress.Text = _bill.CustomerInvoice.CustomerAddress;
+            txtDate.Text = _bill.BillDate.ToShortDateString();
+            txtGrandTotal.Text = _bill.GrandTotal.ToString();
 
-
+            // -------- Product Table Fill --------
+            dataGridView.DataSource = _bill.BillProducts
+                .Select(x => new
+                {
+                    x.ProductId,
+                    Title = x.Title,
+                    Qty = x.Quantity,
+                    Price = x.ItemPrice,
+                    Total = x.TotalPrice
+                })
+                .ToList();
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
             PrintDocument printDocument = new PrintDocument();
-            printDocument.PrintPage += new PrintPageEventHandler(PrintDocument_PrintPage);
+            printDocument.PrintPage += PrintDocument_PrintPage;
 
-            PrintPreviewDialog printPreview = new PrintPreviewDialog();
-            printPreview.Document = printDocument;
-            printPreview.ShowDialog();
+            PrintPreviewDialog preview = new PrintPreviewDialog();
+            preview.Document = printDocument;
+            preview.ShowDialog();
         }
+
         private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
-            int y = 20; // Start print from top
+            int y = 20;
 
             Font headerFont = new Font("Arial", 18, FontStyle.Bold);
             Font subFont = new Font("Arial", 12, FontStyle.Regular);
 
-            // ******** HEADER ********
+            // ---------- HEADER ----------
             e.Graphics.DrawString("My Store Invoice", headerFont, Brushes.Black, 250, y);
             y += 40;
 
-            // ******** CUSTOMER INFO ********
-            e.Graphics.DrawString("Customer Information:", new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 20, y);
+            // ---------- CUSTOMER INFO ----------
+            e.Graphics.DrawString("Customer Information", new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 20, y);
             y += 30;
 
-            e.Graphics.DrawString("Name: " + txtName.Text, subFont, Brushes.Black, 20, y);
+            e.Graphics.DrawString("Name: " + txtName.Text, subFont, Brushes.Black, 20, y); y += 25;
+            e.Graphics.DrawString("Phone: " + txtPhone.Text, subFont, Brushes.Black, 20, y); y += 25;
+            e.Graphics.DrawString("Date: " + txtDate.Text, subFont, Brushes.Black, 20, y); y += 25;
+            e.Graphics.DrawString("Address: " + txtAddress.Text, subFont, Brushes.Black, 20, y); y += 40;
+
+            // ---------- TABLE HEADER ----------
+            e.Graphics.DrawString(
+                "ProductID     ProductName     Qty     Price     Total",
+                new Font("Arial", 12, FontStyle.Bold),
+                Brushes.Black,
+                20,
+                y
+            );
             y += 25;
 
-            e.Graphics.DrawString("Phone: " + txtPhone.Text, subFont, Brushes.Black, 20, y);
-            y += 25;
-
-            e.Graphics.DrawString("Date: " + txtDate.Text, subFont, Brushes.Black, 20, y);
-            y += 25;
-
-            e.Graphics.DrawString("Address: " + txtAddress.Text, subFont, Brushes.Black, 20, y);
-            y += 40;
-
-            // ******** TABLE HEADER ********
-            e.Graphics.DrawString("ProductID    ProductName      Qty     Price    Discount   Tax    Total",
-                new Font("Arial", 12, FontStyle.Bold), Brushes.Black, 20, y);
-
-            y += 25;
-
-            // ******** LOOP DATA GRID VIEW ROWS ********
+            // ---------- PRODUCTS LOOP ----------
             foreach (DataGridViewRow row in dataGridView.Rows)
             {
                 if (row.IsNewRow) continue;
 
-                string productId = row.Cells["ProductId"].Value.ToString() ?? "";
-                string productName = row.Cells["ProductName"].Value.ToString() ?? "";
-                string qty = row.Cells["Quantity"].Value.ToString() ?? "";
-                string salePrice = row.Cells["SalePrice"].Value.ToString() ?? "";
-                string discount = row.Cells["Discount"].Value.ToString() ?? "";
-                string tax = row.Cells["Tax"].Value.ToString() ?? "";
-                string total = row.Cells["Total"].Value.ToString() ?? "";
-
+                string id = row.Cells["ProductId"].Value.ToString();
+                string name = row.Cells["Title"].Value.ToString();
+                string qty = row.Cells["Qty"].Value.ToString();
+                string price = row.Cells["Price"].Value.ToString();
+                string total = row.Cells["Total"].Value.ToString();
 
                 e.Graphics.DrawString(
-                    $"{productId}     {productName}     {qty}     {salePrice}     {discount}     {tax}     {total}",
+                    $"{id}     {name}     {qty}     {price}     {total}",
                     subFont,
                     Brushes.Black,
                     20,
@@ -103,14 +104,14 @@ namespace MyStoreDesktop
 
             y += 30;
 
-            // ******** GRAND TOTAL ********
-            e.Graphics.DrawString("Grand Total: " + _txtGrandTotal,
+            // ---------- GRAND TOTAL ----------
+            e.Graphics.DrawString(
+                "Grand Total: " + txtGrandTotal.Text,
                 new Font("Arial", 14, FontStyle.Bold),
                 Brushes.Black,
                 20,
-                y);
+                y
+            );
         }
-
-
     }
 }

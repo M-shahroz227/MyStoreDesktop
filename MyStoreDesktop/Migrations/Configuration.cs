@@ -92,7 +92,8 @@ namespace MyStoreDesktop.Migrations
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
                     Email = "admin@mystore.com",
-                    Phone = ""
+                    Phone = "",
+                    Role = "Administrator"
                 }
             );
 

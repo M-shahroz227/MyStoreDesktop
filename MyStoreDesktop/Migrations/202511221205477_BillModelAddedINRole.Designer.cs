@@ -7,13 +7,13 @@ namespace MyStoreDesktop.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class Total : IMigrationMetadata
+    public sealed partial class BillModelAddedINRole : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Total));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(BillModelAddedINRole));
         
         string IMigrationMetadata.Id
         {
-            get { return "202511121318266_Total"; }
+            get { return "202511221205477_BillModelAddedINRole"; }
         }
         
         string IMigrationMetadata.Source

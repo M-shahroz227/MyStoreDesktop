@@ -7,13 +7,13 @@ namespace MyStoreDesktop.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class AddTabless : IMigrationMetadata
+    public sealed partial class InitDB : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddTabless));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitDB));
         
         string IMigrationMetadata.Id
         {
-            get { return "202511111511410_AddTabless"; }
+            get { return "202511221157167_InitDB"; }
         }
         
         string IMigrationMetadata.Source

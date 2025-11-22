@@ -8,11 +8,11 @@ namespace MyStoreDesktop.Services.UserService
 {
     public class UserService : IUserService
     {
-        private readonly AppDbContext _context;
+        private readonly DatabaseHelper _context;
 
         public UserService()
         {
-            _context = new AppDbContext();
+            _context = new DatabaseHelper();
         }
 
         public IEnumerable<User> GetAll()

@@ -7,7 +7,7 @@ namespace MyStoreDesktop.Services.BillService
     {
         IEnumerable<Bill> GetAll();
         Bill GetById(int id);
-        void Add(Bill bill);
+         Bill Add(Bill bill);
         void Update(Bill bill);
         void Delete(int id);
     }

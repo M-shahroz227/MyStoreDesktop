@@ -88,29 +88,13 @@
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202511090732058_InitialCreate.cs" />
-    <Compile Include="Migrations\202511090732058_InitialCreate.Designer.cs">
-      <DependentUpon>202511090732058_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\202511221157167_InitDB.cs" />
+    <Compile Include="Migrations\202511221157167_InitDB.Designer.cs">
+      <DependentUpon>202511221157167_InitDB.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202511111249440_UpdateProductsTable.cs" />
-    <Compile Include="Migrations\202511111249440_UpdateProductsTable.Designer.cs">
-      <DependentUpon>202511111249440_UpdateProductsTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202511111511410_AddTabless.cs" />
-    <Compile Include="Migrations\202511111511410_AddTabless.Designer.cs">
-      <DependentUpon>202511111511410_AddTabless.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202511121318266_Total.cs" />
-    <Compile Include="Migrations\202511121318266_Total.Designer.cs">
-      <DependentUpon>202511121318266_Total.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202511141235322_ConfiguratonModelAdded.cs" />
-    <Compile Include="Migrations\202511141235322_ConfiguratonModelAdded.Designer.cs">
-      <DependentUpon>202511141235322_ConfiguratonModelAdded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202511190252366_Updated....cs" />
-    <Compile Include="Migrations\202511190252366_Updated....Designer.cs">
-      <DependentUpon>202511190252366_Updated....cs</DependentUpon>
+    <Compile Include="Migrations\202511221205477_BillModelAddedINRole.cs" />
+    <Compile Include="Migrations\202511221205477_BillModelAddedINRole.Designer.cs">
+      <DependentUpon>202511221205477_BillModelAddedINRole.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bill.cs" />
@@ -118,8 +102,10 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Configuration.cs" />
+    <Compile Include="Models\CustomerInvoice.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\QrTableData.cs" />
+    <Compile Include="Models\SessionManger.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="CategoryManagerForm.cs">
       <SubType>Form</SubType>
@@ -171,11 +157,15 @@
     <Compile Include="SalesForm.Designer.cs">
       <DependentUpon>SalesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\BillProductService\BillProductService.cs" />
+    <Compile Include="Services\BillProductService\IBillProductService.cs" />
     <Compile Include="Services\BillService\BillService.cs" />
     <Compile Include="Services\BillService\IBillService.cs" />
     <Compile Include="Services\ConfigurationService\ConfigurationService.cs" />
     <Compile Include="Services\ConfigurationService\IConfigurationService.cs" />
     <Compile Include="Services\CredentialManager.cs" />
+    <Compile Include="Services\CustomerInvoiceService\CustomerInvoiceService.cs" />
+    <Compile Include="Services\CustomerInvoiceService\ICustomerInvoiceService.cs" />
     <Compile Include="Services\ProductService\IProductService.cs" />
     <Compile Include="Services\ProductService\ProductService.cs" />
     <Compile Include="Services\QrTableDataService\IQrTableDataService.cs" />
@@ -200,23 +190,11 @@
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202511090732058_InitialCreate.resx">
-      <DependentUpon>202511090732058_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202511221157167_InitDB.resx">
+      <DependentUpon>202511221157167_InitDB.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202511111249440_UpdateProductsTable.resx">
-      <DependentUpon>202511111249440_UpdateProductsTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202511111511410_AddTabless.resx">
-      <DependentUpon>202511111511410_AddTabless.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202511121318266_Total.resx">
-      <DependentUpon>202511121318266_Total.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202511141235322_ConfiguratonModelAdded.resx">
-      <DependentUpon>202511141235322_ConfiguratonModelAdded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202511190252366_Updated....resx">
-      <DependentUpon>202511190252366_Updated....cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202511221205477_BillModelAddedINRole.resx">
+      <DependentUpon>202511221205477_BillModelAddedINRole.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PrintForm.resx">
       <DependentUpon>PrintForm.cs</DependentUpon>

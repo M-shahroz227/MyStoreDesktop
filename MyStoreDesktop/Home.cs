@@ -1,62 +1,61 @@
 ﻿using MyStoreDesktop.Models;
 using MyStoreDesktop.Services.ProductService;
+using MyStoreDesktop.Services.BillService;
+using MyStoreDesktop.Services.BillProductService;
+using MyStoreDesktop.Services.CustomerInvoiceService;
+using MyStoreDesktop.Data;
+
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using System.Diagnostics.Eventing.Reader;
 
 namespace MyStoreDesktop
 {
     public partial class Home : Form
     {
+        // Services
         private readonly ProductService _productService = new ProductService();
-        
-        
-        
+        private readonly BillService _billService = new BillService();
+        private readonly BillProductService _billProductService = new BillProductService();
+        private readonly CustomerInvoiceService _customerService = new CustomerInvoiceService();
 
-        // Value holders for totals
+        // Value holders
         private double _subtotal = 0;
-        private double _discountPercent = 0; // Example 10%
-        private double _taxPercent = 0;       // Example 5%
+        private double _discountPercent = 0;
+        private double _taxPercent = 0;
+
         public Home()
         {
             InitializeComponent();
             lstSuggestion.Visible = false;
 
-            // Setup grid when form loads
-            
             SetupGridButtons();
-
-            // Set default colors
             dgvAddToCard.DefaultCellStyle.ForeColor = Color.Black;
             dgvAddToCard.DefaultCellStyle.BackColor = Color.White;
             dgvAddToCard.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;
 
-            // Attach event for button clicks in grid
             dgvAddToCard.CellContentClick += dgvAddToCard_CellContentClick;
         }
 
-        // ======================== GRID SETUP ========================
-        
-
+        // ================= GRID SETUP =================
         private void SetupGridButtons()
         {
             DataGridViewButtonColumn deleteButton = new DataGridViewButtonColumn();
             deleteButton.Name = "Delete";
             deleteButton.HeaderText = "Delete";
             deleteButton.Text = "Delete";
-            deleteButton.DefaultCellStyle.SelectionBackColor= Color.IndianRed;
+            deleteButton.DefaultCellStyle.SelectionBackColor = Color.IndianRed;
             deleteButton.UseColumnTextForButtonValue = true;
-            dgvAddToCard.Columns.Add(deleteButton);
-        }
-        private void lblTaxValue_TextChanged_1(object sender, EventArgs e)
-        {
 
+            if (!dgvAddToCard.Columns.Contains("Delete"))
+                dgvAddToCard.Columns.Add(deleteButton);
         }
 
+        // ================= SEARCH =================
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             string search = txtSearch.Text.Trim().ToLower();
@@ -68,13 +67,12 @@ namespace MyStoreDesktop
             }
 
             var products = _productService.GetAll()
-                .Where(p =>
-                    p.Title.ToLower().Contains(search) ||
-                    (p.Model != null && p.Model.ToLower().Contains(search)) ||
-                    (p.Category != null && p.Category.Title.ToLower().Contains(search)) ||
-                    (p.ProductCode != null && p.ProductCode.ToLower().Equals(search)) ||
-                    (p.Company != null && p.Company.Title.ToLower().Contains(search)))
-                .ToList(); // full Product list
+                .Where(p => p.Title.ToLower().Contains(search)
+                         || (p.Model != null && p.Model.ToLower().Contains(search))
+                         || (p.Category != null && p.Category.Title.ToLower().Contains(search))
+                         || (p.ProductCode != null && p.ProductCode.ToLower().Equals(search))
+                         || (p.Company != null && p.Company.Title.ToLower().Contains(search)))
+                .ToList();
 
             lstSuggestion.DataSource = products;
             lstSuggestion.DisplayMember = "Title";
@@ -104,15 +102,16 @@ namespace MyStoreDesktop
                     int newQty = currentQty + 1;
 
                     row.Cells["Quantity"].Value = newQty;
-                    row.Cells["Total"].Value = newQty * product.SalePrice;
+                    row.Cells["Total"].Value = newQty * Convert.ToDouble(product.SalePrice);
 
                     UpdateTotals();
                     return;
                 }
             }
 
-            double total = (double)(product.SalePrice * 1);
-            dgvAddToCard.Rows.Add(product.ProductId, product.Title, 1, product.SalePrice,product.Discount, total);
+            double total = Convert.ToDouble(product.SalePrice);
+
+            dgvAddToCard.Rows.Add(product.ProductId, product.Title, 1, product.SalePrice, product.Discount, total);
 
             UpdateTotals();
         }
@@ -139,22 +138,24 @@ namespace MyStoreDesktop
             txtTaxValue.Text = tax.ToString("N2");
             lblTotalValue.Text = total.ToString("N2");
         }
+
+        private void UpdateRowTotal(int RowIndex)
+        {
+            DataGridViewRow row = dgvAddToCard.Rows[RowIndex];
+
+            double price = Convert.ToDouble(row.Cells["SalePrice"].Value);
+            double qty = Convert.ToDouble(row.Cells["Quantity"].Value);
+            double total = price * qty;
+
+            row.Cells["Total"].Value = total;
+
+            UpdateTotals();
+        }
+
         private void dgvAddToCard_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == dgvAddToCard.Columns["Quantity"].Index)
-            {
                 UpdateRowTotal(e.RowIndex);
-            }
-
-        }
-        private void UpdateRowTotal(int RowIndex)
-        {
-             DataGridViewRow row = dgvAddToCard.Rows[RowIndex];
-            double price = Convert.ToDouble(row.Cells["SalePrice"].Value);
-            double qunatity = Convert.ToDouble(row.Cells["Quantity"].Value);
-            double total = price * qunatity;
-            row.Cells["Total"].Value = total;
-            UpdateTotals();
         }
 
         private void dgvAddToCard_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -162,18 +163,10 @@ namespace MyStoreDesktop
             if (e.RowIndex < 0)
                 return;
 
-            string columnName = dgvAddToCard.Columns[e.ColumnIndex].Name;
-
-             if (columnName == "Delete")
+            if (dgvAddToCard.Columns[e.ColumnIndex].Name == "Delete")
             {
-                var confirm = MessageBox.Show("Are you sure you want to delete this item?",
-                    "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (confirm == DialogResult.Yes)
-                {
-                    dgvAddToCard.Rows.RemoveAt(e.RowIndex);
-                    UpdateTotals();
-                }
+                dgvAddToCard.Rows.RemoveAt(e.RowIndex);
+                UpdateTotals();
             }
         }
 
@@ -181,66 +174,98 @@ namespace MyStoreDesktop
         {
             Button btn = (Button)sender;
             txtSearch.Text += btn.Text;
-           
         }
+
+        // ================= BILL CREATION =================
         private void BillConfirm_Click(object sender, EventArgs e)
         {
-            DataTable billData = new DataTable();
+            if (dgvAddToCard.Rows.Count == 0)
+            {
+                MessageBox.Show("No items in cart!");
+                return;
+            }
 
-            billData.Columns.Add("ProductId");
-            billData.Columns.Add("ProductName");
-            billData.Columns.Add("Quantity");
-            billData.Columns.Add("SalePrice");
-            billData.Columns.Add("Discount");
-            billData.Columns.Add("Tax");
-            billData.Columns.Add("Total");
+            // ------- 1️⃣ Save Customer -------
+            var customer = new CustomerInvoice()
+            {
+                CustomerName = "Customer Name",
+                CustomerPhone = "Phone",
+                CustomerAddress = "Address"
+            };
+
+            customer = _customerService.Add(customer);
+
+            // ------- 2️⃣ Save Bill -------
+            decimal discount = 0;
+            decimal tax = 0;
+            decimal total = 0;
+            decimal subtotal = 0;
+            decimal grand = 0;
+
+            decimal.TryParse(lblDiscountValue.Text, out discount);
+            decimal.TryParse(txtTaxValue.Text, out tax);
+            decimal.TryParse(lblSubtotalValue.Text, out subtotal);
+            decimal.TryParse(lblTotalValue.Text, out total);
+            decimal.TryParse(lblTotalValue.Text, out grand);
+
+            var bill = new Bill()
+            {
+                UserId = SessionManager.UserId,
+                Role = SessionManager.Role,
+                CustomerInvoiceId = customer.Id,
+                BillDate = DateTime.Now,
+                CreatedDate = DateTime.Now,
+                OwnDate = DateTime.Now,
+                Discount = discount,
+                SalePrice = subtotal,
+                TotalAmount = total,
+                Tax = tax,
+                GrandTotal = grand,
+                PaymentMethod = "Cash"
+            };
+
+
+            bill = _billService.Add(bill);
+
+            // ------- 3️⃣ Save Bill Products -------
+            List<BillProduct> billProducts = new List<BillProduct>();
 
             foreach (DataGridViewRow row in dgvAddToCard.Rows)
             {
                 if (!row.IsNewRow)
                 {
-                    billData.Rows.Add(
-                        row.Cells["ProductId"].Value,
-                        row.Cells["Title"].Value,
-                        row.Cells["Quantity"].Value,
-                        row.Cells["SalePrice"].Value,
-                        row.Cells["Discount"].Value,
-                        "0",  // If tax per item nahi hai to 0
-                        row.Cells["Total"].Value
-                    );
+                    billProducts.Add(new BillProduct
+                    {
+                        BillId = bill.BillId,
+                        ProductId = Convert.ToInt32(row.Cells["ProductId"].Value),
+                        Title = row.Cells["Title"].Value.ToString(),
+                        Quantity = Convert.ToInt32(row.Cells["Quantity"].Value),
+                        ItemPrice = Convert.ToDecimal(row.Cells["SalePrice"].Value),
+                        TotalPrice = Convert.ToDecimal(row.Cells["Total"].Value)
+                    });
                 }
             }
 
-            // TOTAL VALUE PRINT KE LIYE
-            PrintForm form = new PrintForm(billData, lblTotalValue.Text);
-            form.Show();
+            _billProductService.AddRange(billProducts);
 
+            // ------- 4️⃣ Load Full Bill for Printing -------
+            using (var db = new DatabaseHelper())
+            {
+                var billData = db.Bills
+                    .Include("CustomerInvoice")
+                    .Include("BillProducts")
+                    .FirstOrDefault(x => x.BillId == bill.BillId);
+
+                PrintForm form = new PrintForm(billData);
+                form.Show();
+            }
         }
 
-
-
-
-
-
-
-        private void LoginPanelbtnHome(object sender, EventArgs e)
+        // ================= NAVIGATION =================
+        private void LoginPanelReports(object sender, EventArgs e)
         {
-            var home = new Home();
-            home.Show();
-            this.Hide();
-        }
-
-        private void LoginPanelProduct(object sender, EventArgs e)
-        {
-            var product = new ProductForm();
-            product.Show();
-            this.Hide();
-        }
-
-        private void LoginPanelUsers(object sender, EventArgs e)
-        {
-            var user = new UserForm();
-            user.Show();
+            var report = new ReportForm();
+            report.Show();
             this.Hide();
         }
 
@@ -251,25 +276,37 @@ namespace MyStoreDesktop
             this.Hide();
         }
 
-        private void LoginPanelReports(object sender, EventArgs e)
+        private void LoginPanelUsers(object sender, EventArgs e)
         {
-            var report = new ReportForm();
-            report.Show();
+            var user = new UserForm();
+            user.Show();
             this.Hide();
         }
+
+        private void LoginPanelProduct(object sender, EventArgs e)
+        {
+            var product = new ProductForm();
+            product.Show();
+            this.Hide();
+        }
+
+        private void LoginPanelbtnHome(object sender, EventArgs e)
+        {
+            var home = new Home();
+            home.Show();
+            this.Hide();
+        }
+
+        // ================= TAX / DISCOUNT EVENTS =================
         private void txtTaxValue_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter) 
+            if (e.KeyCode == Keys.Enter)
             {
-                double taxPercent;
-                if(double.TryParse(txtTaxValue.Text,out taxPercent))
-                {
+                if (double.TryParse(txtTaxValue.Text, out double taxPercent))
                     _taxPercent = taxPercent;
-                }
                 else
-                {
-                    _taxPercent= 0;
-                }
+                    _taxPercent = 0;
+
                 UpdateTotals();
                 e.SuppressKeyPress = true;
             }
@@ -277,21 +314,16 @@ namespace MyStoreDesktop
 
         private void lblDiscountValue_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
-                double discountPercent;
-                if(double.TryParse(lblDiscountValue.Text,out discountPercent))
-                {
+                if (double.TryParse(lblDiscountValue.Text, out double discountPercent))
                     _discountPercent = discountPercent;
-                }
-                else { 
-                    _discountPercent= 0;
-                }
+                else
+                    _discountPercent = 0;
+
                 UpdateTotals();
                 e.SuppressKeyPress = true;
             }
         }
     }
-
 }
-

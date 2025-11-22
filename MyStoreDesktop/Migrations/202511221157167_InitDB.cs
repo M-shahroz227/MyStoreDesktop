@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class InitDB : DbMigration
     {
         public override void Up()
         {
@@ -14,6 +14,9 @@
                         BillProductId = c.Int(nullable: false, identity: true),
                         BillId = c.Int(nullable: false),
                         ProductId = c.Int(nullable: false),
+                        Title = c.String(),
+                        SalePrice = c.Double(nullable: false),
+                        Total = c.Double(nullable: false),
                         Quantity = c.Int(nullable: false),
                         Amount = c.Decimal(nullable: false, precision: 18, scale: 2),
                         ItemPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
@@ -31,6 +34,7 @@
                     {
                         BillId = c.Int(nullable: false, identity: true),
                         UserId = c.Int(nullable: false),
+                        CustomerInvoiceId = c.Int(nullable: false),
                         BillDate = c.DateTime(nullable: false),
                         CreatedDate = c.DateTime(nullable: false),
                         OwnDate = c.DateTime(nullable: false),
@@ -42,8 +46,21 @@
                         PaymentMethod = c.String(maxLength: 50),
                     })
                 .PrimaryKey(t => t.BillId)
+                .ForeignKey("dbo.CustomerInvoices", t => t.CustomerInvoiceId, cascadeDelete: true)
                 .ForeignKey("dbo.Users", t => t.UserId)
-                .Index(t => t.UserId);
+                .Index(t => t.UserId)
+                .Index(t => t.CustomerInvoiceId);
+            
+            CreateTable(
+                "dbo.CustomerInvoices",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        CustomerName = c.String(),
+                        CustomerPhone = c.String(),
+                        CustomerAddress = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Users",
@@ -55,6 +72,7 @@
                         PasswordSalt = c.Binary(nullable: false),
                         Email = c.String(maxLength: 150),
                         Phone = c.String(maxLength: 20),
+                        Role = c.String(maxLength: 50),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -63,13 +81,15 @@
                 c => new
                     {
                         ProductId = c.Int(nullable: false, identity: true),
-                        QrCode = c.String(maxLength: 255),
+                        ProductCode = c.String(maxLength: 255),
+                        CodeType = c.Int(nullable: false),
                         Title = c.String(nullable: false, maxLength: 200),
                         CompanyId = c.Int(nullable: false),
                         Model = c.String(),
                         Quantity = c.Int(nullable: false),
                         SalePrice = c.Decimal(nullable: false, precision: 18, scale: 2),
                         PurchasePrice = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Total = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Discount = c.Decimal(nullable: false, precision: 18, scale: 2),
                         CategoryId = c.Int(nullable: false),
                         UrlImage = c.String(),
@@ -102,6 +122,18 @@
                 .PrimaryKey(t => t.CompanyId);
             
             CreateTable(
+                "dbo.Configurations",
+                c => new
+                    {
+                        ConfigId = c.Int(nullable: false, identity: true),
+                        Key = c.String(),
+                        Value = c.String(),
+                        CreatedAt = c.DateTime(nullable: false),
+                        UpdatedAt = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.ConfigId);
+            
+            CreateTable(
                 "dbo.QrTableDatas",
                 c => new
                     {
@@ -123,18 +155,22 @@
             DropForeignKey("dbo.Products", "CategoryId", "dbo.Categories");
             DropForeignKey("dbo.BillProducts", "ProductId", "dbo.Products");
             DropForeignKey("dbo.Bills", "UserId", "dbo.Users");
+            DropForeignKey("dbo.Bills", "CustomerInvoiceId", "dbo.CustomerInvoices");
             DropForeignKey("dbo.BillProducts", "BillId", "dbo.Bills");
             DropIndex("dbo.QrTableDatas", new[] { "ProductId" });
             DropIndex("dbo.Products", new[] { "CategoryId" });
             DropIndex("dbo.Products", new[] { "CompanyId" });
+            DropIndex("dbo.Bills", new[] { "CustomerInvoiceId" });
             DropIndex("dbo.Bills", new[] { "UserId" });
             DropIndex("dbo.BillProducts", new[] { "ProductId" });
             DropIndex("dbo.BillProducts", new[] { "BillId" });
             DropTable("dbo.QrTableDatas");
+            DropTable("dbo.Configurations");
             DropTable("dbo.Companies");
             DropTable("dbo.Categories");
             DropTable("dbo.Products");
             DropTable("dbo.Users");
+            DropTable("dbo.CustomerInvoices");
             DropTable("dbo.Bills");
             DropTable("dbo.BillProducts");
         }

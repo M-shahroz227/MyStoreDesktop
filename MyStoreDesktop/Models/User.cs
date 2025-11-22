@@ -22,6 +22,8 @@ namespace MyStoreDesktop.Models
 
         [MaxLength(20)]
         public string Phone { get; set; }
+        [MaxLength(50)]
+        public string Role { get; set; }
 
         public virtual ICollection<Bill> Bills { get; set; } = new HashSet<Bill>();
     }

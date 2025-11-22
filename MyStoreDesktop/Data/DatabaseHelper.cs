@@ -19,6 +19,8 @@ namespace MyStoreDesktop.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Configuration> Configurations { get; set; }
+       public DbSet<CustomerInvoice> CustomerInvoices { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             // Bill → BillProducts (1-Many)
