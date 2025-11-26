@@ -12,8 +12,12 @@ namespace MyStoreDesktop.Models
 
         [ForeignKey("User")]
         public int UserId { get; set; }
-        [ForeignKey("CustomerInvoice")]
+
         public int CustomerInvoiceId { get; set; }
+
+        [ForeignKey("CustomerInvoiceId")]
+        public CustomerInvoice CustomerInvoice { get; set; }
+
         public string Role { get; set; }
         public DateTime BillDate { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -29,7 +33,6 @@ namespace MyStoreDesktop.Models
         public string PaymentMethod { get; set; }
 
         public virtual User User { get; set; }
-        public CustomerInvoice CustomerInvoice { get; set; }
         public virtual ICollection<BillProduct> BillProducts { get; set; } = new HashSet<BillProduct>();
     }
 }

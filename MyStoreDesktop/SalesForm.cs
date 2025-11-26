@@ -1,12 +1,22 @@
-﻿using System;
+﻿using MyStoreDesktop.Services.BillService;
+using MyStoreDesktop.Services.BillProductService;
+using MyStoreDesktop.Models;
+using System;
 using System.Data;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Forms;
+using MyStoreDesktop.Services.CustomerInvoiceService;
 
 namespace MyStoreDesktop
 {
     public partial class SalesForm : Form
     {
+        private readonly BillService _billService = new BillService();
+        private readonly BillProductService _billProductService = new BillProductService();
+        private readonly CustomerInvoiceService _customerService = new CustomerInvoiceService();
+
+
         public SalesForm()
         {
             InitializeComponent();
@@ -14,7 +24,7 @@ namespace MyStoreDesktop
 
         private void SalesForm_Load(object sender, EventArgs e)
         {
-            // Setup Sales Grid
+            // Setup Grid
             dgvSales.Columns.Clear();
             dgvSales.Columns.Add("SaleID", "Sale ID");
             dgvSales.Columns.Add("Date", "Date");
@@ -29,14 +39,45 @@ namespace MyStoreDesktop
             };
             dgvSales.Columns.Add(viewBtn);
 
-            // Dummy Data Example (You can replace this with DB data)
-            dgvSales.Rows.Add(1, DateTime.Now.AddDays(-1).ToShortDateString(), "Ali", "2500");
-            dgvSales.Rows.Add(2, DateTime.Now.AddDays(-2).ToShortDateString(), "Ahmed", "1800");
-            dgvSales.Rows.Add(3, DateTime.Now.ToShortDateString(), "Zara", "3200");
+            LoadSalesFromDatabase();
+        }
+
+        // ================================
+        // REAL DATABASE SALES LOAD
+        // ================================
+        private void LoadSalesFromDatabase()
+        {
+            dgvSales.Rows.Clear();
+
+            var bills = _billService.GetAll().ToList();   // All bills
+            var customers = _customerService.GetAll().ToList(); // All customers
+
+            var result = bills.Select(b => new
+            {
+                b.BillId,
+                b.BillDate,
+                CustomerName = customers
+                    .FirstOrDefault(c => c.Id == b.CustomerInvoiceId)?.CustomerName ?? "Unknown",
+                b.GrandTotal
+            }).ToList();
+
+            foreach (var sale in result)
+            {
+                dgvSales.Rows.Add(
+                    sale.BillId,
+                    sale.BillDate.ToString("yyyy-MM-dd"),
+                    sale.CustomerName,
+                    sale.GrandTotal
+                );
+            }
 
             CalculateTotalSales();
         }
 
+
+        // ================================
+        // FILTER SALES BY DATE
+        // ================================
         private void btnFilter_Click(object sender, EventArgs e)
         {
             DateTime fromDate = dtpFrom.Value.Date;
@@ -64,14 +105,20 @@ namespace MyStoreDesktop
             lblTotalSalesValue.Text = total.ToString("C", CultureInfo.CurrentCulture);
         }
 
+        // ================================
+        // REFRESH BUTTON
+        // ================================
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in dgvSales.Rows)
                 row.Visible = true;
 
-            CalculateTotalSales();
+            LoadSalesFromDatabase();
         }
 
+        // ================================
+        // CALCULATE TOTAL SALES
+        // ================================
         private void CalculateTotalSales()
         {
             decimal total = 0m;
@@ -85,11 +132,25 @@ namespace MyStoreDesktop
             lblTotalSalesValue.Text = total.ToString("C", CultureInfo.CurrentCulture);
         }
 
+        // ================================
+        // VIEW BUTTON — SHOW BILL PRODUCTS
+        // ================================
         private void dgvSales_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && dgvSales.Columns[e.ColumnIndex].Name == "View")
             {
-                MessageBox.Show($"Viewing details for Sale ID: {dgvSales.Rows[e.RowIndex].Cells["SaleID"].Value}");
+                int billId = Convert.ToInt32(dgvSales.Rows[e.RowIndex].Cells["SaleID"].Value);
+
+                var products = _billProductService.GetByBillId(billId);
+
+                string message = "Bill Products:\n\n";
+
+                foreach (var item in products)
+                {
+                    message += $"{item.Title}   x {item.Quantity}   = {item.SalePrice}\n";
+                }
+
+                MessageBox.Show(message, "Sale Details");
             }
         }
     }

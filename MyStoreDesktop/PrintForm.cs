@@ -1,4 +1,5 @@
 ﻿using MyStoreDesktop.Models;
+using MyStoreDesktop.Services.BillService;
 using System;
 using System.Drawing;
 using System.Drawing.Printing;
@@ -43,75 +44,100 @@ namespace MyStoreDesktop
         private void btnPrint_Click(object sender, EventArgs e)
         {
             PrintDocument printDocument = new PrintDocument();
+
+            // Set Thermal Printer Page Size (80mm)
+            printDocument.DefaultPageSettings.PaperSize = new PaperSize("Receipt", 300, 1000);
+
             printDocument.PrintPage += PrintDocument_PrintPage;
 
             PrintPreviewDialog preview = new PrintPreviewDialog();
             preview.Document = printDocument;
+
+            // Fix Preview Window Size
+            preview.Width = 450;   // small width
+            preview.Height = 700;  // tall receipt style
+            preview.StartPosition = FormStartPosition.CenterScreen;
+
+            // Fix Zoom
+            ((Form)preview).WindowState = FormWindowState.Normal;
+            preview.PrintPreviewControl.Zoom = 1.0;  // 100% exact size
+
             preview.ShowDialog();
         }
 
+
         private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
-            int y = 20;
+            int y = 10;
+            int left = 10;
 
-            Font headerFont = new Font("Arial", 18, FontStyle.Bold);
-            Font subFont = new Font("Arial", 12, FontStyle.Regular);
+            Font big = new Font("Consolas", 14, FontStyle.Bold);
+            Font normal = new Font("Consolas", 10, FontStyle.Regular);
 
             // ---------- HEADER ----------
-            e.Graphics.DrawString("My Store Invoice", headerFont, Brushes.Black, 250, y);
-            y += 40;
-
-            // ---------- CUSTOMER INFO ----------
-            e.Graphics.DrawString("Customer Information", new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 20, y);
+            e.Graphics.DrawString("MY STORE", big, Brushes.Black, left + 70, y);
             y += 30;
 
-            e.Graphics.DrawString("Name: " + txtName.Text, subFont, Brushes.Black, 20, y); y += 25;
-            e.Graphics.DrawString("Phone: " + txtPhone.Text, subFont, Brushes.Black, 20, y); y += 25;
-            e.Graphics.DrawString("Date: " + txtDate.Text, subFont, Brushes.Black, 20, y); y += 25;
-            e.Graphics.DrawString("Address: " + txtAddress.Text, subFont, Brushes.Black, 20, y); y += 40;
+            e.Graphics.DrawString("---------------------------------------", normal, Brushes.Black, left, y);
+            y += 20;
 
-            // ---------- TABLE HEADER ----------
-            e.Graphics.DrawString(
-                "ProductID     ProductName     Qty     Price     Total",
-                new Font("Arial", 12, FontStyle.Bold),
-                Brushes.Black,
-                20,
-                y
-            );
-            y += 25;
+            // ---------- CUSTOMER INFO ----------
+            e.Graphics.DrawString($"Customer: {txtName.Text}", normal, Brushes.Black, left, y); y += 20;
+            e.Graphics.DrawString($"Phone:    {txtPhone.Text}", normal, Brushes.Black, left, y); y += 20;
+            e.Graphics.DrawString($"Date:     {txtDate.Text}", normal, Brushes.Black, left, y); y += 25;
+            e.Graphics.DrawString($"Address:    {txtAddress.Text}", normal, Brushes.Black, left, y); y += 20;
 
-            // ---------- PRODUCTS LOOP ----------
+            e.Graphics.DrawString("---------------------------------------", normal, Brushes.Black, left, y);
+            y += 20;
+
+            // ---------- COLUMN HEADERS ----------
+            e.Graphics.DrawString("Item        Qty   Price   Total", normal, Brushes.Black, left, y);
+            y += 20;
+
+            e.Graphics.DrawString("---------------------------------------", normal, Brushes.Black, left, y);
+            y += 20;
+
+            // ---------- PRODUCTS ----------
             foreach (DataGridViewRow row in dataGridView.Rows)
             {
                 if (row.IsNewRow) continue;
 
-                string id = row.Cells["ProductId"].Value.ToString();
                 string name = row.Cells["Title"].Value.ToString();
                 string qty = row.Cells["Qty"].Value.ToString();
                 string price = row.Cells["Price"].Value.ToString();
                 string total = row.Cells["Total"].Value.ToString();
 
-                e.Graphics.DrawString(
-                    $"{id}     {name}     {qty}     {price}     {total}",
-                    subFont,
-                    Brushes.Black,
-                    20,
-                    y
-                );
+                e.Graphics.DrawString($"{name}", normal, Brushes.Black, left, y);
+                y += 15;
 
-                y += 22;
+                e.Graphics.DrawString($"          {qty}     {price}     {total}", normal, Brushes.Black, left, y);
+                y += 20;
             }
 
-            y += 30;
+            e.Graphics.DrawString("---------------------------------------", normal, Brushes.Black, left, y);
+            y += 20;
 
-            // ---------- GRAND TOTAL ----------
-            e.Graphics.DrawString(
-                "Grand Total: " + txtGrandTotal.Text,
-                new Font("Arial", 14, FontStyle.Bold),
-                Brushes.Black,
-                20,
-                y
-            );
+            // ---------- TOTAL ----------
+            e.Graphics.DrawString($"Grand Total: {txtGrandTotal.Text}", big, Brushes.Black, left, y);
+            y += 40;
+
+            e.Graphics.DrawString("Thank you for shopping!", normal, Brushes.Black, left + 50, y);
+        }
+
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            // Update bill object from textbox
+            _bill.CustomerInvoice.CustomerName = txtName.Text;
+            _bill.CustomerInvoice.CustomerPhone = txtPhone.Text;
+            _bill.CustomerInvoice.CustomerAddress = txtAddress.Text;
+
+            // Save to database
+            BillService service = new BillService();
+            service.UpdateCustomerInfo(_bill);
+
+            MessageBox.Show("Customer information updated successfully!");
         }
     }
+    
 }

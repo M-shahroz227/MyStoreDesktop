@@ -120,6 +120,7 @@
             this.btnGenerate.TabIndex = 7;
             this.btnGenerate.Text = "📊 Generate Report";
             this.btnGenerate.UseVisualStyleBackColor = false;
+            this.btnGenerate.Click += new System.EventHandler(this.BtnGenerate_Click);
             // 
             // dgvReports
             // 

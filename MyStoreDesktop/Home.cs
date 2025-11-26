@@ -249,52 +249,44 @@ namespace MyStoreDesktop
             _billProductService.AddRange(billProducts);
 
             // ------- 4️⃣ Load Full Bill for Printing -------
-            using (var db = new DatabaseHelper())
-            {
-                var billData = db.Bills
-                    .Include("CustomerInvoice")
-                    .Include("BillProducts")
-                    .FirstOrDefault(x => x.BillId == bill.BillId);
-
-                PrintForm form = new PrintForm(billData);
-                form.Show();
-            }
+              var BillData = _billService.GetBillWithDetails(bill.BillId);
+            PrintForm printForm = new PrintForm(BillData);
+            printForm.ShowDialog();
         }
-
         // ================= NAVIGATION =================
         private void LoginPanelReports(object sender, EventArgs e)
         {
             var report = new ReportForm();
             report.Show();
-            this.Hide();
+            
         }
 
         private void LoginPanelSales(object sender, EventArgs e)
         {
             var sales = new SalesForm();
             sales.Show();
-            this.Hide();
+            
         }
 
         private void LoginPanelUsers(object sender, EventArgs e)
         {
             var user = new UserForm();
             user.Show();
-            this.Hide();
+            
         }
 
         private void LoginPanelProduct(object sender, EventArgs e)
         {
             var product = new ProductForm();
             product.Show();
-            this.Hide();
+           
         }
 
         private void LoginPanelbtnHome(object sender, EventArgs e)
         {
             var home = new Home();
             home.Show();
-            this.Hide();
+           
         }
 
         // ================= TAX / DISCOUNT EVENTS =================

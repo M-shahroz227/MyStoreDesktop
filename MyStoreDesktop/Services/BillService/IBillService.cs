@@ -10,5 +10,8 @@ namespace MyStoreDesktop.Services.BillService
          Bill Add(Bill bill);
         void Update(Bill bill);
         void Delete(int id);
+        Bill GetBillWithDetails(int billId);
+       void UpdateCustomerInfo(Bill updatedBill);
+
     }
 }
