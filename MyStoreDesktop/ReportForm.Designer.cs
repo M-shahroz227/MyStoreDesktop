@@ -152,9 +152,9 @@
             this.lblTotalSalesValue.ForeColor = System.Drawing.Color.Green;
             this.lblTotalSalesValue.Location = new System.Drawing.Point(780, 500);
             this.lblTotalSalesValue.Name = "lblTotalSalesValue";
-            this.lblTotalSalesValue.Size = new System.Drawing.Size(50, 21);
+            this.lblTotalSalesValue.Size = new System.Drawing.Size(41, 21);
             this.lblTotalSalesValue.TabIndex = 10;
-            this.lblTotalSalesValue.Text = "$0.00";
+            this.lblTotalSalesValue.Text = "0.00";
             // 
             // lblTotalTaxText
             // 
@@ -173,9 +173,9 @@
             this.lblTotalTaxValue.ForeColor = System.Drawing.Color.Red;
             this.lblTotalTaxValue.Location = new System.Drawing.Point(780, 540);
             this.lblTotalTaxValue.Name = "lblTotalTaxValue";
-            this.lblTotalTaxValue.Size = new System.Drawing.Size(50, 21);
+            this.lblTotalTaxValue.Size = new System.Drawing.Size(41, 21);
             this.lblTotalTaxValue.TabIndex = 12;
-            this.lblTotalTaxValue.Text = "$0.00";
+            this.lblTotalTaxValue.Text = "0.00";
             // 
             // btnPrint
             // 
