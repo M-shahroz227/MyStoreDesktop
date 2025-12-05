@@ -3,6 +3,7 @@ using MyStoreDesktop.Models;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 
 namespace MyStoreDesktop.Services.BillProductService
 {
@@ -39,5 +40,13 @@ namespace MyStoreDesktop.Services.BillProductService
         {
             return _DatabaseHelper.BillProducts.ToList();
         }
+        public List<BillProduct> GetBillProductsByBillId(int billId)
+        {
+            return _DatabaseHelper.BillProducts
+                .Include(bp => bp.Product)     // Product table ka FK relation
+                .Where(bp => bp.BillId == billId)
+                .ToList();
+        }
+
     }
 }

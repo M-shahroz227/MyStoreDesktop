@@ -1,13 +1,26 @@
-﻿using System;
+﻿using MyStoreDesktop.Models;
+using MyStoreDesktop.Services.BillProductService;
+using MyStoreDesktop.Services.BillService;
+using MyStoreDesktop.Services.CustomerInvoiceService;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Forms;
+using System.Drawing.Printing;
 
 namespace MyStoreDesktop
 {
     public partial class ReportForm : Form
     {
+        private readonly BillService _billService = new BillService();
+        private readonly BillProductService _billProductService = new BillProductService();
+        private readonly CustomerInvoiceService _customerService = new CustomerInvoiceService();
+
+        private int selectedBillId; // Store selected bill id
+
         public ReportForm()
         {
             InitializeComponent();
@@ -15,24 +28,39 @@ namespace MyStoreDesktop
 
         private void ReportForm_Load(object sender, EventArgs e)
         {
-            // Setup report type combo box
             cmbReportType.Items.AddRange(new string[] { "Daily", "Monthly", "Yearly" });
             cmbReportType.SelectedIndex = 0;
 
             SetupReportGrid();
         }
 
-        // ================= GRID SETUP =================
         private void SetupReportGrid()
         {
+            
             dgvReports.Columns.Clear();
+
+            // Hidden BillId column
+            var billIdColumn = new DataGridViewTextBoxColumn
+            {
+                Name = "BillId",
+                HeaderText = "BillId",
+                Visible = false
+            };
+            dgvReports.Columns.Add(billIdColumn);
+
             dgvReports.Columns.Add("Date", "Date");
             dgvReports.Columns.Add("SalesCount", "No. of Sales");
             dgvReports.Columns.Add("TotalSales", "Total Sales");
             dgvReports.Columns.Add("TotalTax", "Total Tax");
+
+            
+
+            dgvReports.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
+            dgvReports.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+
+            
         }
 
-        // ================= GENERATE REPORT =================
         private void BtnGenerate_Click(object sender, EventArgs e)
         {
             GenerateReport();
@@ -41,100 +69,117 @@ namespace MyStoreDesktop
         public void GenerateReport()
         {
             dgvReports.Rows.Clear();
-            Random rnd = new Random();
 
             DateTime start = dtpFrom.Value.Date;
             DateTime end = dtpTo.Value.Date;
 
+            var bills = _billService.GetAll()
+                .Where(b => b.BillDate.Date >= start && b.BillDate.Date <= end)
+                .ToList();
+
             decimal grandTotalSales = 0m;
             decimal grandTotalTax = 0m;
 
-            for (DateTime d = start; d <= end; d = d.AddDays(1))
-            {
-                decimal sales = rnd.Next(1000, 5000);
-                decimal tax = sales * 0.10m;
+            IEnumerable<IGrouping<string, Bill>> groupedData = null;
 
-                grandTotalSales += sales;
-                grandTotalTax += tax;
+            switch (cmbReportType.SelectedItem.ToString())
+            {
+                case "Daily":
+                    groupedData = bills.GroupBy(b => b.BillDate.ToString("yyyy-MM-dd"));
+                    break;
+                case "Monthly":
+                    groupedData = bills.GroupBy(b => b.BillDate.ToString("yyyy-MM"));
+                    break;
+                case "Yearly":
+                    groupedData = bills.GroupBy(b => b.BillDate.ToString("yyyy"));
+                    break;
+            }
+
+            foreach (var group in groupedData)
+            {
+                int count = group.Count();
+                decimal totalSales = group.Sum(b => b.GrandTotal);
+                decimal totalTax = group.Sum(b => b.Tax);
+
+                var firstBill = group.First(); // Get any bill for BillId
 
                 dgvReports.Rows.Add(
-                    d.ToShortDateString(),
-                    rnd.Next(5, 20),
-                    sales.ToString("0.00"),
-                    tax.ToString("0.00")
+                    firstBill.BillId,        // Hidden BillId
+                    group.Key,
+                    count,
+                    totalSales.ToString("0.00"),
+                    totalTax.ToString("0.00"),
+                    "View"
                 );
+
+                grandTotalSales += totalSales;
+                grandTotalTax += totalTax;
             }
 
             lblTotalSalesValue.Text = grandTotalSales.ToString("C", CultureInfo.CurrentCulture);
             lblTotalTaxValue.Text = grandTotalTax.ToString("C", CultureInfo.CurrentCulture);
         }
 
-        // ================= PRINT REPORT =================
-        public void PrintReport()
+        private void btnPrint_Click(object sender, EventArgs e)
         {
-            PrintDocument printDocument = new PrintDocument();
-            printDocument.PrintPage += PrintDocument_PrintPage;
-
-            PrintPreviewDialog preview = new PrintPreviewDialog
-            {
-                Document = printDocument
-            };
-            preview.ShowDialog();
+            PrintReport();
         }
-
-        private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
+        private void PrintReport()
         {
-            int y = 40;
-            int left = 40;
+            PrintDocument printDoc = new PrintDocument();
+            printDoc.PrintPage += PrintDoc_PrintPage;
 
-            Font headerFont = new Font("Arial", 20, FontStyle.Bold);
-            Font titleFont = new Font("Arial", 12, FontStyle.Bold);
-            Font normalFont = new Font("Arial", 11);
+            PrintPreviewDialog previewDialog = new PrintPreviewDialog
+            {
+                Document = printDoc,
+                Width = 800,
+                Height = 600
+            };
 
-            // ===== HEADER =====
-            e.Graphics.DrawString("Sales Report", headerFont, Brushes.Black, left, y);
-            y += 40;
+            previewDialog.ShowDialog();
+        }
+        private void PrintDoc_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            int startX = 20;
+            int startY = 20;
+            int offsetY = 0;
 
-            e.Graphics.DrawString($"Report Type: {cmbReportType.SelectedItem}", normalFont, Brushes.Black, left, y);
-            y += 20;
+            Font headerFont = new Font("Arial", 14, FontStyle.Bold);
+            Font regularFont = new Font("Arial", 10);
 
-            e.Graphics.DrawString($"From: {dtpFrom.Value:dd-MM-yyyy}   To: {dtpTo.Value:dd-MM-yyyy}", normalFont, Brushes.Black, left, y);
-            y += 30;
+            // Title
+            g.DrawString("Sales Report", headerFont, Brushes.Black, startX, startY + offsetY);
+            offsetY += 40;
 
-            // ===== TABLE HEADER =====
-            e.Graphics.DrawString("Date", titleFont, Brushes.Black, left, y);
-            e.Graphics.DrawString("Sales Count", titleFont, Brushes.Black, left + 150, y);
-            e.Graphics.DrawString("Total Sales", titleFont, Brushes.Black, left + 300, y);
-            e.Graphics.DrawString("Total Tax", titleFont, Brushes.Black, left + 450, y);
+            // Column Headers
+            g.DrawString("Date", regularFont, Brushes.Black, startX, startY + offsetY);
+            g.DrawString("No. of Sales", regularFont, Brushes.Black, startX + 150, startY + offsetY);
+            g.DrawString("Total Sales", regularFont, Brushes.Black, startX + 300, startY + offsetY);
+            g.DrawString("Total Tax", regularFont, Brushes.Black, startX + 450, startY + offsetY);
+            offsetY += 25;
 
-            y += 25;
-
-            e.Graphics.DrawLine(Pens.Black, left, y, left + 520, y);
-            y += 10;
-
-            // ===== TABLE ROWS =====
+            // Draw each row from dgvReports
             foreach (DataGridViewRow row in dgvReports.Rows)
             {
-                if (row.IsNewRow) continue;
-
-                e.Graphics.DrawString(row.Cells["Date"].Value.ToString(), normalFont, Brushes.Black, left, y);
-                e.Graphics.DrawString(row.Cells["SalesCount"].Value.ToString(), normalFont, Brushes.Black, left + 150, y);
-                e.Graphics.DrawString(row.Cells["TotalSales"].Value.ToString(), normalFont, Brushes.Black, left + 300, y);
-                e.Graphics.DrawString(row.Cells["TotalTax"].Value.ToString(), normalFont, Brushes.Black, left + 450, y);
-
-                y += 22;
+                if (!row.IsNewRow)
+                {
+                    g.DrawString(row.Cells["Date"].Value?.ToString(), regularFont, Brushes.Black, startX, startY + offsetY);
+                    g.DrawString(row.Cells["SalesCount"].Value?.ToString(), regularFont, Brushes.Black, startX + 150, startY + offsetY);
+                    g.DrawString(row.Cells["TotalSales"].Value?.ToString(), regularFont, Brushes.Black, startX + 300, startY + offsetY);
+                    g.DrawString(row.Cells["TotalTax"].Value?.ToString(), regularFont, Brushes.Black, startX + 450, startY + offsetY);
+                    offsetY += 25;
+                }
             }
 
-            y += 20;
-            e.Graphics.DrawLine(Pens.Black, left, y, left + 520, y);
-            y += 20;
-
-            // ===== TOTALS =====
-            e.Graphics.DrawString($"Grand Total Sales: {lblTotalSalesValue.Text}", titleFont, Brushes.Black, left, y);
-            y += 25;
-
-            e.Graphics.DrawString($"Grand Total Tax: {lblTotalTaxValue.Text}", titleFont, Brushes.Black, left, y);
+            // Print grand totals
+            offsetY += 20;
+            g.DrawString("Grand Total Sales: " + lblTotalSalesValue.Text, headerFont, Brushes.Black, startX, startY + offsetY);
+            offsetY += 25;
+            g.DrawString("Grand Total Tax: " + lblTotalTaxValue.Text, headerFont, Brushes.Black, startX, startY + offsetY);
         }
 
+
     }
+
 }

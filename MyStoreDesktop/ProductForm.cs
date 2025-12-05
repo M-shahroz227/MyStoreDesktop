@@ -337,8 +337,8 @@ namespace MyStoreDesktop
                 txtSalePrice.Text = row.Cells["SalePrice"].Value.ToString();
                 txtPurchasePrice.Text = row.Cells["PurchasePrice"].Value.ToString();
                 txtDiscount.Text = row.Cells["Discount"].Value.ToString();
-                txtModel.Text = row.Cells["Model"].Value.ToString();
-                txtDescription.Text = row.Cells["Description"].Value.ToString();
+                txtModel.Text = row.Cells["Model"].Value?.ToString()??"";
+                txtDescription.Text = row.Cells["Description"].Value?.ToString()??"";
 
                 if (row.Cells["CategoryId"].Value != null && cboCategory.DataSource is IEnumerable<Category> categoryList)
                 {

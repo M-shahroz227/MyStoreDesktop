@@ -11,11 +11,12 @@ namespace MyStoreDesktop
     public partial class PrintForm : Form
     {
         private Bill _bill;
-
-        public PrintForm(Bill bill)
+        private Home _callerForm;
+        public PrintForm(Bill bill,Home callerForm)
         {
             InitializeComponent();
             _bill = bill;
+            _callerForm = callerForm;
             LoadBillInfo();
         }
 
@@ -132,11 +133,43 @@ namespace MyStoreDesktop
             _bill.CustomerInvoice.CustomerPhone = txtPhone.Text;
             _bill.CustomerInvoice.CustomerAddress = txtAddress.Text;
 
+            DialogResult result = MessageBox.Show("Do you want Print?", "Confirmation", MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                PrintDocument printDocument = new PrintDocument();
+
+                // Set Thermal Printer Page Size (80mm)
+                printDocument.DefaultPageSettings.PaperSize = new PaperSize("Receipt", 300, 1000);
+
+                printDocument.PrintPage += PrintDocument_PrintPage;
+
+                PrintPreviewDialog preview = new PrintPreviewDialog();
+                preview.Document = printDocument;
+
+                // Fix Preview Window Size
+                preview.Width = 450;   // small width
+                preview.Height = 700;  // tall receipt style
+                preview.StartPosition = FormStartPosition.CenterScreen;
+
+                // Fix Zoom
+                ((Form)preview).WindowState = FormWindowState.Normal;
+                preview.PrintPreviewControl.Zoom = 1.0;  // 100% exact size
+                preview.ShowDialog();
+               
+               
+                
+               
+            }
+            
             // Save to database
             BillService service = new BillService();
             service.UpdateCustomerInfo(_bill);
 
-            MessageBox.Show("Customer information updated successfully!");
+            _callerForm.ClearCart();
+
+            this.Close();
+
+
         }
     }
     

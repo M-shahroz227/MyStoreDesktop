@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace MyStoreDesktop
@@ -21,6 +22,9 @@ namespace MyStoreDesktop
             dgvUsers.Columns.Clear();
             dgvUsers.Columns.Add("Username", "Username");
             dgvUsers.Columns.Add("Role", "Role");
+            dgvUsers.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
+            dgvUsers.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            dgvUsers.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
 
             var editBtn = new DataGridViewButtonColumn()
             {

@@ -41,6 +41,7 @@
             this.lblTotalSalesValue = new System.Windows.Forms.Label();
             this.lblTotalTaxText = new System.Windows.Forms.Label();
             this.lblTotalTaxValue = new System.Windows.Forms.Label();
+            this.btnPrint = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReports)).BeginInit();
             this.SuspendLayout();
             // 
@@ -176,12 +177,24 @@
             this.lblTotalTaxValue.TabIndex = 12;
             this.lblTotalTaxValue.Text = "$0.00";
             // 
+            // btnPrint
+            // 
+            this.btnPrint.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPrint.Location = new System.Drawing.Point(913, 655);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(98, 35);
+            this.btnPrint.TabIndex = 13;
+            this.btnPrint.Text = "Print Invoice";
+            this.btnPrint.UseVisualStyleBackColor = true;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
+            // 
             // ReportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(1148, 749);
+            this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.lblTotalTaxValue);
             this.Controls.Add(this.lblTotalTaxText);
             this.Controls.Add(this.lblTotalSalesValue);
@@ -222,5 +235,6 @@
         private System.Windows.Forms.Label lblTotalSalesValue;
         private System.Windows.Forms.Label lblTotalTaxText;
         private System.Windows.Forms.Label lblTotalTaxValue;
+        private System.Windows.Forms.Button btnPrint;
     }
 }

@@ -30,8 +30,8 @@ namespace MyStoreDesktop
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.Reports = new System.Windows.Forms.Button();
             this.Sales = new System.Windows.Forms.Button();
@@ -40,6 +40,10 @@ namespace MyStoreDesktop
             this.btnHome = new System.Windows.Forms.Button();
             this.panelMainContent = new System.Windows.Forms.Panel();
             this.rightPanel = new System.Windows.Forms.Panel();
+            this.txtChange = new System.Windows.Forms.TextBox();
+            this.Change = new System.Windows.Forms.Label();
+            this.txtPayment = new System.Windows.Forms.TextBox();
+            this.Payment = new System.Windows.Forms.Label();
             this.lblTotalValue = new System.Windows.Forms.TextBox();
             this.lblDiscountValue = new System.Windows.Forms.TextBox();
             this.lblSubtotalValue = new System.Windows.Forms.TextBox();
@@ -178,6 +182,10 @@ namespace MyStoreDesktop
             // 
             // rightPanel
             // 
+            this.rightPanel.Controls.Add(this.txtChange);
+            this.rightPanel.Controls.Add(this.Change);
+            this.rightPanel.Controls.Add(this.txtPayment);
+            this.rightPanel.Controls.Add(this.Payment);
             this.rightPanel.Controls.Add(this.lblTotalValue);
             this.rightPanel.Controls.Add(this.lblDiscountValue);
             this.rightPanel.Controls.Add(this.lblSubtotalValue);
@@ -199,10 +207,48 @@ namespace MyStoreDesktop
             this.rightPanel.Controls.Add(this.lblTotal);
             this.rightPanel.Controls.Add(this.lblTax);
             this.rightPanel.Controls.Add(this.lblSubTotal);
-            this.rightPanel.Location = new System.Drawing.Point(660, 124);
+            this.rightPanel.Location = new System.Drawing.Point(660, 78);
             this.rightPanel.Name = "rightPanel";
-            this.rightPanel.Size = new System.Drawing.Size(288, 503);
+            this.rightPanel.Size = new System.Drawing.Size(288, 549);
             this.rightPanel.TabIndex = 5;
+            // 
+            // txtChange
+            // 
+            this.txtChange.Location = new System.Drawing.Point(178, 186);
+            this.txtChange.Name = "txtChange";
+            this.txtChange.Size = new System.Drawing.Size(84, 20);
+            this.txtChange.TabIndex = 28;
+            // 
+            // Change
+            // 
+            this.Change.AutoSize = true;
+            this.Change.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Change.ForeColor = System.Drawing.Color.ForestGreen;
+            this.Change.Location = new System.Drawing.Point(92, 188);
+            this.Change.Name = "Change";
+            this.Change.Size = new System.Drawing.Size(65, 18);
+            this.Change.TabIndex = 27;
+            this.Change.Text = "Change";
+            // 
+            // txtPayment
+            // 
+            this.txtPayment.Location = new System.Drawing.Point(178, 151);
+            this.txtPayment.Name = "txtPayment";
+            this.txtPayment.Size = new System.Drawing.Size(84, 20);
+            this.txtPayment.TabIndex = 26;
+            this.txtPayment.Click += new System.EventHandler(this.txtPayment_Click);
+            this.txtPayment.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPayment_KeyDown);
+            // 
+            // Payment
+            // 
+            this.Payment.AutoSize = true;
+            this.Payment.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Payment.ForeColor = System.Drawing.Color.IndianRed;
+            this.Payment.Location = new System.Drawing.Point(92, 153);
+            this.Payment.Name = "Payment";
+            this.Payment.Size = new System.Drawing.Size(73, 18);
+            this.Payment.TabIndex = 25;
+            this.Payment.Text = "Payment";
             // 
             // lblTotalValue
             // 
@@ -210,6 +256,7 @@ namespace MyStoreDesktop
             this.lblTotalValue.Name = "lblTotalValue";
             this.lblTotalValue.Size = new System.Drawing.Size(84, 20);
             this.lblTotalValue.TabIndex = 24;
+            this.lblTotalValue.Click += new System.EventHandler(this.lblTotalValue_Click);
             // 
             // lblDiscountValue
             // 
@@ -217,6 +264,7 @@ namespace MyStoreDesktop
             this.lblDiscountValue.Name = "lblDiscountValue";
             this.lblDiscountValue.Size = new System.Drawing.Size(84, 20);
             this.lblDiscountValue.TabIndex = 23;
+            this.lblDiscountValue.Click += new System.EventHandler(this.lblDiscountValue_Click);
             this.lblDiscountValue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lblDiscountValue_KeyDown);
             // 
             // lblSubtotalValue
@@ -232,6 +280,7 @@ namespace MyStoreDesktop
             this.txtTaxValue.Name = "txtTaxValue";
             this.txtTaxValue.Size = new System.Drawing.Size(84, 20);
             this.txtTaxValue.TabIndex = 21;
+            this.txtTaxValue.Click += new System.EventHandler(this.txtTaxValue_Click);
             this.txtTaxValue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtTaxValue_KeyDown);
             // 
             // btnConfirm
@@ -240,11 +289,11 @@ namespace MyStoreDesktop
             this.btnConfirm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnConfirm.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnConfirm.ForeColor = System.Drawing.Color.Transparent;
-            this.btnConfirm.Location = new System.Drawing.Point(41, 408);
+            this.btnConfirm.Location = new System.Drawing.Point(41, 468);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(220, 49);
             this.btnConfirm.TabIndex = 20;
-            this.btnConfirm.Text = "Bill Confirm";
+            this.btnConfirm.Text = "Submit";
             this.btnConfirm.UseVisualStyleBackColor = false;
             this.btnConfirm.Click += new System.EventHandler(this.BillConfirm_Click);
             // 
@@ -253,7 +302,7 @@ namespace MyStoreDesktop
             this.btnNum9.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnNum9.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum9.ForeColor = System.Drawing.Color.Transparent;
-            this.btnNum9.Location = new System.Drawing.Point(207, 179);
+            this.btnNum9.Location = new System.Drawing.Point(207, 239);
             this.btnNum9.Name = "btnNum9";
             this.btnNum9.Size = new System.Drawing.Size(63, 33);
             this.btnNum9.TabIndex = 19;
@@ -266,7 +315,7 @@ namespace MyStoreDesktop
             this.btnNum8.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnNum8.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum8.ForeColor = System.Drawing.Color.Transparent;
-            this.btnNum8.Location = new System.Drawing.Point(119, 179);
+            this.btnNum8.Location = new System.Drawing.Point(119, 239);
             this.btnNum8.Name = "btnNum8";
             this.btnNum8.Size = new System.Drawing.Size(63, 33);
             this.btnNum8.TabIndex = 18;
@@ -279,7 +328,7 @@ namespace MyStoreDesktop
             this.btnNum7.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnNum7.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum7.ForeColor = System.Drawing.Color.Transparent;
-            this.btnNum7.Location = new System.Drawing.Point(32, 179);
+            this.btnNum7.Location = new System.Drawing.Point(32, 239);
             this.btnNum7.Name = "btnNum7";
             this.btnNum7.Size = new System.Drawing.Size(63, 33);
             this.btnNum7.TabIndex = 17;
@@ -292,7 +341,7 @@ namespace MyStoreDesktop
             this.btnNum6.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnNum6.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum6.ForeColor = System.Drawing.Color.Transparent;
-            this.btnNum6.Location = new System.Drawing.Point(207, 232);
+            this.btnNum6.Location = new System.Drawing.Point(207, 292);
             this.btnNum6.Name = "btnNum6";
             this.btnNum6.Size = new System.Drawing.Size(63, 33);
             this.btnNum6.TabIndex = 16;
@@ -305,7 +354,7 @@ namespace MyStoreDesktop
             this.btnNum5.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnNum5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum5.ForeColor = System.Drawing.Color.Transparent;
-            this.btnNum5.Location = new System.Drawing.Point(119, 232);
+            this.btnNum5.Location = new System.Drawing.Point(119, 292);
             this.btnNum5.Name = "btnNum5";
             this.btnNum5.Size = new System.Drawing.Size(63, 33);
             this.btnNum5.TabIndex = 15;
@@ -318,7 +367,7 @@ namespace MyStoreDesktop
             this.btnNum4.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnNum4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum4.ForeColor = System.Drawing.Color.Transparent;
-            this.btnNum4.Location = new System.Drawing.Point(32, 232);
+            this.btnNum4.Location = new System.Drawing.Point(32, 292);
             this.btnNum4.Name = "btnNum4";
             this.btnNum4.Size = new System.Drawing.Size(63, 33);
             this.btnNum4.TabIndex = 14;
@@ -331,7 +380,7 @@ namespace MyStoreDesktop
             this.btnNum3.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnNum3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum3.ForeColor = System.Drawing.Color.Transparent;
-            this.btnNum3.Location = new System.Drawing.Point(207, 288);
+            this.btnNum3.Location = new System.Drawing.Point(207, 348);
             this.btnNum3.Name = "btnNum3";
             this.btnNum3.Size = new System.Drawing.Size(63, 33);
             this.btnNum3.TabIndex = 13;
@@ -344,7 +393,7 @@ namespace MyStoreDesktop
             this.btnNum2.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnNum2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum2.ForeColor = System.Drawing.Color.Transparent;
-            this.btnNum2.Location = new System.Drawing.Point(119, 288);
+            this.btnNum2.Location = new System.Drawing.Point(119, 348);
             this.btnNum2.Name = "btnNum2";
             this.btnNum2.Size = new System.Drawing.Size(63, 33);
             this.btnNum2.TabIndex = 12;
@@ -357,7 +406,7 @@ namespace MyStoreDesktop
             this.btnNum1.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnNum1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum1.ForeColor = System.Drawing.Color.Transparent;
-            this.btnNum1.Location = new System.Drawing.Point(32, 288);
+            this.btnNum1.Location = new System.Drawing.Point(32, 348);
             this.btnNum1.Name = "btnNum1";
             this.btnNum1.Size = new System.Drawing.Size(63, 33);
             this.btnNum1.TabIndex = 11;
@@ -370,20 +419,20 @@ namespace MyStoreDesktop
             this.btnClear.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnClear.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClear.ForeColor = System.Drawing.Color.Transparent;
-            this.btnClear.Location = new System.Drawing.Point(207, 345);
+            this.btnClear.Location = new System.Drawing.Point(207, 405);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(63, 33);
             this.btnClear.TabIndex = 10;
             this.btnClear.Text = "C";
             this.btnClear.UseVisualStyleBackColor = false;
-            this.btnClear.Click += new System.EventHandler(this.NumberButton_Click);
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnDot
             // 
             this.btnDot.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnDot.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDot.ForeColor = System.Drawing.Color.Transparent;
-            this.btnDot.Location = new System.Drawing.Point(119, 345);
+            this.btnDot.Location = new System.Drawing.Point(119, 405);
             this.btnDot.Name = "btnDot";
             this.btnDot.Size = new System.Drawing.Size(63, 33);
             this.btnDot.TabIndex = 9;
@@ -396,7 +445,7 @@ namespace MyStoreDesktop
             this.btnZero.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnZero.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnZero.ForeColor = System.Drawing.Color.Transparent;
-            this.btnZero.Location = new System.Drawing.Point(32, 345);
+            this.btnZero.Location = new System.Drawing.Point(32, 405);
             this.btnZero.Name = "btnZero";
             this.btnZero.Size = new System.Drawing.Size(63, 33);
             this.btnZero.TabIndex = 8;
@@ -433,9 +482,9 @@ namespace MyStoreDesktop
             this.lblTax.ForeColor = System.Drawing.Color.Black;
             this.lblTax.Location = new System.Drawing.Point(91, 92);
             this.lblTax.Name = "lblTax";
-            this.lblTax.Size = new System.Drawing.Size(66, 16);
+            this.lblTax.Size = new System.Drawing.Size(50, 16);
             this.lblTax.TabIndex = 4;
-            this.lblTax.Text = "Tax 10%";
+            this.lblTax.Text = "Tax %";
             // 
             // lblSubTotal
             // 
@@ -483,8 +532,6 @@ namespace MyStoreDesktop
             // 
             // dgvAddToCard
             // 
-            this.dgvAddToCard.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvAddToCard.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvAddToCard.BackgroundColor = System.Drawing.Color.White;
             this.dgvAddToCard.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -495,20 +542,21 @@ namespace MyStoreDesktop
             this.SalePrice,
             this.Discount,
             this.Total});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAddToCard.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAddToCard.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvAddToCard.GridColor = System.Drawing.Color.LightGray;
             this.dgvAddToCard.Location = new System.Drawing.Point(6, 127);
             this.dgvAddToCard.Name = "dgvAddToCard";
             this.dgvAddToCard.Size = new System.Drawing.Size(648, 503);
             this.dgvAddToCard.TabIndex = 3;
             this.dgvAddToCard.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAddToCard_CellEndEdit);
+            this.dgvAddToCard.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvAddToCard_KeyDown);
             // 
             // ProductId
             // 
@@ -518,7 +566,7 @@ namespace MyStoreDesktop
             // 
             // Title
             // 
-            this.Title.HeaderText = "Product Name";
+            this.Title.HeaderText = "ProductName";
             this.Title.Name = "Title";
             // 
             // Quantity
@@ -529,8 +577,9 @@ namespace MyStoreDesktop
             // 
             // SalePrice
             // 
-            this.SalePrice.HeaderText = "SalePrice";
+            this.SalePrice.HeaderText = "ItemPrice";
             this.SalePrice.Name = "SalePrice";
+            this.SalePrice.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             // 
             // Discount
             // 
@@ -539,9 +588,9 @@ namespace MyStoreDesktop
             // 
             // Total
             // 
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
-            this.Total.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            this.Total.DefaultCellStyle = dataGridViewCellStyle1;
             this.Total.HeaderText = "Total";
             this.Total.Name = "Total";
             this.Total.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -556,6 +605,7 @@ namespace MyStoreDesktop
             this.lstSuggestion.TabIndex = 2;
             this.lstSuggestion.Visible = false;
             this.lstSuggestion.Click += new System.EventHandler(this.lstSuggestion_Click);
+            this.lstSuggestion.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstSuggestion_KeyDown);
             // 
             // btnSearch
             // 
@@ -563,7 +613,7 @@ namespace MyStoreDesktop
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearch.Location = new System.Drawing.Point(554, 68);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(100, 32);
+            this.btnSearch.Size = new System.Drawing.Size(84, 32);
             this.btnSearch.TabIndex = 1;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = false;
@@ -577,6 +627,9 @@ namespace MyStoreDesktop
             this.txtSearch.Size = new System.Drawing.Size(542, 28);
             this.txtSearch.TabIndex = 0;
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
+            this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
             // 
             // Home
             // 
@@ -641,15 +694,19 @@ namespace MyStoreDesktop
         private System.Windows.Forms.Button btnNum5;
         private System.Windows.Forms.Button btnNum4;
         private System.Windows.Forms.Button btnNum3;
+        private System.Windows.Forms.TextBox txtTaxValue;
+        private System.Windows.Forms.TextBox lblSubtotalValue;
+        private System.Windows.Forms.TextBox lblTotalValue;
+        private System.Windows.Forms.TextBox lblDiscountValue;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProductId;
         private System.Windows.Forms.DataGridViewTextBoxColumn Title;
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn SalePrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn Discount;
         private System.Windows.Forms.DataGridViewTextBoxColumn Total;
-        private System.Windows.Forms.TextBox txtTaxValue;
-        private System.Windows.Forms.TextBox lblSubtotalValue;
-        private System.Windows.Forms.TextBox lblTotalValue;
-        private System.Windows.Forms.TextBox lblDiscountValue;
+        private System.Windows.Forms.TextBox txtChange;
+        private System.Windows.Forms.Label Change;
+        private System.Windows.Forms.TextBox txtPayment;
+        private System.Windows.Forms.Label Payment;
     }
 }

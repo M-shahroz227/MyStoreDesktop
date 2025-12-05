@@ -96,6 +96,10 @@
     <Compile Include="Migrations\202511221205477_BillModelAddedINRole.Designer.cs">
       <DependentUpon>202511221205477_BillModelAddedINRole.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202512030546282_updatesSomeFeatures.cs" />
+    <Compile Include="Migrations\202512030546282_updatesSomeFeatures.Designer.cs">
+      <DependentUpon>202512030546282_updatesSomeFeatures.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bill.cs" />
     <Compile Include="Models\BillProduct.cs" />
@@ -195,6 +199,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202511221205477_BillModelAddedINRole.resx">
       <DependentUpon>202511221205477_BillModelAddedINRole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202512030546282_updatesSomeFeatures.resx">
+      <DependentUpon>202512030546282_updatesSomeFeatures.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PrintForm.resx">
       <DependentUpon>PrintForm.cs</DependentUpon>

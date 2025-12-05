@@ -24,7 +24,7 @@ namespace MyStoreDesktop.Models
         public DateTime OwnDate { get; set; }
 
         public decimal Discount { get; set; }
-        public decimal SalePrice { get; set; }
+        public decimal itemPrice { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal Tax { get; set; }
         public decimal GrandTotal { get; set; }
