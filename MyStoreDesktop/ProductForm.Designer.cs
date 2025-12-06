@@ -51,11 +51,24 @@
             this.dgvProducts = new System.Windows.Forms.DataGridView();
             this.txtDescription = new System.Windows.Forms.TextBox();
             this.lbDescription = new System.Windows.Forms.Label();
-            this.btnGenerateQR = new System.Windows.Forms.Button();
-            this.picQRPreview = new System.Windows.Forms.PictureBox();
             this.btnManageCategories = new System.Windows.Forms.Button();
+            this.panelQRCode = new System.Windows.Forms.Panel();
+            this.picQRPreview = new System.Windows.Forms.PictureBox();
+            this.btnGenerateQR = new System.Windows.Forms.Button();
+            this.panelManual = new System.Windows.Forms.Panel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.picBarcodePreview = new System.Windows.Forms.PictureBox();
+            this.panelBarcode = new System.Windows.Forms.Panel();
+            this.btnGenerateBarcode = new System.Windows.Forms.Button();
+            this.cmbCodeType = new System.Windows.Forms.ComboBox();
+            this.txtBarcodeValue = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).BeginInit();
+            this.panelQRCode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picQRPreview)).BeginInit();
+            this.panelManual.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBarcodePreview)).BeginInit();
+            this.panelBarcode.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -204,7 +217,7 @@
             // 
             this.btnAdd.BackColor = System.Drawing.Color.SeaGreen;
             this.btnAdd.ForeColor = System.Drawing.Color.White;
-            this.btnAdd.Location = new System.Drawing.Point(50, 486);
+            this.btnAdd.Location = new System.Drawing.Point(50, 517);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(100, 35);
             this.btnAdd.TabIndex = 16;
@@ -216,7 +229,7 @@
             // 
             this.btnUpdate.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnUpdate.ForeColor = System.Drawing.Color.White;
-            this.btnUpdate.Location = new System.Drawing.Point(159, 486);
+            this.btnUpdate.Location = new System.Drawing.Point(159, 517);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(100, 35);
             this.btnUpdate.TabIndex = 17;
@@ -228,7 +241,7 @@
             // 
             this.btnDelete.BackColor = System.Drawing.Color.Crimson;
             this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(269, 486);
+            this.btnDelete.Location = new System.Drawing.Point(269, 517);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(100, 35);
             this.btnDelete.TabIndex = 18;
@@ -267,28 +280,6 @@
             this.lbDescription.TabIndex = 20;
             this.lbDescription.Text = "Description";
             // 
-            // btnGenerateQR
-            // 
-            this.btnGenerateQR.BackColor = System.Drawing.Color.SlateBlue;
-            this.btnGenerateQR.ForeColor = System.Drawing.Color.White;
-            this.btnGenerateQR.Location = new System.Drawing.Point(150, 414);
-            this.btnGenerateQR.Name = "btnGenerateQR";
-            this.btnGenerateQR.Size = new System.Drawing.Size(120, 35);
-            this.btnGenerateQR.TabIndex = 23;
-            this.btnGenerateQR.Text = "Generate QR Code";
-            this.btnGenerateQR.UseVisualStyleBackColor = false;
-            this.btnGenerateQR.Click += new System.EventHandler(this.btnGenerateQR_Click);
-            // 
-            // picQRPreview
-            // 
-            this.picQRPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picQRPreview.Location = new System.Drawing.Point(290, 390);
-            this.picQRPreview.Name = "picQRPreview";
-            this.picQRPreview.Size = new System.Drawing.Size(80, 80);
-            this.picQRPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picQRPreview.TabIndex = 24;
-            this.picQRPreview.TabStop = false;
-            // 
             // btnManageCategories
             // 
             this.btnManageCategories.BackColor = System.Drawing.Color.GhostWhite;
@@ -301,14 +292,125 @@
             this.btnManageCategories.UseVisualStyleBackColor = false;
             this.btnManageCategories.Click += new System.EventHandler(this.btnManageCategories_Click);
             // 
+            // panelQRCode
+            // 
+            this.panelQRCode.Controls.Add(this.txtBarcodeValue);
+            this.panelQRCode.Controls.Add(this.picQRPreview);
+            this.panelQRCode.Controls.Add(this.btnGenerateQR);
+            this.panelQRCode.Location = new System.Drawing.Point(134, 410);
+            this.panelQRCode.Name = "panelQRCode";
+            this.panelQRCode.Size = new System.Drawing.Size(236, 100);
+            this.panelQRCode.TabIndex = 26;
+            // 
+            // picQRPreview
+            // 
+            this.picQRPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picQRPreview.Location = new System.Drawing.Point(148, 10);
+            this.picQRPreview.Name = "picQRPreview";
+            this.picQRPreview.Size = new System.Drawing.Size(80, 80);
+            this.picQRPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picQRPreview.TabIndex = 26;
+            this.picQRPreview.TabStop = false;
+            // 
+            // btnGenerateQR
+            // 
+            this.btnGenerateQR.BackColor = System.Drawing.Color.SlateBlue;
+            this.btnGenerateQR.ForeColor = System.Drawing.Color.White;
+            this.btnGenerateQR.Location = new System.Drawing.Point(8, 34);
+            this.btnGenerateQR.Name = "btnGenerateQR";
+            this.btnGenerateQR.Size = new System.Drawing.Size(120, 35);
+            this.btnGenerateQR.TabIndex = 25;
+            this.btnGenerateQR.Text = "Generate QR Code";
+            this.btnGenerateQR.UseVisualStyleBackColor = false;
+            // 
+            // panelManual
+            // 
+            this.panelManual.Controls.Add(this.textBox1);
+            this.panelManual.Controls.Add(this.button1);
+            this.panelManual.Location = new System.Drawing.Point(131, 410);
+            this.panelManual.Name = "panelManual";
+            this.panelManual.Size = new System.Drawing.Size(236, 100);
+            this.panelManual.TabIndex = 27;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(15, 10);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(195, 33);
+            this.textBox1.TabIndex = 26;
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.SlateBlue;
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Location = new System.Drawing.Point(52, 54);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(120, 35);
+            this.button1.TabIndex = 25;
+            this.button1.Text = "Generate QR Code";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
+            // picBarcodePreview
+            // 
+            this.picBarcodePreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picBarcodePreview.Location = new System.Drawing.Point(148, 10);
+            this.picBarcodePreview.Name = "picBarcodePreview";
+            this.picBarcodePreview.Size = new System.Drawing.Size(80, 80);
+            this.picBarcodePreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBarcodePreview.TabIndex = 26;
+            this.picBarcodePreview.TabStop = false;
+            // 
+            // panelBarcode
+            // 
+            this.panelBarcode.Controls.Add(this.picBarcodePreview);
+            this.panelBarcode.Controls.Add(this.btnGenerateBarcode);
+            this.panelBarcode.Location = new System.Drawing.Point(131, 410);
+            this.panelBarcode.Name = "panelBarcode";
+            this.panelBarcode.Size = new System.Drawing.Size(236, 100);
+            this.panelBarcode.TabIndex = 28;
+            // 
+            // btnGenerateBarcode
+            // 
+            this.btnGenerateBarcode.BackColor = System.Drawing.Color.SlateBlue;
+            this.btnGenerateBarcode.ForeColor = System.Drawing.Color.White;
+            this.btnGenerateBarcode.Location = new System.Drawing.Point(8, 34);
+            this.btnGenerateBarcode.Name = "btnGenerateBarcode";
+            this.btnGenerateBarcode.Size = new System.Drawing.Size(120, 35);
+            this.btnGenerateBarcode.TabIndex = 25;
+            this.btnGenerateBarcode.Text = "Generate BrCode";
+            this.btnGenerateBarcode.UseVisualStyleBackColor = false;
+            this.btnGenerateBarcode.Click += new System.EventHandler(this.btnGenerateBarcode_Click);
+            // 
+            // cmbCodeType
+            // 
+            this.cmbCodeType.FormattingEnabled = true;
+            this.cmbCodeType.Items.AddRange(new object[] {
+            "QR Code",
+            "Bar Code",
+            "Manual Code"});
+            this.cmbCodeType.Location = new System.Drawing.Point(150, 380);
+            this.cmbCodeType.Name = "cmbCodeType";
+            this.cmbCodeType.Size = new System.Drawing.Size(219, 21);
+            this.cmbCodeType.TabIndex = 29;
+            // 
+            // txtBarcodeValue
+            // 
+            this.txtBarcodeValue.Location = new System.Drawing.Point(16, 70);
+            this.txtBarcodeValue.Name = "txtBarcodeValue";
+            this.txtBarcodeValue.Size = new System.Drawing.Size(100, 20);
+            this.txtBarcodeValue.TabIndex = 27;
+            // 
             // ProductForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(1140, 561);
-            this.Controls.Add(this.picQRPreview);
-            this.Controls.Add(this.btnGenerateQR);
+            this.Controls.Add(this.cmbCodeType);
+            this.Controls.Add(this.panelBarcode);
+            this.Controls.Add(this.panelManual);
+            this.Controls.Add(this.panelQRCode);
             this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.lbDescription);
             this.Controls.Add(this.dgvProducts);
@@ -339,7 +441,13 @@
             this.Text = "Product Management";
             this.Load += new System.EventHandler(this.ProductForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).EndInit();
+            this.panelQRCode.ResumeLayout(false);
+            this.panelQRCode.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picQRPreview)).EndInit();
+            this.panelManual.ResumeLayout(false);
+            this.panelManual.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBarcodePreview)).EndInit();
+            this.panelBarcode.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -370,8 +478,17 @@
         private System.Windows.Forms.DataGridView dgvProducts;
         private System.Windows.Forms.TextBox txtDescription;
         private System.Windows.Forms.Label lbDescription;
-        private System.Windows.Forms.Button btnGenerateQR;
-        private System.Windows.Forms.PictureBox picQRPreview;
         private System.Windows.Forms.Button btnManageCategories;
+        private System.Windows.Forms.Panel panelQRCode;
+        private System.Windows.Forms.PictureBox picQRPreview;
+        private System.Windows.Forms.Button btnGenerateQR;
+        private System.Windows.Forms.Panel panelManual;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.PictureBox picBarcodePreview;
+        private System.Windows.Forms.Panel panelBarcode;
+        private System.Windows.Forms.Button btnGenerateBarcode;
+        private System.Windows.Forms.ComboBox cmbCodeType;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtBarcodeValue;
     }
 }

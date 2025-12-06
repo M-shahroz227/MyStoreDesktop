@@ -23,6 +23,7 @@ namespace MyStoreDesktop
         public ProductForm()
         {
             InitializeComponent();
+            cmbCodeType.SelectedIndexChanged += cmbCodeType_SelectedIndexChanged;
         }
 
         private void ProductForm_Load(object sender, EventArgs e)
@@ -30,6 +31,7 @@ namespace MyStoreDesktop
             LoadCategories();
             LoadCompanies();
             LoadProducts();
+            cmbCodeType.SelectedIndex = 0;
         }
 
         // ?? Load all products into DataGridView
@@ -421,5 +423,60 @@ namespace MyStoreDesktop
                 MessageBox.Show($"Error generating QR Code: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private void cmbCodeType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selected = cmbCodeType.SelectedItem.ToString();
+
+            panelQRCode.Visible = (selected == "QR Code");
+            panelBarcode.Visible = (selected == "Bar Code");
+            panelManual.Visible = (selected == "Manual Code");
+        }
+        private void btnGenerateBarcode_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string manualValue = Guid.NewGuid().ToString().Substring(0, 12); // 12-digit code
+
+                BarcodeLib.Barcode barcode = new BarcodeLib.Barcode();
+                Image barcodeImage = barcode.Encode(BarcodeLib.TYPE.CODE128, manualValue, 300, 100);
+
+                picBarcodePreview.Image = barcodeImage;
+
+                txtBarcodeValue.Text = manualValue;
+
+                MessageBox.Show("Barcode Generated Successfully!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Barcode Error: " + ex.Message);
+            }
+        }
+        private void SaveBarcode(int productId, string code)
+        {
+            var barcode = new QrTableData
+            {
+                ProductId = productId,
+                QrCode = Guid.Parse(code.Length < 36 ? Guid.NewGuid().ToString() : code),
+                CreatedAt = DateTime.Now
+            };
+
+            _qrService.Add(barcode);
+        }
+
+        private void SaveManualCode(int productId, string manualCode)
+        {
+            var codeData = new QrTableData
+            {
+                ProductId = productId,
+                QrCode = Guid.NewGuid(), // System GUID (required)
+                CreatedAt = DateTime.Now
+            };
+
+            _qrService.Add(codeData);
+
+            MessageBox.Show("Manual Code Saved Successfully!");
+        }
+
+
     }
 }

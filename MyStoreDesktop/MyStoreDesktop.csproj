@@ -69,6 +69,8 @@
     <Compile Include="AdminForm.Designer.cs">
       <DependentUpon>AdminForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="BarcodeLib\Barcode.cs" />
+    <Compile Include="BarcodeLib\TYPE.cs" />
     <Compile Include="Data\DatabaseHelper.cs" />
     <Compile Include="FormBill.cs">
       <SubType>Form</SubType>
