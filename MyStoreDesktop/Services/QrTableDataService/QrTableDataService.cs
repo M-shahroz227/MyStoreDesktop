@@ -3,7 +3,6 @@ using MyStoreDesktop.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 
 namespace MyStoreDesktop.Services.QrTableDataService
 {
@@ -25,22 +24,34 @@ namespace MyStoreDesktop.Services.QrTableDataService
 
         public QrTableData GetById(int id)
         {
-            return _context.QrTableDatas.FirstOrDefault(q => q.Id == id);
+            return _context.QrTableDatas
+                .FirstOrDefault(q => q.Id == id);
         }
 
-        public void Add(QrTableData qrData)
+        // ⭐ NEW: Get codes of a specific product
+        public IEnumerable<QrTableData> GetByProduct(int productId)
         {
-            _context.QrTableDatas.Add(qrData);
+            return _context.QrTableDatas
+                .Where(q => q.ProductId == productId)
+                .OrderByDescending(q => q.CreatedAt)
+                .ToList();
+        }
+
+        public void Add(QrTableData data)
+        {
+            _context.QrTableDatas.Add(data);
             _context.SaveChanges();
         }
 
         public void Update(QrTableData qrData)
         {
             var existing = _context.QrTableDatas.Find(qrData.Id);
+
             if (existing != null)
             {
                 existing.ProductId = qrData.ProductId;
-                existing.QrCode = qrData.QrCode;
+                existing.CodeValue = qrData.CodeValue;
+                existing.CodeType = qrData.CodeType;
                 existing.CreatedAt = qrData.CreatedAt;
 
                 _context.SaveChanges();
@@ -50,6 +61,7 @@ namespace MyStoreDesktop.Services.QrTableDataService
         public void Delete(int id)
         {
             var qrData = _context.QrTableDatas.Find(id);
+
             if (qrData != null)
             {
                 _context.QrTableDatas.Remove(qrData);

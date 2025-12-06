@@ -8,6 +8,10 @@ using MyStoreDesktop.Services.QrTableDataService;
 using QRCoder;
 using System.Drawing;
 using System.IO;
+using ZXing;
+using ZXing.Common;
+
+
 
 namespace MyStoreDesktop
 {
@@ -34,7 +38,7 @@ namespace MyStoreDesktop
             cmbCodeType.SelectedIndex = 0;
         }
 
-        // ?? Load all products into DataGridView
+        // Load all products into DataGridView
         private void LoadProducts()
         {
             var products = _productService.GetAll()
@@ -130,7 +134,7 @@ namespace MyStoreDesktop
             }
         }
 
-        // 🔹 Clear input fields
+        // Clear input fields
         private void ClearForm()
         {
             txtTitle.Clear();
@@ -142,7 +146,11 @@ namespace MyStoreDesktop
             txtDescription.Clear();
             selectedProductId = 0;
             selectedImagePath = "";
-            
+            picQRPreview.Image = null;
+            picBarcodePreview.Image = null;
+            txtBarcodeValue.Text = "";
+            txtManualCode.Text = "";
+
             if (cboCategory.Items.Count > 0)
             {
                 cboCategory.SelectedIndex = 0;
@@ -162,7 +170,7 @@ namespace MyStoreDesktop
             }
         }
 
-        // 🔹 Add Product + Generate QR
+        // Add Product + Generate QR
         private void btnAdd_Click(object sender, EventArgs e)
         {
             try
@@ -196,10 +204,10 @@ namespace MyStoreDesktop
                     UrlImage = selectedImagePath
                 };
 
-                // ✅ Add Product (returns product with ProductId)
+                // Add Product (returns product with ProductId)
                 var addedProduct = _productService.Add(product);
 
-                // ✅ Generate QR for new product
+                // Generate QR for new product (this will generate GUID, QR image and save CodeValue)
                 GenerateAndSaveQrCode(addedProduct);
 
                 MessageBox.Show("✅ Product added successfully!");
@@ -212,7 +220,7 @@ namespace MyStoreDesktop
             }
         }
 
-        // 🔹 Update Product + Regenerate QR
+        // Update Product + Regenerate QR
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             if (selectedProductId == 0)
@@ -251,7 +259,9 @@ namespace MyStoreDesktop
                 product.UrlImage = selectedImagePath;
 
                 _productService.Update(product);
-                GenerateAndSaveQrCode(product); // update QR too
+
+                // Regenerate QR for product
+                GenerateAndSaveQrCode(product);
 
                 MessageBox.Show("✅ Product updated successfully!");
                 LoadProducts();
@@ -259,7 +269,7 @@ namespace MyStoreDesktop
             }
         }
 
-        // 🔹 Delete Product
+        // Delete Product
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (selectedProductId == 0)
@@ -291,43 +301,39 @@ namespace MyStoreDesktop
             }
         }
 
-        // 🔹 Generate QR Code and Save in Database
+        // Generate QR Code, save image file and save CodeValue (GUID) in DB
         private void GenerateAndSaveQrCode(Product product)
         {
-            string qrText = $"Product ID: {product.ProductId}\n" +
-                            $"Name: {product.Title}\n" +
-                            $"Price: {product.SalePrice:C}\n" +
-                            $"Company: {(product.Company != null ? product.Company.Title : "N/A")}";
+            // create a GUID which we will use as CodeValue and encode into QR
+            string qrGuid = Guid.NewGuid().ToString();
+
+            // create human-friendly text if you want to encode some product details instead,
+            // but we will encode the GUID to be consistent with CodeValue stored in DB.
+            // If you prefer to encode product details, change the code and save CodeValue accordingly.
+            string textToEncode = qrGuid;
 
             using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
             {
-                QRCodeData qrData = qrGenerator.CreateQrCode(qrText, QRCodeGenerator.ECCLevel.Q);
+                QRCodeData qrData = qrGenerator.CreateQrCode(textToEncode, QRCodeGenerator.ECCLevel.Q);
                 using (QRCode qrCode = new QRCode(qrData))
                 {
                     Bitmap qrImage = qrCode.GetGraphic(20);
 
-                    // 🔹 Save QR image to folder
+                    // Save QR image to folder
                     string folderPath = Path.Combine(Application.StartupPath, "QRCodes");
                     if (!Directory.Exists(folderPath))
                         Directory.CreateDirectory(folderPath);
 
-                    string qrFilePath = Path.Combine(folderPath, $"QR_{product.ProductId}.png");
+                    string qrFilePath = Path.Combine(folderPath, $"QR_{product.ProductId}_{DateTime.Now:yyyyMMddHHmmss}.png");
                     qrImage.Save(qrFilePath);
 
-                    // 🔹 Save in database
-                    var qrDataModel = new QrTableData
-                    {
-                        ProductId = product.ProductId,
-                        QrCode = Guid.NewGuid(),
-                        CreatedAt = DateTime.Now
-                    };
-
-                    _qrService.Add(qrDataModel);
+                    // Save CodeValue (GUID) and CodeType = "QR" in DB
+                    SaveQRCode(product.ProductId, qrGuid);
                 }
             }
         }
 
-        // 🔹 When product row is selected
+        // When product row is selected
         private void dgvProducts_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -339,8 +345,8 @@ namespace MyStoreDesktop
                 txtSalePrice.Text = row.Cells["SalePrice"].Value.ToString();
                 txtPurchasePrice.Text = row.Cells["PurchasePrice"].Value.ToString();
                 txtDiscount.Text = row.Cells["Discount"].Value.ToString();
-                txtModel.Text = row.Cells["Model"].Value?.ToString()??"";
-                txtDescription.Text = row.Cells["Description"].Value?.ToString()??"";
+                txtModel.Text = row.Cells["Model"].Value?.ToString() ?? "";
+                txtDescription.Text = row.Cells["Description"].Value?.ToString() ?? "";
 
                 if (row.Cells["CategoryId"].Value != null && cboCategory.DataSource is IEnumerable<Category> categoryList)
                 {
@@ -388,12 +394,12 @@ namespace MyStoreDesktop
             }
         }
 
-        // 🔹 Generate QR Code Button Click
+        // Generate QR Code Button Click (preview + optional save if a product is selected)
         private void btnGenerateQR_Click(object sender, EventArgs e)
         {
             try
             {
-                // Generate new GUID for QR code
+                // Generate new GUID for QR code preview
                 currentQRCodeGuid = Guid.NewGuid().ToString();
 
                 // Generate QR Code using QRCoder
@@ -401,7 +407,7 @@ namespace MyStoreDesktop
                 QRCodeData qrCodeData = qrGenerator.CreateQrCode(currentQRCodeGuid, QRCodeGenerator.ECCLevel.Q);
                 QRCode qrCode = new QRCode(qrCodeData);
 
-                // Create high-quality bitmap for printing
+                // Create high-quality bitmap for preview/printing
                 currentQRCode = qrCode.GetGraphic(20); // Higher pixels per module for better print quality
 
                 // Show popup dialog
@@ -413,7 +419,17 @@ namespace MyStoreDesktop
                 {
                     // Display QR code in the preview picture box
                     picQRPreview.Image = currentQRCode;
-                    MessageBox.Show($"QR Code added to product!\nGUID: {currentQRCodeGuid}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // If a product is selected (existing) save the code; otherwise tell user to save product first
+                    if (selectedProductId > 0)
+                    {
+                        SaveQRCode(selectedProductId, currentQRCodeGuid);
+                        MessageBox.Show($"QR Code added to product!\nGUID: {currentQRCodeGuid}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("QR generated for preview. Save product first (Add) to persist QR in database.", "Preview", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
 
                 popup.Dispose();
@@ -423,6 +439,7 @@ namespace MyStoreDesktop
                 MessageBox.Show($"Error generating QR Code: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void cmbCodeType_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selected = cmbCodeType.SelectedItem.ToString();
@@ -431,52 +448,119 @@ namespace MyStoreDesktop
             panelBarcode.Visible = (selected == "Bar Code");
             panelManual.Visible = (selected == "Manual Code");
         }
+
+        // Single fixed barcode generator button
         private void btnGenerateBarcode_Click(object sender, EventArgs e)
         {
             try
             {
-                string manualValue = Guid.NewGuid().ToString().Substring(0, 12); // 12-digit code
+                // Generate 12-digit random code
+                string barcodeValue = Guid.NewGuid().ToString("N").Substring(0, 12);
 
-                BarcodeLib.Barcode barcode = new BarcodeLib.Barcode();
-                Image barcodeImage = barcode.Encode(BarcodeLib.TYPE.CODE128, manualValue, 300, 100);
+                var writer = new BarcodeWriterPixelData
+                {
+                    Format = BarcodeFormat.CODE_128,
+                    Options = new EncodingOptions
+                    {
+                        Height = 100,
+                        Width = 300,
+                        Margin = 2
+                    }
+                };
 
-                picBarcodePreview.Image = barcodeImage;
+                var pixelData = writer.Write(barcodeValue);
 
-                txtBarcodeValue.Text = manualValue;
+                // Create bitmap
+                Bitmap bitmap = new Bitmap(pixelData.Width, pixelData.Height, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+                var bitmapData = bitmap.LockBits(
+                    new Rectangle(0, 0, pixelData.Width, pixelData.Height),
+                    System.Drawing.Imaging.ImageLockMode.WriteOnly,
+                    bitmap.PixelFormat
+                );
 
-                MessageBox.Show("Barcode Generated Successfully!");
+                System.Runtime.InteropServices.Marshal.Copy(pixelData.Pixels, 0, bitmapData.Scan0, pixelData.Pixels.Length);
+                bitmap.UnlockBits(bitmapData);
+
+                // Show preview
+                picBarcodePreview.Image = bitmap;
+                txtBarcodeValue.Text = barcodeValue;
+
+                // Save in database
+                SaveBarcode(selectedProductId, barcodeValue);
+
+                MessageBox.Show("Barcode generated & saved!");
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Barcode Error: " + ex.Message);
             }
         }
-        private void SaveBarcode(int productId, string code)
+
+        private void btnSaveManualCode_Click(object sender, EventArgs e)
         {
-            var barcode = new QrTableData
+            try
+            {
+                string manualCode = txtManualCode.Text.Trim();
+
+                if (string.IsNullOrEmpty(manualCode))
+                {
+                    MessageBox.Show("Enter manual code!");
+                    return;
+                }
+
+                if (selectedProductId > 0)
+                {
+                    SaveManualCode(selectedProductId, manualCode);
+                    MessageBox.Show("Manual Code Saved!");
+                }
+                else
+                {
+                    MessageBox.Show("Enter/Select product first (Add a product) to save manual code.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Manual Code Error: " + ex.Message);
+            }
+        }
+
+        private void SaveQRCode(int productId, string qrText)
+        {
+            var data = new QrTableData
             {
                 ProductId = productId,
-                QrCode = Guid.Parse(code.Length < 36 ? Guid.NewGuid().ToString() : code),
+                CodeValue = qrText,
+                CodeType = "QR",
                 CreatedAt = DateTime.Now
             };
 
-            _qrService.Add(barcode);
+            _qrService.Add(data);
+        }
+
+        private void SaveBarcode(int productId, string barcodeValue)
+        {
+            var data = new QrTableData
+            {
+                ProductId = productId,
+                CodeValue = barcodeValue,
+                CodeType = "BARCODE",
+                CreatedAt = DateTime.Now
+            };
+
+            _qrService.Add(data);
         }
 
         private void SaveManualCode(int productId, string manualCode)
         {
-            var codeData = new QrTableData
+            var data = new QrTableData
             {
                 ProductId = productId,
-                QrCode = Guid.NewGuid(), // System GUID (required)
+                CodeValue = manualCode,
+                CodeType = "MANUAL",
                 CreatedAt = DateTime.Now
             };
 
-            _qrService.Add(codeData);
-
-            MessageBox.Show("Manual Code Saved Successfully!");
+            _qrService.Add(data);
         }
-
-
     }
 }

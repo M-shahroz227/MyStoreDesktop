@@ -7,6 +7,10 @@ namespace MyStoreDesktop.Services.QrTableDataService
     {
         IEnumerable<QrTableData> GetAll();
         QrTableData GetById(int id);
+
+        // Get all QR / Barcode / Manual codes of a specific product
+        IEnumerable<QrTableData> GetByProduct(int productId);
+
         void Add(QrTableData qrData);
         void Update(QrTableData qrData);
         void Delete(int id);

@@ -86,9 +86,11 @@ namespace MyStoreDesktop
             var qr = new QrTableData
             {
                 ProductId = Convert.ToInt32(cmbProducts.SelectedValue),
-                QrCode = Guid.NewGuid(),
+                CodeValue = txtQrCode.Text,  // QR content
+                CodeType = "QR",
                 CreatedAt = DateTime.Now
             };
+
 
             _qrService.Add(qr);
             MessageBox.Show("✅ QR Code saved successfully!");
