@@ -53,20 +53,20 @@
             this.lbDescription = new System.Windows.Forms.Label();
             this.btnManageCategories = new System.Windows.Forms.Button();
             this.panelQRCode = new System.Windows.Forms.Panel();
+            this.picQRPreview = new System.Windows.Forms.PictureBox();
             this.btnGenerateQR = new System.Windows.Forms.Button();
             this.panelManual = new System.Windows.Forms.Panel();
             this.txtManualCode = new System.Windows.Forms.TextBox();
             this.btnSaveManualCode = new System.Windows.Forms.Button();
             this.panelBarcode = new System.Windows.Forms.Panel();
+            this.picBarcodePreview = new System.Windows.Forms.PictureBox();
             this.btnGenerateBarcode = new System.Windows.Forms.Button();
             this.cmbCodeType = new System.Windows.Forms.ComboBox();
-            this.picQRPreview = new System.Windows.Forms.PictureBox();
-            this.picBarcodePreview = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).BeginInit();
             this.panelQRCode.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picQRPreview)).BeginInit();
             this.panelManual.SuspendLayout();
             this.panelBarcode.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picQRPreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBarcodePreview)).BeginInit();
             this.SuspendLayout();
             // 
@@ -297,8 +297,18 @@
             this.panelQRCode.Controls.Add(this.btnGenerateQR);
             this.panelQRCode.Location = new System.Drawing.Point(117, 407);
             this.panelQRCode.Name = "panelQRCode";
-            this.panelQRCode.Size = new System.Drawing.Size(242, 104);
+            this.panelQRCode.Size = new System.Drawing.Size(242, 103);
             this.panelQRCode.TabIndex = 26;
+            // 
+            // picQRPreview
+            // 
+            this.picQRPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picQRPreview.Location = new System.Drawing.Point(148, 13);
+            this.picQRPreview.Name = "picQRPreview";
+            this.picQRPreview.Size = new System.Drawing.Size(80, 80);
+            this.picQRPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picQRPreview.TabIndex = 26;
+            this.picQRPreview.TabStop = false;
             // 
             // btnGenerateQR
             // 
@@ -316,7 +326,7 @@
             // 
             this.panelManual.Controls.Add(this.txtManualCode);
             this.panelManual.Controls.Add(this.btnSaveManualCode);
-            this.panelManual.Location = new System.Drawing.Point(0, 10);
+            this.panelManual.Location = new System.Drawing.Point(93, 414);
             this.panelManual.Name = "panelManual";
             this.panelManual.Size = new System.Drawing.Size(244, 100);
             this.panelManual.TabIndex = 27;
@@ -345,11 +355,20 @@
             // 
             this.panelBarcode.Controls.Add(this.picBarcodePreview);
             this.panelBarcode.Controls.Add(this.btnGenerateBarcode);
-            this.panelBarcode.Controls.Add(this.panelManual);
-            this.panelBarcode.Location = new System.Drawing.Point(117, 410);
+            this.panelBarcode.Location = new System.Drawing.Point(109, 411);
             this.panelBarcode.Name = "panelBarcode";
-            this.panelBarcode.Size = new System.Drawing.Size(250, 100);
+            this.panelBarcode.Size = new System.Drawing.Size(260, 100);
             this.panelBarcode.TabIndex = 28;
+            // 
+            // picBarcodePreview
+            // 
+            this.picBarcodePreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picBarcodePreview.Location = new System.Drawing.Point(148, 10);
+            this.picBarcodePreview.Name = "picBarcodePreview";
+            this.picBarcodePreview.Size = new System.Drawing.Size(80, 80);
+            this.picBarcodePreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBarcodePreview.TabIndex = 26;
+            this.picBarcodePreview.TabStop = false;
             // 
             // btnGenerateBarcode
             // 
@@ -375,26 +394,6 @@
             this.cmbCodeType.Size = new System.Drawing.Size(219, 21);
             this.cmbCodeType.TabIndex = 29;
             // 
-            // picQRPreview
-            // 
-            this.picQRPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picQRPreview.Location = new System.Drawing.Point(148, 10);
-            this.picQRPreview.Name = "picQRPreview";
-            this.picQRPreview.Size = new System.Drawing.Size(80, 80);
-            this.picQRPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picQRPreview.TabIndex = 26;
-            this.picQRPreview.TabStop = false;
-            // 
-            // picBarcodePreview
-            // 
-            this.picBarcodePreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picBarcodePreview.Location = new System.Drawing.Point(148, 10);
-            this.picBarcodePreview.Name = "picBarcodePreview";
-            this.picBarcodePreview.Size = new System.Drawing.Size(80, 80);
-            this.picBarcodePreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBarcodePreview.TabIndex = 26;
-            this.picBarcodePreview.TabStop = false;
-            // 
             // ProductForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -403,6 +402,7 @@
             this.ClientSize = new System.Drawing.Size(1140, 561);
             this.Controls.Add(this.cmbCodeType);
             this.Controls.Add(this.panelBarcode);
+            this.Controls.Add(this.panelManual);
             this.Controls.Add(this.panelQRCode);
             this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.lbDescription);
@@ -435,10 +435,10 @@
             this.Load += new System.EventHandler(this.ProductForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).EndInit();
             this.panelQRCode.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picQRPreview)).EndInit();
             this.panelManual.ResumeLayout(false);
             this.panelManual.PerformLayout();
             this.panelBarcode.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picQRPreview)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBarcodePreview)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

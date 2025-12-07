@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-using MyStoreDesktop.Models;
+﻿using MyStoreDesktop.Models;
 using MyStoreDesktop.Services.ProductService;
 using MyStoreDesktop.Services.QrTableDataService;
 using QRCoder;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using ZXing;
 using ZXing.Common;
 
@@ -148,7 +150,7 @@ namespace MyStoreDesktop
             selectedImagePath = "";
             picQRPreview.Image = null;
             picBarcodePreview.Image = null;
-            txtBarcodeValue.Text = "";
+            
             txtManualCode.Text = "";
 
             if (cboCategory.Items.Count > 0)
@@ -454,7 +456,7 @@ namespace MyStoreDesktop
         {
             try
             {
-                // Generate 12-digit random code
+                // Generate 12-digit random barcode
                 string barcodeValue = Guid.NewGuid().ToString("N").Substring(0, 12);
 
                 var writer = new BarcodeWriterPixelData
@@ -468,33 +470,52 @@ namespace MyStoreDesktop
                     }
                 };
 
+                // Generate raw pixels
                 var pixelData = writer.Write(barcodeValue);
 
-                // Create bitmap
+                // Convert pixels to bitmap
                 Bitmap bitmap = new Bitmap(pixelData.Width, pixelData.Height, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
                 var bitmapData = bitmap.LockBits(
                     new Rectangle(0, 0, pixelData.Width, pixelData.Height),
-                    System.Drawing.Imaging.ImageLockMode.WriteOnly,
+                    ImageLockMode.WriteOnly,
                     bitmap.PixelFormat
                 );
 
-                System.Runtime.InteropServices.Marshal.Copy(pixelData.Pixels, 0, bitmapData.Scan0, pixelData.Pixels.Length);
+                Marshal.Copy(pixelData.Pixels, 0, bitmapData.Scan0, pixelData.Pixels.Length);
                 bitmap.UnlockBits(bitmapData);
 
-                // Show preview
-                picBarcodePreview.Image = bitmap;
-                txtBarcodeValue.Text = barcodeValue;
+                // ---- OPEN POPUP (QR jaise) ----
+                BarcodePopup popup = new BarcodePopup(bitmap); // pass your image here
+                popup.BarcodeValue = barcodeValue;  // you can still set BarcodeValue separately
+                popup.ShowDialog();
 
-                // Save in database
-                SaveBarcode(selectedProductId, barcodeValue);
 
-                MessageBox.Show("Barcode generated & saved!");
+                if (popup.ShowDialog() == DialogResult.OK)
+                {
+                    // Preview screen me show karo
+                    picBarcodePreview.Image = bitmap;
+
+                    // If product selected → save
+                    if (selectedProductId > 0)
+                    {
+                        SaveBarcode(selectedProductId, barcodeValue);
+                        MessageBox.Show("Barcode added to product!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Barcode generated for preview. Save the product first to store it in database.",
+                                        "Preview", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+
+                popup.Dispose();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Barcode Error: " + ex.Message);
             }
         }
+
 
         private void btnSaveManualCode_Click(object sender, EventArgs e)
         {
