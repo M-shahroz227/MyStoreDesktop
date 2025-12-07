@@ -44,8 +44,7 @@ namespace MyStoreDesktop
             dgvAddToCard.TabIndex = 1;
             txtPayment.TabIndex = 2;
             btnConfirm.TabIndex = 3;
-            blinkTimer.Interval = 500; // milliseconds
-            blinkTimer.Tick += BlinkTimer_Tick;
+            
 
             lstSuggestion.Visible = false;
             dgvAddToCard.CellContentClick += dgvAddToCard_CellContentClick;
@@ -160,13 +159,9 @@ namespace MyStoreDesktop
 
         private void BlinkTimer_Tick(object sender, EventArgs e)
         {
-            if (isBlinking)
-                txtSearch.BackColor = Color.White;
-            else
-                txtSearch.BackColor = Color.Yellow;
-
-            isBlinking = !isBlinking;
+            txtSearch.BackColor = Color.White; // always white
         }
+
 
 
         private void AddToCartData(Product product)
