@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using MyStoreDesktop.Models;
 using MyStoreDesktop.Services.ProductService;
+using MyStoreDesktop.Theme;
 
 namespace MyStoreDesktop
 {
@@ -27,6 +28,10 @@ namespace MyStoreDesktop
         {
             _productService = productService;
             InitializeComponent();
+
+            // Apply professional blue theme
+            ThemeManager.ApplyTheme(this);
+
             LoadCompanies();
         }
 

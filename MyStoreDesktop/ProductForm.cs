@@ -1,6 +1,7 @@
 ﻿using MyStoreDesktop.Models;
 using MyStoreDesktop.Services.ProductService;
 using MyStoreDesktop.Services.QrTableDataService;
+using MyStoreDesktop.Theme;
 using QRCoder;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,10 @@ namespace MyStoreDesktop
         public ProductForm()
         {
             InitializeComponent();
+
+            // Apply professional blue theme
+            ThemeManager.ApplyTheme(this);
+
             cmbCodeType.SelectedIndexChanged += cmbCodeType_SelectedIndexChanged;
         }
 

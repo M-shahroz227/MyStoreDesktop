@@ -2,6 +2,7 @@
 using MyStoreDesktop.Services.BillProductService;
 using MyStoreDesktop.Services.BillService;
 using MyStoreDesktop.Services.CustomerInvoiceService;
+using MyStoreDesktop.Theme;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,6 +23,10 @@ namespace MyStoreDesktop
         public SalesForm()
         {
             InitializeComponent();
+
+            // Apply professional blue theme
+            ThemeManager.ApplyTheme(this);
+
             this.Load += BDVdataGridView_Load;
         }
 

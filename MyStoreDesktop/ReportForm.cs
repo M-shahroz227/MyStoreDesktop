@@ -2,6 +2,7 @@
 using MyStoreDesktop.Services.BillProductService;
 using MyStoreDesktop.Services.BillService;
 using MyStoreDesktop.Services.CustomerInvoiceService;
+using MyStoreDesktop.Theme;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,7 +10,6 @@ using System.Drawing.Printing;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
-using System.Drawing.Printing;
 
 namespace MyStoreDesktop
 {
@@ -24,6 +24,9 @@ namespace MyStoreDesktop
         public ReportForm()
         {
             InitializeComponent();
+
+            // Apply professional blue theme
+            ThemeManager.ApplyTheme(this);
         }
 
         private void ReportForm_Load(object sender, EventArgs e)

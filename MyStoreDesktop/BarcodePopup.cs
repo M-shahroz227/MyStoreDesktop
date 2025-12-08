@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Windows.Forms;
+using MyStoreDesktop.Theme;
 
 namespace MyStoreDesktop
 {
@@ -20,6 +21,9 @@ namespace MyStoreDesktop
 
             InitializeComponent();
             SetupUI();
+
+            // Apply professional blue theme
+            ThemeManager.ApplyTheme(this);
         }
 
         private void SetupUI()

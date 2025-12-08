@@ -229,6 +229,8 @@
     <Compile Include="Services\QrTableDataService\QrTableDataService.cs" />
     <Compile Include="Services\UserService\IUserService.cs" />
     <Compile Include="Services\UserService\UserService.cs" />
+    <Compile Include="Theme\AppTheme.cs" />
+    <Compile Include="Theme\ThemeManager.cs" />
     <Compile Include="UserForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -1,5 +1,6 @@
 ﻿using MyStoreDesktop.Models;
 using MyStoreDesktop.Services.BillService;
+using MyStoreDesktop.Theme;
 using System;
 using System.Drawing;
 using System.Drawing.Printing;
@@ -17,6 +18,10 @@ namespace MyStoreDesktop
             InitializeComponent();
             _bill = bill;
             _callerForm = callerForm;
+
+            // Apply professional blue theme
+            ThemeManager.ApplyTheme(this);
+
             LoadBillInfo();
         }
 

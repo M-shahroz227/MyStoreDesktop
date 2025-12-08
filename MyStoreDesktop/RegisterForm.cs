@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using MyStoreDesktop.Models;
 using MyStoreDesktop.Services.UserService;
+using MyStoreDesktop.Theme;
 
 namespace MyStoreDesktop
 {
@@ -13,6 +14,9 @@ namespace MyStoreDesktop
         {
             InitializeComponent();
             _userService = new UserService();
+
+            // Apply professional blue theme
+            ThemeManager.ApplyTheme(this);
         }
 
         private void btnRegister_Click(object sender, EventArgs e)

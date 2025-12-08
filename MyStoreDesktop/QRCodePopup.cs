@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Windows.Forms;
+using MyStoreDesktop.Theme;
 
 namespace MyStoreDesktop
 {
@@ -29,6 +30,9 @@ namespace MyStoreDesktop
         public QRCodePopup()
         {
             InitializeComponent();
+
+            // Apply professional blue theme
+            ThemeManager.ApplyTheme(this);
         }
 
         private void btnPrintQR_Click(object sender, EventArgs e)

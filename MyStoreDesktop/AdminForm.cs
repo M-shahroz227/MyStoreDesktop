@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MyStoreDesktop.Theme;
 
 namespace MyStoreDesktop
 {
@@ -15,6 +16,9 @@ namespace MyStoreDesktop
         public AdminForm()
         {
             InitializeComponent();
+
+            // Apply professional blue theme
+            ThemeManager.ApplyTheme(this);
 
             // Wire up logout button
             btnLogout.Click += BtnLogout_Click;

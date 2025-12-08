@@ -1,6 +1,7 @@
 ﻿using MyStoreDesktop.Models;
 using MyStoreDesktop.Services.QrTableDataService; // ✅ service ka namespace
 using MyStoreDesktop.Data;
+using MyStoreDesktop.Theme;
 using QRCoder; // ✅ install from NuGet: Install-Package QRCoder
 using System;
 using System.Drawing;
@@ -18,6 +19,9 @@ namespace MyStoreDesktop
         public QrForm()
         {
             InitializeComponent();
+
+            // Apply professional blue theme
+            ThemeManager.ApplyTheme(this);
         }
 
         private void QrForm_Load(object sender, EventArgs e)
