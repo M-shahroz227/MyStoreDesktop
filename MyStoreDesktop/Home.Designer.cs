@@ -517,6 +517,7 @@ namespace MyStoreDesktop
             this.btnlogout.TabIndex = 1;
             this.btnlogout.Text = "LOGOUT";
             this.btnlogout.UseVisualStyleBackColor = false;
+            this.btnlogout.Click += new System.EventHandler(this.btnlogout_Click);
             // 
             // label1
             // 

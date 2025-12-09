@@ -580,10 +580,11 @@ namespace MyStoreDesktop
             }
         }
 
+        private void btnlogout_Click(object sender, EventArgs e)
+        {
+            this.Hide();
 
 
-
-
-
+        }
     }
 }
