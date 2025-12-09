@@ -30,7 +30,7 @@ namespace MyStoreDesktop
         }
 
         private void ReportForm_Load(object sender, EventArgs e)
-        {
+        { 
             cmbReportType.Items.AddRange(new string[] { "Daily", "Monthly", "Yearly" });
             cmbReportType.SelectedIndex = 0;
 
@@ -82,45 +82,61 @@ namespace MyStoreDesktop
 
             decimal grandTotalSales = 0m;
             decimal grandTotalTax = 0m;
-
-            IEnumerable<IGrouping<string, Bill>> groupedData = null;
-
-            switch (cmbReportType.SelectedItem.ToString())
+            if (cmbReportType.SelectedIndex == null)
             {
-                case "Daily":
-                    groupedData = bills.GroupBy(b => b.BillDate.ToString("yyyy-MM-dd"));
-                    break;
-                case "Monthly":
-                    groupedData = bills.GroupBy(b => b.BillDate.ToString("yyyy-MM"));
-                    break;
-                case "Yearly":
-                    groupedData = bills.GroupBy(b => b.BillDate.ToString("yyyy"));
-                    break;
+                MessageBox.Show("Please select report type first");
             }
-
-            foreach (var group in groupedData)
+            else
             {
-                int count = group.Count();
-                decimal totalSales = group.Sum(b => b.GrandTotal);
-                decimal totalTax = group.Sum(b => b.Tax);
+                var select = cmbReportType.SelectedItem.ToString();
+                IEnumerable<IGrouping<string, Bill>> groupedData = null;
 
-                var firstBill = group.First(); // Get any bill for BillId
+                switch (select)
+                {
+                    case "Daily":
+                        groupedData = bills.GroupBy(b => b.BillDate.ToString("yyyy-MM-dd"));
+                        break;
+                    case "Monthly":
+                        groupedData = bills.GroupBy(b => b.BillDate.ToString("yyyy-MM"));
+                        break;
+                    case "Yearly":
+                        groupedData = bills.GroupBy(b => b.BillDate.ToString("yyyy"));
+                        break;
+                    default:
+                        MessageBox.Show("Invalid Selection");
+                        break;
+                }
+                if(groupedData == null)
+                {
+                    MessageBox.Show("No data found");
+                    return;
 
-                dgvReports.Rows.Add(
-                    firstBill.BillId,        // Hidden BillId
-                    group.Key,
-                    count,
-                    totalSales.ToString("0.00"),
-                    totalTax.ToString("0.00"),
-                    "View"
-                );
+                }
 
-                grandTotalSales += totalSales;
-                grandTotalTax += totalTax;
+                foreach (var group in groupedData)
+                {
+                    int count = group.Count();
+                    decimal totalSales = group.Sum(b => b.GrandTotal);
+                    decimal totalTax = group.Sum(b => b.Tax);
+
+                    var firstBill = group.First(); // Get any bill for BillId
+
+                    dgvReports.Rows.Add(
+                        firstBill.BillId,        // Hidden BillId
+                        group.Key,
+                        count,
+                        totalSales.ToString("0.00"),
+                        totalTax.ToString("0.00"),
+                        "View"
+                    );
+
+                    grandTotalSales += totalSales;
+                    grandTotalTax += totalTax;
+                }
+
+                lblTotalSalesValue.Text = grandTotalSales.ToString("C", CultureInfo.CurrentCulture);
+                lblTotalTaxValue.Text = grandTotalTax.ToString("C", CultureInfo.CurrentCulture);
             }
-
-            lblTotalSalesValue.Text = grandTotalSales.ToString("C", CultureInfo.CurrentCulture);
-            lblTotalTaxValue.Text = grandTotalTax.ToString("C", CultureInfo.CurrentCulture);
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
