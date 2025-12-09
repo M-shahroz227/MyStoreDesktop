@@ -326,13 +326,14 @@
             // 
             this.panelManual.Controls.Add(this.txtManualCode);
             this.panelManual.Controls.Add(this.btnSaveManualCode);
-            this.panelManual.Location = new System.Drawing.Point(93, 414);
+            this.panelManual.Location = new System.Drawing.Point(106, 410);
             this.panelManual.Name = "panelManual";
             this.panelManual.Size = new System.Drawing.Size(244, 100);
             this.panelManual.TabIndex = 27;
             // 
             // txtManualCode
             // 
+            this.txtManualCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtManualCode.Location = new System.Drawing.Point(15, 10);
             this.txtManualCode.Multiline = true;
             this.txtManualCode.Name = "txtManualCode";

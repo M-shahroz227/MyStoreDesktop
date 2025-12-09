@@ -91,6 +91,7 @@ namespace MyStoreDesktop
         {
             if (!blinkTimer.Enabled)
                 blinkTimer.Start();
+
             string search = txtSearch.Text.Trim().ToLower();
 
             if (string.IsNullOrEmpty(search))
@@ -100,21 +101,25 @@ namespace MyStoreDesktop
             }
 
             var products = _productService.GetAll()
-                .Where(p => p.Title.ToLower().Contains(search)
-                         || (p.Model != null && p.Model.ToLower().Contains(search))
-                         || (p.Category != null && p.Category.Title.ToLower().Contains(search))
-                         || (p.ProductCode != null && p.ProductCode.ToLower().Equals(search))
-                         || (p.Company != null && p.Company.Title.ToLower().Contains(search)))
-                .ToList();
+    .Where(p =>
+           p.Title.ToLower().Contains(search)
+        || (p.Model != null && p.Model.ToLower().Contains(search))
+        || (p.Category != null && p.Category.Title.ToLower().Contains(search))
+        || (p.ProductCode != null && p.ProductCode.ToLower().Equals(search))
+        || (p.CodeType == 1 && p.ProductCode.ToLower().Equals(search))   // 🔥 QR Code
+        || (p.CodeType == 2 && p.ProductCode.ToLower().Equals(search))   // 🔥 Barcode
+        || (p.Company != null && p.Company.Title.ToLower().Contains(search))
+    )
+    .ToList();
+
 
             lstSuggestion.DataSource = products;
             lstSuggestion.DisplayMember = "Title";
             lstSuggestion.ValueMember = "ProductId";
             lstSuggestion.Visible = products.Any();
         }
-
         private void lstSuggestion_Click(object sender, EventArgs e)
-         {
+        {
             if (lstSuggestion.SelectedItem == null)
                 return;
 
@@ -124,24 +129,7 @@ namespace MyStoreDesktop
             lstSuggestion.Visible = false;
             txtSearch.Clear();
         }
-        private void lstSuggestion_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                if (lstSuggestion.SelectedItem != null)
-                {
-                    var product = (Product)lstSuggestion.SelectedItem;
 
-                    AddToCartData(product);
-
-                    lstSuggestion.Visible = false;
-                    txtSearch.Clear();
-                    txtSearch.Focus();
-
-                    e.SuppressKeyPress = true;
-                }
-            }
-        }
         private void txtSearch_Enter(object sender, EventArgs e)
         {
             // Start blinking when the TextBox gets focus

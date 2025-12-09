@@ -605,7 +605,6 @@ namespace MyStoreDesktop
             this.lstSuggestion.TabIndex = 2;
             this.lstSuggestion.Visible = false;
             this.lstSuggestion.Click += new System.EventHandler(this.lstSuggestion_Click);
-            this.lstSuggestion.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstSuggestion_KeyDown);
             // 
             // btnSearch
             // 
@@ -627,7 +626,6 @@ namespace MyStoreDesktop
             this.txtSearch.Size = new System.Drawing.Size(542, 28);
             this.txtSearch.TabIndex = 0;
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
-            
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
             // 
