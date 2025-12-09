@@ -4,6 +4,7 @@ using MyStoreDesktop.Services.BillService;
 using MyStoreDesktop.Services.BillProductService;
 using MyStoreDesktop.Services.CustomerInvoiceService;
 using MyStoreDesktop.Data;
+using MyStoreDesktop.Theme;
 
 using System;
 using System.Collections.Generic;
@@ -40,11 +41,15 @@ namespace MyStoreDesktop
         public Home()
         {
             InitializeComponent();
+
+            // Apply professional blue theme
+            ThemeManager.ApplyTheme(this);
+
             txtSearch.TabIndex = 0;
             dgvAddToCard.TabIndex = 1;
             txtPayment.TabIndex = 2;
             btnConfirm.TabIndex = 3;
-            
+
 
             lstSuggestion.Visible = false;
             dgvAddToCard.CellContentClick += dgvAddToCard_CellContentClick;

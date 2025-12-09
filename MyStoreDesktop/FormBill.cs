@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Windows.Forms;
+using MyStoreDesktop.Theme;
 
 namespace MyStoreDesktop
 {
@@ -23,6 +24,9 @@ namespace MyStoreDesktop
         public FormBill()
         {
             InitializeComponent();
+
+            // Apply professional blue theme
+            ThemeManager.ApplyTheme(this);
 
             dgvCart = new DataGridView();
             // DataGridView Columns

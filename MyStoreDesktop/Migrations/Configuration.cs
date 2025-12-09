@@ -16,6 +16,13 @@ namespace MyStoreDesktop.Migrations
 
         protected override void Seed(MyStoreDesktop.Data.DatabaseHelper context)
         {
+            // ✅ Check if database is already seeded by checking if admin user exists
+            if (context.Users.Any(u => u.UserName == "admin"))
+            {
+                // Database is already seeded, skip seeding
+                return;
+            }
+
             // 1️⃣ Seed Companies first (for FK in Products)
             context.Companies.AddOrUpdate(
                 c => c.Title,

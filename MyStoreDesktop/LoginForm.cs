@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using MyStoreDesktop.Models;
 using MyStoreDesktop.Services;
 using MyStoreDesktop.Services.UserService;
+using MyStoreDesktop.Theme;
 
 namespace MyStoreDesktop
 {
@@ -19,6 +20,9 @@ namespace MyStoreDesktop
         {
             InitializeComponent();
             _userService = new UserService();
+
+            // Apply professional blue theme
+            ThemeManager.ApplyTheme(this);
 
             // Load saved credentials if Remember Me was checked previously
             LoadSavedCredentials();

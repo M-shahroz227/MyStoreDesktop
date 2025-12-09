@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using MyStoreDesktop.Theme;
 
 namespace MyStoreDesktop
 {
@@ -9,6 +10,9 @@ namespace MyStoreDesktop
         public UserForm()
         {
             InitializeComponent();
+
+            // Apply professional blue theme
+            ThemeManager.ApplyTheme(this);
         }
 
         private void UserForm_Load(object sender, EventArgs e)
