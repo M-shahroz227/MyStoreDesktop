@@ -73,7 +73,7 @@
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
-            this.lblTitle.Location = new System.Drawing.Point(30, 40);
+            this.lblTitle.Location = new System.Drawing.Point(30, 69);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(70, 13);
             this.lblTitle.TabIndex = 0;
@@ -81,7 +81,7 @@
             // 
             // txtTitle
             // 
-            this.txtTitle.Location = new System.Drawing.Point(150, 35);
+            this.txtTitle.Location = new System.Drawing.Point(150, 64);
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.Size = new System.Drawing.Size(220, 20);
             this.txtTitle.TabIndex = 1;
@@ -90,15 +90,15 @@
             // 
             this.cboCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCategory.FormattingEnabled = true;
-            this.cboCategory.Location = new System.Drawing.Point(150, 75);
+            this.cboCategory.Location = new System.Drawing.Point(151, 22);
             this.cboCategory.Name = "cboCategory";
-            this.cboCategory.Size = new System.Drawing.Size(149, 21);
+            this.cboCategory.Size = new System.Drawing.Size(148, 21);
             this.cboCategory.TabIndex = 3;
             // 
             // lblCategory
             // 
             this.lblCategory.AutoSize = true;
-            this.lblCategory.Location = new System.Drawing.Point(30, 80);
+            this.lblCategory.Location = new System.Drawing.Point(31, 27);
             this.lblCategory.Name = "lblCategory";
             this.lblCategory.Size = new System.Drawing.Size(49, 13);
             this.lblCategory.TabIndex = 2;
@@ -171,7 +171,7 @@
             // lblCompany
             // 
             this.lblCompany.AutoSize = true;
-            this.lblCompany.Location = new System.Drawing.Point(30, 280);
+            this.lblCompany.Location = new System.Drawing.Point(405, 62);
             this.lblCompany.Name = "lblCompany";
             this.lblCompany.Size = new System.Drawing.Size(54, 13);
             this.lblCompany.TabIndex = 12;
@@ -181,16 +181,16 @@
             // 
             this.cboCompany.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCompany.FormattingEnabled = true;
-            this.cboCompany.Location = new System.Drawing.Point(150, 275);
+            this.cboCompany.Location = new System.Drawing.Point(524, 56);
             this.cboCompany.Name = "cboCompany";
-            this.cboCompany.Size = new System.Drawing.Size(151, 21);
+            this.cboCompany.Size = new System.Drawing.Size(138, 21);
             this.cboCompany.TabIndex = 13;
             // 
             // btnManageCompanies
             // 
-            this.btnManageCompanies.Location = new System.Drawing.Point(306, 274);
+            this.btnManageCompanies.Location = new System.Drawing.Point(680, 47);
             this.btnManageCompanies.Name = "btnManageCompanies";
-            this.btnManageCompanies.Size = new System.Drawing.Size(63, 21);
+            this.btnManageCompanies.Size = new System.Drawing.Size(90, 35);
             this.btnManageCompanies.TabIndex = 14;
             this.btnManageCompanies.Text = "Manage";
             this.btnManageCompanies.UseVisualStyleBackColor = true;
@@ -199,7 +199,7 @@
             // lblModel
             // 
             this.lblModel.AutoSize = true;
-            this.lblModel.Location = new System.Drawing.Point(30, 320);
+            this.lblModel.Location = new System.Drawing.Point(404, 116);
             this.lblModel.Name = "lblModel";
             this.lblModel.Size = new System.Drawing.Size(39, 13);
             this.lblModel.TabIndex = 14;
@@ -207,7 +207,7 @@
             // 
             // txtModel
             // 
-            this.txtModel.Location = new System.Drawing.Point(150, 315);
+            this.txtModel.Location = new System.Drawing.Point(524, 111);
             this.txtModel.Name = "txtModel";
             this.txtModel.Size = new System.Drawing.Size(220, 20);
             this.txtModel.TabIndex = 15;
@@ -216,7 +216,7 @@
             // 
             this.btnAdd.BackColor = System.Drawing.Color.SeaGreen;
             this.btnAdd.ForeColor = System.Drawing.Color.White;
-            this.btnAdd.Location = new System.Drawing.Point(50, 517);
+            this.btnAdd.Location = new System.Drawing.Point(803, 197);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(100, 35);
             this.btnAdd.TabIndex = 16;
@@ -228,7 +228,7 @@
             // 
             this.btnUpdate.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnUpdate.ForeColor = System.Drawing.Color.White;
-            this.btnUpdate.Location = new System.Drawing.Point(159, 517);
+            this.btnUpdate.Location = new System.Drawing.Point(912, 197);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(100, 35);
             this.btnUpdate.TabIndex = 17;
@@ -240,7 +240,7 @@
             // 
             this.btnDelete.BackColor = System.Drawing.Color.Crimson;
             this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(269, 517);
+            this.btnDelete.Location = new System.Drawing.Point(1022, 197);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(100, 35);
             this.btnDelete.TabIndex = 18;
@@ -254,18 +254,18 @@
             this.dgvProducts.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvProducts.BackgroundColor = System.Drawing.Color.White;
             this.dgvProducts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvProducts.Location = new System.Drawing.Point(400, 35);
+            this.dgvProducts.Location = new System.Drawing.Point(13, 300);
             this.dgvProducts.Name = "dgvProducts";
             this.dgvProducts.ReadOnly = true;
             this.dgvProducts.RowHeadersWidth = 51;
             this.dgvProducts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProducts.Size = new System.Drawing.Size(718, 370);
+            this.dgvProducts.Size = new System.Drawing.Size(1115, 249);
             this.dgvProducts.TabIndex = 19;
             this.dgvProducts.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProducts_CellClick);
             // 
             // txtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(150, 353);
+            this.txtDescription.Location = new System.Drawing.Point(524, 159);
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(220, 20);
             this.txtDescription.TabIndex = 21;
@@ -273,7 +273,7 @@
             // lbDescription
             // 
             this.lbDescription.AutoSize = true;
-            this.lbDescription.Location = new System.Drawing.Point(30, 358);
+            this.lbDescription.Location = new System.Drawing.Point(404, 165);
             this.lbDescription.Name = "lbDescription";
             this.lbDescription.Size = new System.Drawing.Size(60, 13);
             this.lbDescription.TabIndex = 20;
@@ -283,9 +283,9 @@
             // 
             this.btnManageCategories.BackColor = System.Drawing.Color.GhostWhite;
             this.btnManageCategories.ForeColor = System.Drawing.Color.Black;
-            this.btnManageCategories.Location = new System.Drawing.Point(304, 75);
+            this.btnManageCategories.Location = new System.Drawing.Point(305, 22);
             this.btnManageCategories.Name = "btnManageCategories";
-            this.btnManageCategories.Size = new System.Drawing.Size(65, 23);
+            this.btnManageCategories.Size = new System.Drawing.Size(90, 34);
             this.btnManageCategories.TabIndex = 25;
             this.btnManageCategories.Text = "Manage Categories";
             this.btnManageCategories.UseVisualStyleBackColor = false;
@@ -295,7 +295,7 @@
             // 
             this.panelQRCode.Controls.Add(this.picQRPreview);
             this.panelQRCode.Controls.Add(this.btnGenerateQR);
-            this.panelQRCode.Location = new System.Drawing.Point(117, 407);
+            this.panelQRCode.Location = new System.Drawing.Point(858, 40);
             this.panelQRCode.Name = "panelQRCode";
             this.panelQRCode.Size = new System.Drawing.Size(242, 103);
             this.panelQRCode.TabIndex = 26;
@@ -326,7 +326,7 @@
             // 
             this.panelManual.Controls.Add(this.txtManualCode);
             this.panelManual.Controls.Add(this.btnSaveManualCode);
-            this.panelManual.Location = new System.Drawing.Point(106, 410);
+            this.panelManual.Location = new System.Drawing.Point(856, 43);
             this.panelManual.Name = "panelManual";
             this.panelManual.Size = new System.Drawing.Size(244, 100);
             this.panelManual.TabIndex = 27;
@@ -356,7 +356,7 @@
             // 
             this.panelBarcode.Controls.Add(this.picBarcodePreview);
             this.panelBarcode.Controls.Add(this.btnGenerateBarcode);
-            this.panelBarcode.Location = new System.Drawing.Point(109, 411);
+            this.panelBarcode.Location = new System.Drawing.Point(856, 43);
             this.panelBarcode.Name = "panelBarcode";
             this.panelBarcode.Size = new System.Drawing.Size(260, 100);
             this.panelBarcode.TabIndex = 28;
@@ -364,7 +364,7 @@
             // picBarcodePreview
             // 
             this.picBarcodePreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picBarcodePreview.Location = new System.Drawing.Point(148, 10);
+            this.picBarcodePreview.Location = new System.Drawing.Point(146, 12);
             this.picBarcodePreview.Name = "picBarcodePreview";
             this.picBarcodePreview.Size = new System.Drawing.Size(80, 80);
             this.picBarcodePreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -375,7 +375,7 @@
             // 
             this.btnGenerateBarcode.BackColor = System.Drawing.Color.SlateBlue;
             this.btnGenerateBarcode.ForeColor = System.Drawing.Color.White;
-            this.btnGenerateBarcode.Location = new System.Drawing.Point(8, 34);
+            this.btnGenerateBarcode.Location = new System.Drawing.Point(6, 36);
             this.btnGenerateBarcode.Name = "btnGenerateBarcode";
             this.btnGenerateBarcode.Size = new System.Drawing.Size(120, 35);
             this.btnGenerateBarcode.TabIndex = 25;
@@ -390,7 +390,7 @@
             "QR Code",
             "Bar Code",
             "Manual Code"});
-            this.cmbCodeType.Location = new System.Drawing.Point(150, 380);
+            this.cmbCodeType.Location = new System.Drawing.Point(881, 9);
             this.cmbCodeType.Name = "cmbCodeType";
             this.cmbCodeType.Size = new System.Drawing.Size(219, 21);
             this.cmbCodeType.TabIndex = 29;

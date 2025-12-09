@@ -117,6 +117,7 @@
             this.btnAdd.TabIndex = 7;
             this.btnAdd.Text = "➕ Add User";
             this.btnAdd.UseVisualStyleBackColor = false;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnUpdate
             // 
@@ -131,6 +132,7 @@
             this.btnUpdate.TabIndex = 8;
             this.btnUpdate.Text = "✎ Update";
             this.btnUpdate.UseVisualStyleBackColor = false;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // btnDelete
             // 
@@ -145,6 +147,7 @@
             this.btnDelete.TabIndex = 9;
             this.btnDelete.Text = "🗑 Delete";
             this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // dgvUsers
             // 
