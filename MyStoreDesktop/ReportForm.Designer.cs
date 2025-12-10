@@ -150,11 +150,12 @@
             // lblTotalSalesValue
             // 
             this.lblTotalSalesValue.AutoSize = true;
+            this.lblTotalSalesValue.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblTotalSalesValue.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalSalesValue.ForeColor = System.Drawing.Color.Green;
             this.lblTotalSalesValue.Location = new System.Drawing.Point(1040, 500);
             this.lblTotalSalesValue.Name = "lblTotalSalesValue";
-            this.lblTotalSalesValue.Size = new System.Drawing.Size(41, 21);
+            this.lblTotalSalesValue.Size = new System.Drawing.Size(43, 23);
             this.lblTotalSalesValue.TabIndex = 10;
             this.lblTotalSalesValue.Text = "0.00";
             // 
@@ -171,11 +172,12 @@
             // lblTotalTaxValue
             // 
             this.lblTotalTaxValue.AutoSize = true;
+            this.lblTotalTaxValue.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblTotalTaxValue.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalTaxValue.ForeColor = System.Drawing.Color.Red;
             this.lblTotalTaxValue.Location = new System.Drawing.Point(1040, 540);
             this.lblTotalTaxValue.Name = "lblTotalTaxValue";
-            this.lblTotalTaxValue.Size = new System.Drawing.Size(41, 21);
+            this.lblTotalTaxValue.Size = new System.Drawing.Size(43, 23);
             this.lblTotalTaxValue.TabIndex = 12;
             this.lblTotalTaxValue.Text = "0.00";
             // 
