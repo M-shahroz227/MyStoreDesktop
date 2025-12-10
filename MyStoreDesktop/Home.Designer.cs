@@ -30,15 +30,17 @@ namespace MyStoreDesktop
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelMenu = new System.Windows.Forms.Panel();
+            this.picProduct = new System.Windows.Forms.PictureBox();
             this.Reports = new System.Windows.Forms.Button();
             this.Sales = new System.Windows.Forms.Button();
             this.btnUsers = new System.Windows.Forms.Button();
             this.btnProducts = new System.Windows.Forms.Button();
             this.btnHome = new System.Windows.Forms.Button();
             this.panelMainContent = new System.Windows.Forms.Panel();
+            this.lstSuggestion = new System.Windows.Forms.ListBox();
             this.rightPanel = new System.Windows.Forms.Panel();
             this.txtChange = new System.Windows.Forms.TextBox();
             this.Change = new System.Windows.Forms.Label();
@@ -48,7 +50,7 @@ namespace MyStoreDesktop
             this.lblDiscountValue = new System.Windows.Forms.TextBox();
             this.lblSubtotalValue = new System.Windows.Forms.TextBox();
             this.txtTaxValue = new System.Windows.Forms.TextBox();
-            this.btnConfirm = new System.Windows.Forms.Button();
+            this.BillConfirm = new System.Windows.Forms.Button();
             this.btnNum9 = new System.Windows.Forms.Button();
             this.btnNum8 = new System.Windows.Forms.Button();
             this.btnNum7 = new System.Windows.Forms.Button();
@@ -75,10 +77,11 @@ namespace MyStoreDesktop
             this.SalePrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Discount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lstSuggestion = new System.Windows.Forms.ListBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
+            this.UrlImage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picProduct)).BeginInit();
             this.panelMainContent.SuspendLayout();
             this.rightPanel.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -88,6 +91,7 @@ namespace MyStoreDesktop
             // panelMenu
             // 
             this.panelMenu.BackColor = System.Drawing.Color.AliceBlue;
+            this.panelMenu.Controls.Add(this.picProduct);
             this.panelMenu.Controls.Add(this.Reports);
             this.panelMenu.Controls.Add(this.Sales);
             this.panelMenu.Controls.Add(this.btnUsers);
@@ -96,15 +100,25 @@ namespace MyStoreDesktop
             this.panelMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelMenu.Location = new System.Drawing.Point(0, 0);
             this.panelMenu.Name = "panelMenu";
-            this.panelMenu.Size = new System.Drawing.Size(202, 661);
+            this.panelMenu.Size = new System.Drawing.Size(211, 601);
             this.panelMenu.TabIndex = 0;
+            // 
+            // picProduct
+            // 
+            this.picProduct.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picProduct.Location = new System.Drawing.Point(4, 379);
+            this.picProduct.Name = "picProduct";
+            this.picProduct.Size = new System.Drawing.Size(200, 200);
+            this.picProduct.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picProduct.TabIndex = 5;
+            this.picProduct.TabStop = false;
             // 
             // Reports
             // 
             this.Reports.BackColor = System.Drawing.Color.LightSeaGreen;
             this.Reports.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Reports.ForeColor = System.Drawing.Color.White;
-            this.Reports.Location = new System.Drawing.Point(27, 340);
+            this.Reports.Location = new System.Drawing.Point(27, 301);
             this.Reports.Name = "Reports";
             this.Reports.Size = new System.Drawing.Size(129, 40);
             this.Reports.TabIndex = 4;
@@ -117,7 +131,7 @@ namespace MyStoreDesktop
             this.Sales.BackColor = System.Drawing.Color.LightSeaGreen;
             this.Sales.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Sales.ForeColor = System.Drawing.Color.White;
-            this.Sales.Location = new System.Drawing.Point(27, 266);
+            this.Sales.Location = new System.Drawing.Point(27, 230);
             this.Sales.Name = "Sales";
             this.Sales.Size = new System.Drawing.Size(129, 40);
             this.Sales.TabIndex = 3;
@@ -130,7 +144,7 @@ namespace MyStoreDesktop
             this.btnUsers.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnUsers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUsers.ForeColor = System.Drawing.Color.White;
-            this.btnUsers.Location = new System.Drawing.Point(27, 191);
+            this.btnUsers.Location = new System.Drawing.Point(27, 156);
             this.btnUsers.Name = "btnUsers";
             this.btnUsers.Size = new System.Drawing.Size(129, 40);
             this.btnUsers.TabIndex = 2;
@@ -143,7 +157,7 @@ namespace MyStoreDesktop
             this.btnProducts.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnProducts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnProducts.ForeColor = System.Drawing.Color.White;
-            this.btnProducts.Location = new System.Drawing.Point(27, 124);
+            this.btnProducts.Location = new System.Drawing.Point(27, 89);
             this.btnProducts.Name = "btnProducts";
             this.btnProducts.Size = new System.Drawing.Size(129, 40);
             this.btnProducts.TabIndex = 1;
@@ -156,7 +170,7 @@ namespace MyStoreDesktop
             this.btnHome.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnHome.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnHome.ForeColor = System.Drawing.Color.White;
-            this.btnHome.Location = new System.Drawing.Point(27, 57);
+            this.btnHome.Location = new System.Drawing.Point(27, 24);
             this.btnHome.Name = "btnHome";
             this.btnHome.Size = new System.Drawing.Size(129, 40);
             this.btnHome.TabIndex = 0;
@@ -167,18 +181,28 @@ namespace MyStoreDesktop
             // panelMainContent
             // 
             this.panelMainContent.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panelMainContent.Controls.Add(this.lstSuggestion);
             this.panelMainContent.Controls.Add(this.rightPanel);
             this.panelMainContent.Controls.Add(this.panel1);
             this.panelMainContent.Controls.Add(this.dgvAddToCard);
-            this.panelMainContent.Controls.Add(this.lstSuggestion);
             this.panelMainContent.Controls.Add(this.btnSearch);
             this.panelMainContent.Controls.Add(this.txtSearch);
             this.panelMainContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMainContent.ForeColor = System.Drawing.Color.White;
-            this.panelMainContent.Location = new System.Drawing.Point(202, 0);
+            this.panelMainContent.Location = new System.Drawing.Point(211, 0);
             this.panelMainContent.Name = "panelMainContent";
-            this.panelMainContent.Size = new System.Drawing.Size(982, 661);
+            this.panelMainContent.Size = new System.Drawing.Size(973, 601);
             this.panelMainContent.TabIndex = 1;
+            // 
+            // lstSuggestion
+            // 
+            this.lstSuggestion.FormattingEnabled = true;
+            this.lstSuggestion.Location = new System.Drawing.Point(8, 102);
+            this.lstSuggestion.Name = "lstSuggestion";
+            this.lstSuggestion.Size = new System.Drawing.Size(591, 108);
+            this.lstSuggestion.TabIndex = 2;
+            this.lstSuggestion.Visible = false;
+            this.lstSuggestion.Click += new System.EventHandler(this.lstSuggestion_Click);
             // 
             // rightPanel
             // 
@@ -190,7 +214,7 @@ namespace MyStoreDesktop
             this.rightPanel.Controls.Add(this.lblDiscountValue);
             this.rightPanel.Controls.Add(this.lblSubtotalValue);
             this.rightPanel.Controls.Add(this.txtTaxValue);
-            this.rightPanel.Controls.Add(this.btnConfirm);
+            this.rightPanel.Controls.Add(this.BillConfirm);
             this.rightPanel.Controls.Add(this.btnNum9);
             this.rightPanel.Controls.Add(this.btnNum8);
             this.rightPanel.Controls.Add(this.btnNum7);
@@ -208,34 +232,36 @@ namespace MyStoreDesktop
             this.rightPanel.Controls.Add(this.lblTax);
             this.rightPanel.Controls.Add(this.lblSubTotal);
             this.rightPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.rightPanel.Location = new System.Drawing.Point(694, 59);
+            this.rightPanel.Location = new System.Drawing.Point(692, 59);
             this.rightPanel.Name = "rightPanel";
-            this.rightPanel.Size = new System.Drawing.Size(288, 602);
+            this.rightPanel.Size = new System.Drawing.Size(281, 542);
             this.rightPanel.TabIndex = 5;
             // 
             // txtChange
             // 
+            this.txtChange.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtChange.Location = new System.Drawing.Point(178, 186);
             this.txtChange.Name = "txtChange";
-            this.txtChange.Size = new System.Drawing.Size(84, 20);
+            this.txtChange.Size = new System.Drawing.Size(84, 25);
             this.txtChange.TabIndex = 28;
             // 
             // Change
             // 
             this.Change.AutoSize = true;
-            this.Change.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Change.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Change.ForeColor = System.Drawing.Color.ForestGreen;
-            this.Change.Location = new System.Drawing.Point(92, 188);
+            this.Change.Location = new System.Drawing.Point(64, 188);
             this.Change.Name = "Change";
-            this.Change.Size = new System.Drawing.Size(65, 18);
+            this.Change.Size = new System.Drawing.Size(79, 25);
             this.Change.TabIndex = 27;
             this.Change.Text = "Change";
             // 
             // txtPayment
             // 
+            this.txtPayment.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPayment.Location = new System.Drawing.Point(178, 151);
             this.txtPayment.Name = "txtPayment";
-            this.txtPayment.Size = new System.Drawing.Size(84, 20);
+            this.txtPayment.Size = new System.Drawing.Size(84, 25);
             this.txtPayment.TabIndex = 26;
             this.txtPayment.Click += new System.EventHandler(this.txtPayment_Click);
             this.txtPayment.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPayment_KeyDown);
@@ -243,67 +269,71 @@ namespace MyStoreDesktop
             // Payment
             // 
             this.Payment.AutoSize = true;
-            this.Payment.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Payment.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Payment.ForeColor = System.Drawing.Color.IndianRed;
-            this.Payment.Location = new System.Drawing.Point(92, 153);
+            this.Payment.Location = new System.Drawing.Point(64, 153);
             this.Payment.Name = "Payment";
-            this.Payment.Size = new System.Drawing.Size(73, 18);
+            this.Payment.Size = new System.Drawing.Size(90, 25);
             this.Payment.TabIndex = 25;
             this.Payment.Text = "Payment";
             // 
             // lblTotalValue
             // 
+            this.lblTotalValue.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalValue.Location = new System.Drawing.Point(177, 121);
             this.lblTotalValue.Name = "lblTotalValue";
-            this.lblTotalValue.Size = new System.Drawing.Size(84, 20);
+            this.lblTotalValue.Size = new System.Drawing.Size(84, 25);
             this.lblTotalValue.TabIndex = 24;
             this.lblTotalValue.Click += new System.EventHandler(this.lblTotalValue_Click);
             // 
             // lblDiscountValue
             // 
+            this.lblDiscountValue.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDiscountValue.Location = new System.Drawing.Point(177, 56);
             this.lblDiscountValue.Name = "lblDiscountValue";
-            this.lblDiscountValue.Size = new System.Drawing.Size(84, 20);
+            this.lblDiscountValue.Size = new System.Drawing.Size(84, 25);
             this.lblDiscountValue.TabIndex = 23;
             this.lblDiscountValue.Click += new System.EventHandler(this.lblDiscountValue_Click);
             this.lblDiscountValue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lblDiscountValue_KeyDown);
             // 
             // lblSubtotalValue
             // 
+            this.lblSubtotalValue.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSubtotalValue.Location = new System.Drawing.Point(177, 24);
             this.lblSubtotalValue.Name = "lblSubtotalValue";
-            this.lblSubtotalValue.Size = new System.Drawing.Size(84, 20);
+            this.lblSubtotalValue.Size = new System.Drawing.Size(84, 25);
             this.lblSubtotalValue.TabIndex = 22;
             // 
             // txtTaxValue
             // 
+            this.txtTaxValue.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTaxValue.Location = new System.Drawing.Point(177, 87);
             this.txtTaxValue.Name = "txtTaxValue";
-            this.txtTaxValue.Size = new System.Drawing.Size(84, 20);
+            this.txtTaxValue.Size = new System.Drawing.Size(84, 25);
             this.txtTaxValue.TabIndex = 21;
             this.txtTaxValue.Click += new System.EventHandler(this.txtTaxValue_Click);
             this.txtTaxValue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtTaxValue_KeyDown);
             // 
-            // btnConfirm
+            // BillConfirm
             // 
-            this.btnConfirm.BackColor = System.Drawing.Color.ForestGreen;
-            this.btnConfirm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnConfirm.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConfirm.ForeColor = System.Drawing.Color.Transparent;
-            this.btnConfirm.Location = new System.Drawing.Point(41, 462);
-            this.btnConfirm.Name = "btnConfirm";
-            this.btnConfirm.Size = new System.Drawing.Size(220, 49);
-            this.btnConfirm.TabIndex = 20;
-            this.btnConfirm.Text = "Submit";
-            this.btnConfirm.UseVisualStyleBackColor = false;
-            this.btnConfirm.Click += new System.EventHandler(this.BillConfirm_Click);
+            this.BillConfirm.BackColor = System.Drawing.Color.ForestGreen;
+            this.BillConfirm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BillConfirm.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BillConfirm.ForeColor = System.Drawing.Color.Transparent;
+            this.BillConfirm.Location = new System.Drawing.Point(43, 438);
+            this.BillConfirm.Name = "BillConfirm";
+            this.BillConfirm.Size = new System.Drawing.Size(220, 49);
+            this.BillConfirm.TabIndex = 20;
+            this.BillConfirm.Text = "Submit";
+            this.BillConfirm.UseVisualStyleBackColor = false;
+            this.BillConfirm.Click += new System.EventHandler(this.BillConfirm_Click);
             // 
             // btnNum9
             // 
             this.btnNum9.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnNum9.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNum9.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum9.ForeColor = System.Drawing.Color.Transparent;
-            this.btnNum9.Location = new System.Drawing.Point(207, 239);
+            this.btnNum9.Location = new System.Drawing.Point(207, 231);
             this.btnNum9.Name = "btnNum9";
             this.btnNum9.Size = new System.Drawing.Size(63, 33);
             this.btnNum9.TabIndex = 19;
@@ -314,9 +344,9 @@ namespace MyStoreDesktop
             // btnNum8
             // 
             this.btnNum8.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnNum8.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNum8.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum8.ForeColor = System.Drawing.Color.Transparent;
-            this.btnNum8.Location = new System.Drawing.Point(119, 239);
+            this.btnNum8.Location = new System.Drawing.Point(119, 231);
             this.btnNum8.Name = "btnNum8";
             this.btnNum8.Size = new System.Drawing.Size(63, 33);
             this.btnNum8.TabIndex = 18;
@@ -327,9 +357,9 @@ namespace MyStoreDesktop
             // btnNum7
             // 
             this.btnNum7.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnNum7.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNum7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum7.ForeColor = System.Drawing.Color.Transparent;
-            this.btnNum7.Location = new System.Drawing.Point(32, 239);
+            this.btnNum7.Location = new System.Drawing.Point(32, 231);
             this.btnNum7.Name = "btnNum7";
             this.btnNum7.Size = new System.Drawing.Size(63, 33);
             this.btnNum7.TabIndex = 17;
@@ -340,9 +370,9 @@ namespace MyStoreDesktop
             // btnNum6
             // 
             this.btnNum6.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnNum6.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNum6.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum6.ForeColor = System.Drawing.Color.Transparent;
-            this.btnNum6.Location = new System.Drawing.Point(207, 292);
+            this.btnNum6.Location = new System.Drawing.Point(207, 284);
             this.btnNum6.Name = "btnNum6";
             this.btnNum6.Size = new System.Drawing.Size(63, 33);
             this.btnNum6.TabIndex = 16;
@@ -353,9 +383,9 @@ namespace MyStoreDesktop
             // btnNum5
             // 
             this.btnNum5.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnNum5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNum5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum5.ForeColor = System.Drawing.Color.Transparent;
-            this.btnNum5.Location = new System.Drawing.Point(119, 292);
+            this.btnNum5.Location = new System.Drawing.Point(119, 284);
             this.btnNum5.Name = "btnNum5";
             this.btnNum5.Size = new System.Drawing.Size(63, 33);
             this.btnNum5.TabIndex = 15;
@@ -366,9 +396,9 @@ namespace MyStoreDesktop
             // btnNum4
             // 
             this.btnNum4.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnNum4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNum4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum4.ForeColor = System.Drawing.Color.Transparent;
-            this.btnNum4.Location = new System.Drawing.Point(32, 292);
+            this.btnNum4.Location = new System.Drawing.Point(32, 284);
             this.btnNum4.Name = "btnNum4";
             this.btnNum4.Size = new System.Drawing.Size(63, 33);
             this.btnNum4.TabIndex = 14;
@@ -379,9 +409,9 @@ namespace MyStoreDesktop
             // btnNum3
             // 
             this.btnNum3.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnNum3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNum3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum3.ForeColor = System.Drawing.Color.Transparent;
-            this.btnNum3.Location = new System.Drawing.Point(207, 348);
+            this.btnNum3.Location = new System.Drawing.Point(207, 340);
             this.btnNum3.Name = "btnNum3";
             this.btnNum3.Size = new System.Drawing.Size(63, 33);
             this.btnNum3.TabIndex = 13;
@@ -392,9 +422,9 @@ namespace MyStoreDesktop
             // btnNum2
             // 
             this.btnNum2.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnNum2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNum2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum2.ForeColor = System.Drawing.Color.Transparent;
-            this.btnNum2.Location = new System.Drawing.Point(119, 348);
+            this.btnNum2.Location = new System.Drawing.Point(119, 340);
             this.btnNum2.Name = "btnNum2";
             this.btnNum2.Size = new System.Drawing.Size(63, 33);
             this.btnNum2.TabIndex = 12;
@@ -405,9 +435,9 @@ namespace MyStoreDesktop
             // btnNum1
             // 
             this.btnNum1.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnNum1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNum1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum1.ForeColor = System.Drawing.Color.Transparent;
-            this.btnNum1.Location = new System.Drawing.Point(32, 348);
+            this.btnNum1.Location = new System.Drawing.Point(32, 340);
             this.btnNum1.Name = "btnNum1";
             this.btnNum1.Size = new System.Drawing.Size(63, 33);
             this.btnNum1.TabIndex = 11;
@@ -418,9 +448,9 @@ namespace MyStoreDesktop
             // btnClear
             // 
             this.btnClear.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnClear.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClear.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClear.ForeColor = System.Drawing.Color.Transparent;
-            this.btnClear.Location = new System.Drawing.Point(207, 405);
+            this.btnClear.Location = new System.Drawing.Point(207, 397);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(63, 33);
             this.btnClear.TabIndex = 10;
@@ -431,9 +461,9 @@ namespace MyStoreDesktop
             // btnDot
             // 
             this.btnDot.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnDot.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDot.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDot.ForeColor = System.Drawing.Color.Transparent;
-            this.btnDot.Location = new System.Drawing.Point(119, 405);
+            this.btnDot.Location = new System.Drawing.Point(119, 397);
             this.btnDot.Name = "btnDot";
             this.btnDot.Size = new System.Drawing.Size(63, 33);
             this.btnDot.TabIndex = 9;
@@ -444,9 +474,9 @@ namespace MyStoreDesktop
             // btnZero
             // 
             this.btnZero.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnZero.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnZero.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnZero.ForeColor = System.Drawing.Color.Transparent;
-            this.btnZero.Location = new System.Drawing.Point(32, 405);
+            this.btnZero.Location = new System.Drawing.Point(32, 397);
             this.btnZero.Name = "btnZero";
             this.btnZero.Size = new System.Drawing.Size(63, 33);
             this.btnZero.TabIndex = 8;
@@ -457,44 +487,44 @@ namespace MyStoreDesktop
             // lblDiscount
             // 
             this.lblDiscount.AutoSize = true;
-            this.lblDiscount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDiscount.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDiscount.ForeColor = System.Drawing.Color.Black;
-            this.lblDiscount.Location = new System.Drawing.Point(91, 25);
+            this.lblDiscount.Location = new System.Drawing.Point(63, 25);
             this.lblDiscount.Name = "lblDiscount";
-            this.lblDiscount.Size = new System.Drawing.Size(64, 16);
+            this.lblDiscount.Size = new System.Drawing.Size(88, 25);
             this.lblDiscount.TabIndex = 6;
             this.lblDiscount.Text = "Subtotal";
             // 
             // lblTotal
             // 
             this.lblTotal.AutoSize = true;
-            this.lblTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotal.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotal.ForeColor = System.Drawing.Color.Red;
-            this.lblTotal.Location = new System.Drawing.Point(91, 123);
+            this.lblTotal.Location = new System.Drawing.Point(63, 123);
             this.lblTotal.Name = "lblTotal";
-            this.lblTotal.Size = new System.Drawing.Size(46, 18);
+            this.lblTotal.Size = new System.Drawing.Size(55, 25);
             this.lblTotal.TabIndex = 5;
             this.lblTotal.Text = "Total";
             // 
             // lblTax
             // 
             this.lblTax.AutoSize = true;
-            this.lblTax.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTax.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTax.ForeColor = System.Drawing.Color.Black;
-            this.lblTax.Location = new System.Drawing.Point(91, 92);
+            this.lblTax.Location = new System.Drawing.Point(63, 92);
             this.lblTax.Name = "lblTax";
-            this.lblTax.Size = new System.Drawing.Size(50, 16);
+            this.lblTax.Size = new System.Drawing.Size(63, 25);
             this.lblTax.TabIndex = 4;
             this.lblTax.Text = "Tax %";
             // 
             // lblSubTotal
             // 
             this.lblSubTotal.AutoSize = true;
-            this.lblSubTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSubTotal.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSubTotal.ForeColor = System.Drawing.Color.Black;
-            this.lblSubTotal.Location = new System.Drawing.Point(91, 56);
+            this.lblSubTotal.Location = new System.Drawing.Point(63, 56);
             this.lblSubTotal.Name = "lblSubTotal";
-            this.lblSubTotal.Size = new System.Drawing.Size(67, 16);
+            this.lblSubTotal.Size = new System.Drawing.Size(91, 25);
             this.lblSubTotal.TabIndex = 3;
             this.lblSubTotal.Text = "Discount";
             // 
@@ -506,14 +536,14 @@ namespace MyStoreDesktop
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(982, 59);
+            this.panel1.Size = new System.Drawing.Size(973, 59);
             this.panel1.TabIndex = 4;
             // 
             // btnlogout
             // 
             this.btnlogout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.btnlogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnlogout.Location = new System.Drawing.Point(791, 15);
+            this.btnlogout.Location = new System.Drawing.Point(835, 15);
             this.btnlogout.Name = "btnlogout";
             this.btnlogout.Size = new System.Drawing.Size(102, 36);
             this.btnlogout.TabIndex = 1;
@@ -525,13 +555,14 @@ namespace MyStoreDesktop
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.White;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(19, 19);
+            this.label1.Location = new System.Drawing.Point(15, 19);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(104, 25);
+            this.label1.Size = new System.Drawing.Size(132, 32);
             this.label1.TabIndex = 0;
             this.label1.Text = "MY STORE";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // dgvAddToCard
             // 
@@ -544,19 +575,20 @@ namespace MyStoreDesktop
             this.Quantity,
             this.SalePrice,
             this.Discount,
-            this.Total});
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAddToCard.DefaultCellStyle = dataGridViewCellStyle8;
+            this.Total,
+            this.UrlImage});
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAddToCard.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvAddToCard.GridColor = System.Drawing.Color.LightGray;
-            this.dgvAddToCard.Location = new System.Drawing.Point(0, 127);
+            this.dgvAddToCard.Location = new System.Drawing.Point(6, 127);
             this.dgvAddToCard.Name = "dgvAddToCard";
-            this.dgvAddToCard.Size = new System.Drawing.Size(695, 534);
+            this.dgvAddToCard.Size = new System.Drawing.Size(696, 471);
             this.dgvAddToCard.TabIndex = 3;
             this.dgvAddToCard.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAddToCard_CellEndEdit);
             this.dgvAddToCard.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvAddToCard_KeyDown);
@@ -591,29 +623,19 @@ namespace MyStoreDesktop
             // 
             // Total
             // 
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
-            this.Total.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+            this.Total.DefaultCellStyle = dataGridViewCellStyle3;
             this.Total.HeaderText = "Total";
             this.Total.Name = "Total";
             this.Total.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Total.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // lstSuggestion
-            // 
-            this.lstSuggestion.FormattingEnabled = true;
-            this.lstSuggestion.Location = new System.Drawing.Point(6, 102);
-            this.lstSuggestion.Name = "lstSuggestion";
-            this.lstSuggestion.Size = new System.Drawing.Size(591, 108);
-            this.lstSuggestion.TabIndex = 2;
-            this.lstSuggestion.Visible = false;
-            this.lstSuggestion.Click += new System.EventHandler(this.lstSuggestion_Click);
-            // 
             // btnSearch
             // 
             this.btnSearch.BackColor = System.Drawing.Color.RosyBrown;
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSearch.Location = new System.Drawing.Point(603, 68);
+            this.btnSearch.Location = new System.Drawing.Point(605, 68);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(84, 32);
             this.btnSearch.TabIndex = 1;
@@ -623,7 +645,7 @@ namespace MyStoreDesktop
             // txtSearch
             // 
             this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(6, 68);
+            this.txtSearch.Location = new System.Drawing.Point(9, 71);
             this.txtSearch.Multiline = true;
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(591, 28);
@@ -632,11 +654,16 @@ namespace MyStoreDesktop
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
             // 
+            // UrlImage
+            // 
+            this.UrlImage.HeaderText = "UrlImage";
+            this.UrlImage.Name = "UrlImage";
+            // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1184, 661);
+            this.ClientSize = new System.Drawing.Size(1184, 601);
             this.Controls.Add(this.panelMainContent);
             this.Controls.Add(this.panelMenu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -645,6 +672,7 @@ namespace MyStoreDesktop
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Home";
             this.panelMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picProduct)).EndInit();
             this.panelMainContent.ResumeLayout(false);
             this.panelMainContent.PerformLayout();
             this.rightPanel.ResumeLayout(false);
@@ -676,7 +704,6 @@ namespace MyStoreDesktop
         private System.Windows.Forms.DataGridView dgvAddToCard;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnlogout;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel rightPanel;
         private System.Windows.Forms.Label lblSubTotal;
         private System.Windows.Forms.Label lblTotal;
@@ -687,7 +714,7 @@ namespace MyStoreDesktop
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnDot;
         private System.Windows.Forms.Button btnNum2;
-        private System.Windows.Forms.Button btnConfirm;
+        private System.Windows.Forms.Button BillConfirm;
         private System.Windows.Forms.Button btnNum9;
         private System.Windows.Forms.Button btnNum8;
         private System.Windows.Forms.Button btnNum7;
@@ -709,6 +736,8 @@ namespace MyStoreDesktop
         private System.Windows.Forms.Label Change;
         private System.Windows.Forms.TextBox txtPayment;
         private System.Windows.Forms.Label Payment;
-       
+        public System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox picProduct;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UrlImage;
     }
 }

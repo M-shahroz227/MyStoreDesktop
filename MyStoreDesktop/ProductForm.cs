@@ -23,9 +23,10 @@ namespace MyStoreDesktop
         private readonly IProductService _productService = new ProductService();
         private readonly IQrTableDataService _qrService = new QrTableDataService();
         private int selectedProductId = 0;
-        private string selectedImagePath = "";
         private Bitmap currentQRCode = null;
         private string currentQRCodeGuid = "";
+        private string _selectedImagePath = "";  // ✅
+
 
         public ProductForm()
         {
@@ -152,7 +153,8 @@ namespace MyStoreDesktop
             txtModel.Clear();
             txtDescription.Clear();
             selectedProductId = 0;
-            selectedImagePath = "";
+            _selectedImagePath = "";
+            picProduct.Image = null;
             picQRPreview.Image = null;
             picBarcodePreview.Image = null;
             
@@ -208,7 +210,8 @@ namespace MyStoreDesktop
                     Discount = decimal.Parse(txtDiscount.Text),
                     Model = txtModel.Text,
                     Description = txtDescription.Text,
-                    UrlImage = selectedImagePath
+                    UrlImage = _selectedImagePath
+
                 };
 
                 // Add Product (returns product with ProductId)
@@ -263,7 +266,9 @@ namespace MyStoreDesktop
                 product.Discount = decimal.Parse(txtDiscount.Text);
                 product.Model = txtModel.Text;
                 product.Description = txtDescription.Text;
-                product.UrlImage = selectedImagePath;
+                product.UrlImage = _selectedImagePath;
+
+
 
                 _productService.Update(product);
 
@@ -346,7 +351,9 @@ namespace MyStoreDesktop
             if (e.RowIndex >= 0)
             {
                 var row = dgvProducts.Rows[e.RowIndex];
+
                 selectedProductId = Convert.ToInt32(row.Cells["ProductId"].Value);
+
                 txtTitle.Text = row.Cells["Title"].Value.ToString();
                 txtQuantity.Text = row.Cells["Quantity"].Value.ToString();
                 txtSalePrice.Text = row.Cells["SalePrice"].Value.ToString();
@@ -355,25 +362,31 @@ namespace MyStoreDesktop
                 txtModel.Text = row.Cells["Model"].Value?.ToString() ?? "";
                 txtDescription.Text = row.Cells["Description"].Value?.ToString() ?? "";
 
-                if (row.Cells["CategoryId"].Value != null && cboCategory.DataSource is IEnumerable<Category> categoryList)
-                {
-                    int categoryId = Convert.ToInt32(row.Cells["CategoryId"].Value);
-                    if (categoryList.Any(c => c.CategoryId == categoryId))
-                    {
-                        cboCategory.SelectedValue = categoryId;
-                    }
-                }
+                // ✅ CATEGORY LOAD
+                if (row.Cells["CategoryId"].Value != null)
+                    cboCategory.SelectedValue = Convert.ToInt32(row.Cells["CategoryId"].Value);
 
-                if (row.Cells["CompanyId"].Value != null && cboCompany.DataSource is IEnumerable<Company> companyList)
+                // ✅ COMPANY LOAD
+                if (row.Cells["CompanyId"].Value != null)
+                    cboCompany.SelectedValue = Convert.ToInt32(row.Cells["CompanyId"].Value);
+
+                // ✅ ✅ IMAGE LOAD (MOST IMPORTANT)
+                string imgPath = row.Cells["UrlImage"].Value?.ToString();
+
+                if (!string.IsNullOrEmpty(imgPath) && File.Exists(imgPath))
                 {
-                    int companyId = Convert.ToInt32(row.Cells["CompanyId"].Value);
-                    if (companyList.Any(c => c.CompanyId == companyId))
-                    {
-                        cboCompany.SelectedValue = companyId;
-                    }
+                    picProduct.Image?.Dispose();
+                    picProduct.Image = Image.FromFile(imgPath);
+                    _selectedImagePath = imgPath;   // ✅ update path
+                }
+                else
+                {
+                    picProduct.Image = null;
+                    _selectedImagePath = "";
                 }
             }
         }
+
 
         private void btnManageCategories_Click(object sender, EventArgs e)
         {
@@ -588,5 +601,31 @@ namespace MyStoreDesktop
 
             _qrService.Add(data);
         }
+        private void btnBrowseImage_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                string sourcePath = ofd.FileName;
+
+                string imagesFolder = @"E:\MyStore\Images";
+
+                if (!System.IO.Directory.Exists(imagesFolder))
+                    System.IO.Directory.CreateDirectory(imagesFolder);
+
+                string fileName = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(sourcePath);
+                string destinationPath = System.IO.Path.Combine(imagesFolder, fileName);
+
+                System.IO.File.Copy(sourcePath, destinationPath, true);
+
+                _selectedImagePath = destinationPath;
+
+                picProduct.Image = Image.FromFile(destinationPath);
+            }
+        }
+
     }
+
 }

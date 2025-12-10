@@ -62,12 +62,15 @@
             this.picBarcodePreview = new System.Windows.Forms.PictureBox();
             this.btnGenerateBarcode = new System.Windows.Forms.Button();
             this.cmbCodeType = new System.Windows.Forms.ComboBox();
+            this.picProduct = new System.Windows.Forms.PictureBox();
+            this.btnBrowseImage = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).BeginInit();
             this.panelQRCode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picQRPreview)).BeginInit();
             this.panelManual.SuspendLayout();
             this.panelBarcode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBarcodePreview)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picProduct)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -254,18 +257,18 @@
             this.dgvProducts.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvProducts.BackgroundColor = System.Drawing.Color.White;
             this.dgvProducts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvProducts.Location = new System.Drawing.Point(13, 300);
+            this.dgvProducts.Location = new System.Drawing.Point(13, 324);
             this.dgvProducts.Name = "dgvProducts";
             this.dgvProducts.ReadOnly = true;
             this.dgvProducts.RowHeadersWidth = 51;
             this.dgvProducts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProducts.Size = new System.Drawing.Size(1115, 249);
+            this.dgvProducts.Size = new System.Drawing.Size(1115, 225);
             this.dgvProducts.TabIndex = 19;
             this.dgvProducts.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProducts_CellClick);
             // 
             // txtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(524, 112);
+            this.txtDescription.Location = new System.Drawing.Point(524, 105);
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(220, 20);
             this.txtDescription.TabIndex = 21;
@@ -273,7 +276,7 @@
             // lbDescription
             // 
             this.lbDescription.AutoSize = true;
-            this.lbDescription.Location = new System.Drawing.Point(404, 118);
+            this.lbDescription.Location = new System.Drawing.Point(404, 111);
             this.lbDescription.Name = "lbDescription";
             this.lbDescription.Size = new System.Drawing.Size(60, 13);
             this.lbDescription.TabIndex = 20;
@@ -395,12 +398,34 @@
             this.cmbCodeType.Size = new System.Drawing.Size(219, 21);
             this.cmbCodeType.TabIndex = 29;
             // 
+            // picProduct
+            // 
+            this.picProduct.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picProduct.Location = new System.Drawing.Point(574, 134);
+            this.picProduct.Name = "picProduct";
+            this.picProduct.Size = new System.Drawing.Size(180, 180);
+            this.picProduct.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picProduct.TabIndex = 30;
+            this.picProduct.TabStop = false;
+            // 
+            // btnBrowseImage
+            // 
+            this.btnBrowseImage.Location = new System.Drawing.Point(441, 209);
+            this.btnBrowseImage.Name = "btnBrowseImage";
+            this.btnBrowseImage.Size = new System.Drawing.Size(94, 23);
+            this.btnBrowseImage.TabIndex = 31;
+            this.btnBrowseImage.Text = "Browse Image";
+            this.btnBrowseImage.UseVisualStyleBackColor = true;
+            this.btnBrowseImage.Click += new System.EventHandler(this.btnBrowseImage_Click);
+            // 
             // ProductForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(1140, 561);
+            this.Controls.Add(this.btnBrowseImage);
+            this.Controls.Add(this.picProduct);
             this.Controls.Add(this.cmbCodeType);
             this.Controls.Add(this.panelBarcode);
             this.Controls.Add(this.panelManual);
@@ -441,6 +466,7 @@
             this.panelManual.PerformLayout();
             this.panelBarcode.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picBarcodePreview)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picProduct)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -482,5 +508,7 @@
         private System.Windows.Forms.Button btnGenerateBarcode;
         private System.Windows.Forms.ComboBox cmbCodeType;
         private System.Windows.Forms.TextBox txtManualCode;
+        private System.Windows.Forms.PictureBox picProduct;
+        private System.Windows.Forms.Button btnBrowseImage;
     }
 }

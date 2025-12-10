@@ -48,7 +48,7 @@ namespace MyStoreDesktop
             txtSearch.TabIndex = 0;
             dgvAddToCard.TabIndex = 1;
             txtPayment.TabIndex = 2;
-            btnConfirm.TabIndex = 3;
+            BillConfirm.TabIndex = 3;
 
 
             lstSuggestion.Visible = false;
@@ -60,7 +60,7 @@ namespace MyStoreDesktop
             lblDiscountValue.ReadOnly = true;
 
             dgvAddToCard.Columns["SalePrice"].ReadOnly = false;
-            btnConfirm.Enabled = false;
+            BillConfirm.Enabled = false;
             
 
 
@@ -74,6 +74,15 @@ namespace MyStoreDesktop
             dgvAddToCard.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;
 
             dgvAddToCard.CellContentClick += dgvAddToCard_CellContentClick;
+            // ✅ Hidden Image Column for Product Preview
+            if (!dgvAddToCard.Columns.Contains("UrlImage"))
+            {
+                dgvAddToCard.Columns.Add("UrlImage", "UrlImage");
+                dgvAddToCard.Columns["UrlImage"].Visible = false;
+            }
+
+            // ✅ Selection Event for Image Preview
+            dgvAddToCard.SelectionChanged += dgvAddToCard_SelectionChanged;
 
         }
 
@@ -90,6 +99,7 @@ namespace MyStoreDesktop
             if (!dgvAddToCard.Columns.Contains("Delete"))
                 dgvAddToCard.Columns.Add(deleteButton);
         }
+
 
         // ================= SEARCH =================
         private void txtSearch_TextChanged(object sender, EventArgs e)
@@ -161,27 +171,36 @@ namespace MyStoreDesktop
         {
             foreach (DataGridViewRow row in dgvAddToCard.Rows)
             {
-                if (Convert.ToInt32(row.Cells["ProductId"].Value) == product.ProductId)
+                if (!row.IsNewRow && Convert.ToInt32(row.Cells["ProductId"].Value) == product.ProductId)
                 {
-                    int currentQty = Convert.ToInt32(row.Cells["Quantity"].Value);
-                    int newQty = currentQty + 1;
-
-                    row.Cells["Quantity"].Value = newQty;
-                    row.Cells["Total"].Value = newQty * Convert.ToDouble(product.SalePrice);
+                    int qty = Convert.ToInt32(row.Cells["Quantity"].Value) + 1;
+                    row.Cells["Quantity"].Value = qty;
+                    row.Cells["Total"].Value = qty * Convert.ToDouble(product.SalePrice);
+                    row.Cells["UrlImage"].Value = product.UrlImage;
 
                     UpdateTotals();
-                    CheckButtonsAccess();  // Add here
+                    CheckButtonsAccess();
                     return;
                 }
             }
 
             double total = Convert.ToDouble(product.SalePrice);
 
-            dgvAddToCard.Rows.Add(product.ProductId, product.Title, 1, product.SalePrice, product.Discount, total);
+            dgvAddToCard.Rows.Add(
+                 product.ProductId,
+                 product.Title,
+                           1,
+                 product.SalePrice,
+                 product.Discount,
+                 total,
+                 product.UrlImage   // ✅ Ab ye sahi column me jayega
+                  );
+
 
             UpdateTotals();
-            CheckButtonsAccess(); // ✅ Add here too
+            CheckButtonsAccess();
         }
+
         private void CalculateChange()
         {
             double payment = 0;
@@ -529,7 +548,7 @@ namespace MyStoreDesktop
                             .Cast<DataGridViewRow>()
                             .Any(r => !r.IsNewRow);
 
-            btnConfirm.Enabled = hasRows;
+            BillConfirm.Enabled = hasRows;
             
         }
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
@@ -575,16 +594,54 @@ namespace MyStoreDesktop
         {
             if (e.KeyCode == Keys.Tab)
             {
-                btnConfirm.Focus();
+                BillConfirm.Focus();
                 e.SuppressKeyPress = true;
             }
         }
 
         private void btnlogout_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
 
 
         }
+        private void dgvAddToCard_SelectionChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgvAddToCard.CurrentRow == null) return;
+
+                var cellValue = dgvAddToCard.CurrentRow.Cells["UrlImage"].Value;
+                if (cellValue == null) return;
+
+                string imagePath = cellValue.ToString();
+
+                if (!string.IsNullOrWhiteSpace(imagePath) && System.IO.File.Exists(imagePath))
+                {
+                    if (picProduct.Image != null)
+                    {
+                        picProduct.Image.Dispose();
+                        picProduct.Image = null;
+                    }
+
+                    using (var temp = Image.FromFile(imagePath))
+                    {
+                        picProduct.Image = new Bitmap(temp);
+                    }
+                }
+                else
+                {
+                    picProduct.Image = null;
+                    MessageBox.Show("Image Path Not Found:\n" + imagePath);
+                }
+            }
+            catch (Exception ex)
+            {
+                picProduct.Image = null;
+                MessageBox.Show("Image Load Error:\n" + ex.Message);
+            }
+        }
+
+
     }
 }
