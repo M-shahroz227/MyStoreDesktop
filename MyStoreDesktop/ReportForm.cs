@@ -134,8 +134,8 @@ namespace MyStoreDesktop
                     grandTotalTax += totalTax;
                 }
 
-                lblTotalSalesValue.Text = grandTotalSales.ToString("C", CultureInfo.CurrentCulture);
-                lblTotalTaxValue.Text = grandTotalTax.ToString("C", CultureInfo.CurrentCulture);
+                lblTotalSalesValue.Text = grandTotalSales.ToString( CultureInfo.CurrentCulture);
+                lblTotalTaxValue.Text = grandTotalTax.ToString( CultureInfo.CurrentCulture);
             }
         }
 
