@@ -117,7 +117,7 @@ namespace MyStoreDesktop
                 }
             }
 
-            lblTotalSalesValue.Text = total.ToString("C", CultureInfo.CurrentCulture);
+            lblTotalSalesValue.Text = total.ToString( CultureInfo.CurrentCulture);
         }
 
         // ================================
@@ -144,7 +144,7 @@ namespace MyStoreDesktop
                 total += Convert.ToDecimal(row.Cells["TotalAmount"].Value);
             }
 
-            lblTotalSalesValue.Text = total.ToString("C", CultureInfo.CurrentCulture);
+            lblTotalSalesValue.Text = total.ToString( CultureInfo.CurrentCulture);
         }
 
         // ================================
