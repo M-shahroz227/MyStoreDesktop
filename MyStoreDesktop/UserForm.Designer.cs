@@ -155,10 +155,10 @@
             this.dgvUsers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvUsers.BackgroundColor = System.Drawing.Color.White;
             this.dgvUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvUsers.Location = new System.Drawing.Point(80, 260);
+            this.dgvUsers.Location = new System.Drawing.Point(4, 260);
             this.dgvUsers.Name = "dgvUsers";
             this.dgvUsers.ReadOnly = true;
-            this.dgvUsers.Size = new System.Drawing.Size(700, 280);
+            this.dgvUsers.Size = new System.Drawing.Size(1015, 280);
             this.dgvUsers.TabIndex = 10;
             // 
             // UserForm

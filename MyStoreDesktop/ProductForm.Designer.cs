@@ -73,7 +73,7 @@
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
-            this.lblTitle.Location = new System.Drawing.Point(30, 69);
+            this.lblTitle.Location = new System.Drawing.Point(30, 80);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(70, 13);
             this.lblTitle.TabIndex = 0;
@@ -81,7 +81,7 @@
             // 
             // txtTitle
             // 
-            this.txtTitle.Location = new System.Drawing.Point(150, 64);
+            this.txtTitle.Location = new System.Drawing.Point(150, 75);
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.Size = new System.Drawing.Size(220, 20);
             this.txtTitle.TabIndex = 1;
@@ -171,7 +171,7 @@
             // lblCompany
             // 
             this.lblCompany.AutoSize = true;
-            this.lblCompany.Location = new System.Drawing.Point(405, 62);
+            this.lblCompany.Location = new System.Drawing.Point(406, 33);
             this.lblCompany.Name = "lblCompany";
             this.lblCompany.Size = new System.Drawing.Size(54, 13);
             this.lblCompany.TabIndex = 12;
@@ -181,14 +181,14 @@
             // 
             this.cboCompany.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCompany.FormattingEnabled = true;
-            this.cboCompany.Location = new System.Drawing.Point(524, 56);
+            this.cboCompany.Location = new System.Drawing.Point(525, 28);
             this.cboCompany.Name = "cboCompany";
             this.cboCompany.Size = new System.Drawing.Size(138, 21);
             this.cboCompany.TabIndex = 13;
             // 
             // btnManageCompanies
             // 
-            this.btnManageCompanies.Location = new System.Drawing.Point(680, 47);
+            this.btnManageCompanies.Location = new System.Drawing.Point(681, 19);
             this.btnManageCompanies.Name = "btnManageCompanies";
             this.btnManageCompanies.Size = new System.Drawing.Size(90, 35);
             this.btnManageCompanies.TabIndex = 14;
@@ -199,7 +199,7 @@
             // lblModel
             // 
             this.lblModel.AutoSize = true;
-            this.lblModel.Location = new System.Drawing.Point(404, 116);
+            this.lblModel.Location = new System.Drawing.Point(404, 77);
             this.lblModel.Name = "lblModel";
             this.lblModel.Size = new System.Drawing.Size(39, 13);
             this.lblModel.TabIndex = 14;
@@ -207,7 +207,7 @@
             // 
             // txtModel
             // 
-            this.txtModel.Location = new System.Drawing.Point(524, 111);
+            this.txtModel.Location = new System.Drawing.Point(524, 72);
             this.txtModel.Name = "txtModel";
             this.txtModel.Size = new System.Drawing.Size(220, 20);
             this.txtModel.TabIndex = 15;
@@ -265,7 +265,7 @@
             // 
             // txtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(524, 159);
+            this.txtDescription.Location = new System.Drawing.Point(524, 112);
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(220, 20);
             this.txtDescription.TabIndex = 21;
@@ -273,7 +273,7 @@
             // lbDescription
             // 
             this.lbDescription.AutoSize = true;
-            this.lbDescription.Location = new System.Drawing.Point(404, 165);
+            this.lbDescription.Location = new System.Drawing.Point(404, 118);
             this.lbDescription.Name = "lbDescription";
             this.lbDescription.Size = new System.Drawing.Size(60, 13);
             this.lbDescription.TabIndex = 20;
