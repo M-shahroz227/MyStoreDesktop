@@ -410,9 +410,9 @@
             // 
             // btnBrowseImage
             // 
-            this.btnBrowseImage.Location = new System.Drawing.Point(441, 209);
+            this.btnBrowseImage.Location = new System.Drawing.Point(430, 209);
             this.btnBrowseImage.Name = "btnBrowseImage";
-            this.btnBrowseImage.Size = new System.Drawing.Size(94, 23);
+            this.btnBrowseImage.Size = new System.Drawing.Size(116, 44);
             this.btnBrowseImage.TabIndex = 31;
             this.btnBrowseImage.Text = "Browse Image";
             this.btnBrowseImage.UseVisualStyleBackColor = true;

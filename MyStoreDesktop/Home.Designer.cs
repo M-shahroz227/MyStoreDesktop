@@ -30,8 +30,8 @@ namespace MyStoreDesktop
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.picProduct = new System.Windows.Forms.PictureBox();
             this.Reports = new System.Windows.Forms.Button();
@@ -71,14 +71,14 @@ namespace MyStoreDesktop
             this.btnlogout = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvAddToCard = new System.Windows.Forms.DataGridView();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.txtSearch = new System.Windows.Forms.TextBox();
             this.ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SalePrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Discount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.txtSearch = new System.Windows.Forms.TextBox();
             this.UrlImage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picProduct)).BeginInit();
@@ -106,7 +106,7 @@ namespace MyStoreDesktop
             // picProduct
             // 
             this.picProduct.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picProduct.Location = new System.Drawing.Point(4, 379);
+            this.picProduct.Location = new System.Drawing.Point(7, 355);
             this.picProduct.Name = "picProduct";
             this.picProduct.Size = new System.Drawing.Size(200, 200);
             this.picProduct.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -577,21 +577,44 @@ namespace MyStoreDesktop
             this.Discount,
             this.Total,
             this.UrlImage});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAddToCard.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAddToCard.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvAddToCard.GridColor = System.Drawing.Color.LightGray;
             this.dgvAddToCard.Location = new System.Drawing.Point(6, 127);
             this.dgvAddToCard.Name = "dgvAddToCard";
-            this.dgvAddToCard.Size = new System.Drawing.Size(696, 471);
+            this.dgvAddToCard.Size = new System.Drawing.Size(683, 471);
             this.dgvAddToCard.TabIndex = 3;
             this.dgvAddToCard.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAddToCard_CellEndEdit);
             this.dgvAddToCard.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvAddToCard_KeyDown);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.BackColor = System.Drawing.Color.RosyBrown;
+            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSearch.Location = new System.Drawing.Point(605, 68);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(84, 32);
+            this.btnSearch.TabIndex = 1;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = false;
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.Location = new System.Drawing.Point(9, 71);
+            this.txtSearch.Multiline = true;
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(591, 28);
+            this.txtSearch.TabIndex = 0;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
+            this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
             // 
             // ProductId
             // 
@@ -623,41 +646,19 @@ namespace MyStoreDesktop
             // 
             // Total
             // 
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            this.Total.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            this.Total.DefaultCellStyle = dataGridViewCellStyle1;
             this.Total.HeaderText = "Total";
             this.Total.Name = "Total";
             this.Total.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Total.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // btnSearch
-            // 
-            this.btnSearch.BackColor = System.Drawing.Color.RosyBrown;
-            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSearch.Location = new System.Drawing.Point(605, 68);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(84, 32);
-            this.btnSearch.TabIndex = 1;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = false;
-            // 
-            // txtSearch
-            // 
-            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(9, 71);
-            this.txtSearch.Multiline = true;
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(591, 28);
-            this.txtSearch.TabIndex = 0;
-            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
-            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
-            this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
-            // 
             // UrlImage
             // 
             this.UrlImage.HeaderText = "UrlImage";
             this.UrlImage.Name = "UrlImage";
+            this.UrlImage.Visible = false;
             // 
             // Home
             // 
@@ -726,18 +727,18 @@ namespace MyStoreDesktop
         private System.Windows.Forms.TextBox lblSubtotalValue;
         private System.Windows.Forms.TextBox lblTotalValue;
         private System.Windows.Forms.TextBox lblDiscountValue;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProductId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Title;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SalePrice;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Discount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
         private System.Windows.Forms.TextBox txtChange;
         private System.Windows.Forms.Label Change;
         private System.Windows.Forms.TextBox txtPayment;
         private System.Windows.Forms.Label Payment;
         public System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox picProduct;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProductId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Title;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SalePrice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Discount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
         private System.Windows.Forms.DataGridViewTextBoxColumn UrlImage;
     }
 }
