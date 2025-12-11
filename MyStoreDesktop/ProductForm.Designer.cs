@@ -305,7 +305,7 @@
             // 
             // picQRPreview
             // 
-            this.picQRPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picQRPreview.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.picQRPreview.Location = new System.Drawing.Point(148, 13);
             this.picQRPreview.Name = "picQRPreview";
             this.picQRPreview.Size = new System.Drawing.Size(80, 80);
@@ -329,7 +329,7 @@
             // 
             this.panelManual.Controls.Add(this.txtManualCode);
             this.panelManual.Controls.Add(this.btnSaveManualCode);
-            this.panelManual.Location = new System.Drawing.Point(856, 43);
+            this.panelManual.Location = new System.Drawing.Point(858, 40);
             this.panelManual.Name = "panelManual";
             this.panelManual.Size = new System.Drawing.Size(244, 100);
             this.panelManual.TabIndex = 27;
@@ -359,14 +359,14 @@
             // 
             this.panelBarcode.Controls.Add(this.picBarcodePreview);
             this.panelBarcode.Controls.Add(this.btnGenerateBarcode);
-            this.panelBarcode.Location = new System.Drawing.Point(856, 43);
+            this.panelBarcode.Location = new System.Drawing.Point(842, 40);
             this.panelBarcode.Name = "panelBarcode";
             this.panelBarcode.Size = new System.Drawing.Size(260, 100);
             this.panelBarcode.TabIndex = 28;
             // 
             // picBarcodePreview
             // 
-            this.picBarcodePreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picBarcodePreview.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.picBarcodePreview.Location = new System.Drawing.Point(146, 12);
             this.picBarcodePreview.Name = "picBarcodePreview";
             this.picBarcodePreview.Size = new System.Drawing.Size(80, 80);
@@ -400,8 +400,9 @@
             // 
             // picProduct
             // 
-            this.picProduct.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picProduct.Location = new System.Drawing.Point(574, 134);
+            this.picProduct.BackColor = System.Drawing.Color.White;
+            this.picProduct.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picProduct.Location = new System.Drawing.Point(564, 134);
             this.picProduct.Name = "picProduct";
             this.picProduct.Size = new System.Drawing.Size(180, 180);
             this.picProduct.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -410,7 +411,7 @@
             // 
             // btnBrowseImage
             // 
-            this.btnBrowseImage.Location = new System.Drawing.Point(430, 209);
+            this.btnBrowseImage.Location = new System.Drawing.Point(404, 209);
             this.btnBrowseImage.Name = "btnBrowseImage";
             this.btnBrowseImage.Size = new System.Drawing.Size(116, 44);
             this.btnBrowseImage.TabIndex = 31;
@@ -426,9 +427,9 @@
             this.ClientSize = new System.Drawing.Size(1140, 561);
             this.Controls.Add(this.btnBrowseImage);
             this.Controls.Add(this.picProduct);
-            this.Controls.Add(this.cmbCodeType);
             this.Controls.Add(this.panelBarcode);
             this.Controls.Add(this.panelManual);
+            this.Controls.Add(this.cmbCodeType);
             this.Controls.Add(this.panelQRCode);
             this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.lbDescription);

@@ -48,7 +48,7 @@ namespace MyStoreDesktop
             txtSearch.TabIndex = 0;
             dgvAddToCard.TabIndex = 1;
             txtPayment.TabIndex = 2;
-            BillConfirm.TabIndex = 3;
+            btnConfirm.TabIndex = 3;
 
 
             lstSuggestion.Visible = false;
@@ -60,8 +60,8 @@ namespace MyStoreDesktop
             lblDiscountValue.ReadOnly = true;
 
             dgvAddToCard.Columns["SalePrice"].ReadOnly = false;
-            BillConfirm.Enabled = false;
-            
+            btnConfirm.Enabled = false;
+
 
 
             SetupGridButtons();
@@ -548,7 +548,7 @@ namespace MyStoreDesktop
                             .Cast<DataGridViewRow>()
                             .Any(r => !r.IsNewRow);
 
-            BillConfirm.Enabled = hasRows;
+            btnConfirm.Enabled = hasRows;
             
         }
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
@@ -594,7 +594,7 @@ namespace MyStoreDesktop
         {
             if (e.KeyCode == Keys.Tab)
             {
-                BillConfirm.Focus();
+                btnConfirm.Focus();
                 e.SuppressKeyPress = true;
             }
         }
@@ -632,15 +632,14 @@ namespace MyStoreDesktop
                 else
                 {
                     picProduct.Image = null;
-                    MessageBox.Show("Image Path Not Found:\n" + imagePath);
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                picProduct.Image = null;
-                MessageBox.Show("Image Load Error:\n" + ex.Message);
+                var _ = picProduct.Image = null;
             }
         }
+
 
 
     }

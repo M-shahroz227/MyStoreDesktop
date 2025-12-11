@@ -118,11 +118,11 @@ namespace MyStoreDesktop.Theme
                 button.FlatAppearance.MouseOverBackColor = AppTheme.AccentOrangeDark;
             }
             else if (btnText.Contains("save") || btnText.Contains("confirm") || btnText.Contains("add") ||
-                     btnText.Contains("submit") || btnText.Contains("ok") ||
+                     btnText.Contains("btnConfirm") || btnText.Contains("ok") ||
                      btnName.Contains("save") || btnName.Contains("confirm") || btnName.Contains("add"))
             {
-                button.BackColor = AppTheme.AccentGreen;
-                button.FlatAppearance.MouseOverBackColor = AppTheme.AccentGreenDark;
+                button.BackColor = AppTheme.PrimaryBlueLight;
+                button.FlatAppearance.MouseOverBackColor = AppTheme.ShadowColor;
             }
             else
             {
