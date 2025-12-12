@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using MyStoreDesktop.Models;
+using MyStoreDesktop.Services.UserService;
 using MyStoreDesktop.Theme;
 
 namespace MyStoreDesktop
 {
     public partial class UserForm : Form
     {
+        UserService _userService = new UserService();
         public UserForm()
         {
             InitializeComponent();
@@ -20,7 +23,7 @@ namespace MyStoreDesktop
             // ComboBox options
             cmbRole.Items.Clear();
             cmbRole.Items.Add("Admin");
-            cmbRole.Items.Add("Cashier");
+            cmbRole.Items.Add("User");
 
             // Setup Grid Columns
             dgvUsers.Columns.Clear();
@@ -56,9 +59,30 @@ namespace MyStoreDesktop
                 MessageBox.Show("Please fill all fields!");
                 return;
             }
+            byte[] passwordHash, passwordSalt;
+            CreatePasswordHash(txtPassword.Text, out passwordHash, out passwordSalt);
 
+            var data = new User
+            {
+                UserName = txtUsername.Text,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt, 
+                Role = cmbRole.Text,
+            };
+            _userService.Add(data);
+            MessageBox.Show("data save Successfully");
             dgvUsers.Rows.Add(txtUsername.Text, cmbRole.Text);
             ClearFields();
+        }
+
+        public void CreatePasswordHash(string text, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash =hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(text));
+            }
+
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -69,11 +93,26 @@ namespace MyStoreDesktop
                 dgvUsers.CurrentRow.Cells["Role"].Value = cmbRole.Text;
                 ClearFields();
             }
+            byte[] passwordHash, passwordSalt;
+            CreatePasswordHash(txtPassword.Text, out passwordHash, out passwordSalt);
+
+            var data = new User
+            {
+                UserName = txtUsername.Text,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+
+
+            };
+            _userService.Update(data);
+            MessageBox.Show("Data Update Successfully ");
+
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (dgvUsers.CurrentRow != null)
+
                 dgvUsers.Rows.Remove(dgvUsers.CurrentRow);
         }
 

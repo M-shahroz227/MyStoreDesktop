@@ -30,37 +30,19 @@ namespace MyStoreDesktop
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle42 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelMenu = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.Reports = new System.Windows.Forms.Button();
+            this.Sales = new System.Windows.Forms.Button();
+            this.btnUsers = new System.Windows.Forms.Button();
+            this.btnProducts = new System.Windows.Forms.Button();
+            this.btnHome = new System.Windows.Forms.Button();
             this.picProduct = new System.Windows.Forms.PictureBox();
             this.panelMainContent = new System.Windows.Forms.Panel();
             this.lstSuggestion = new System.Windows.Forms.ListBox();
             this.rightPanel = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.dgvAddToCard = new System.Windows.Forms.DataGridView();
-            this.ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SalePrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Discount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UrlImage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.txtSearch = new System.Windows.Forms.TextBox();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.txtChange = new System.Windows.Forms.TextBox();
-            this.Change = new System.Windows.Forms.Label();
-            this.txtPayment = new System.Windows.Forms.TextBox();
-            this.Payment = new System.Windows.Forms.Label();
-            this.lblTotalValue = new System.Windows.Forms.TextBox();
-            this.lblDiscountValue = new System.Windows.Forms.TextBox();
-            this.lblSubtotalValue = new System.Windows.Forms.TextBox();
-            this.txtTaxValue = new System.Windows.Forms.TextBox();
-            this.lblDiscount = new System.Windows.Forms.Label();
-            this.lblTotal = new System.Windows.Forms.Label();
-            this.lblTax = new System.Windows.Forms.Label();
-            this.lblSubTotal = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnConfirm = new System.Windows.Forms.Button();
             this.btnNum9 = new System.Windows.Forms.Button();
@@ -75,25 +57,43 @@ namespace MyStoreDesktop
             this.btnClear = new System.Windows.Forms.Button();
             this.btnDot = new System.Windows.Forms.Button();
             this.btnZero = new System.Windows.Forms.Button();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.Reports = new System.Windows.Forms.Button();
-            this.Sales = new System.Windows.Forms.Button();
-            this.btnUsers = new System.Windows.Forms.Button();
-            this.btnProducts = new System.Windows.Forms.Button();
-            this.btnHome = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.txtChange = new System.Windows.Forms.TextBox();
+            this.Change = new System.Windows.Forms.Label();
+            this.txtPayment = new System.Windows.Forms.TextBox();
+            this.Payment = new System.Windows.Forms.Label();
+            this.lblTotalValue = new System.Windows.Forms.TextBox();
+            this.lblDiscountValue = new System.Windows.Forms.TextBox();
+            this.lblSubtotalValue = new System.Windows.Forms.TextBox();
+            this.txtTaxValue = new System.Windows.Forms.TextBox();
+            this.lblDiscount = new System.Windows.Forms.Label();
+            this.lblTotal = new System.Windows.Forms.Label();
+            this.lblTax = new System.Windows.Forms.Label();
+            this.lblSubTotal = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.btnlogout = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.dgvAddToCard = new System.Windows.Forms.DataGridView();
+            this.ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SalePrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Discount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UrlImage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.txtSearch = new System.Windows.Forms.TextBox();
             this.panelMenu.SuspendLayout();
+            this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picProduct)).BeginInit();
             this.panelMainContent.SuspendLayout();
             this.rightPanel.SuspendLayout();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAddToCard)).BeginInit();
-            this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.panel4.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAddToCard)).BeginInit();
             this.SuspendLayout();
             // 
             // panelMenu
@@ -106,6 +106,84 @@ namespace MyStoreDesktop
             this.panelMenu.Name = "panelMenu";
             this.panelMenu.Size = new System.Drawing.Size(211, 601);
             this.panelMenu.TabIndex = 0;
+            // 
+            // panel4
+            // 
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel4.Controls.Add(this.Reports);
+            this.panel4.Controls.Add(this.Sales);
+            this.panel4.Controls.Add(this.btnUsers);
+            this.panel4.Controls.Add(this.btnProducts);
+            this.panel4.Controls.Add(this.btnHome);
+            this.panel4.Location = new System.Drawing.Point(8, 3);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(200, 353);
+            this.panel4.TabIndex = 6;
+            // 
+            // Reports
+            // 
+            this.Reports.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.Reports.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Reports.ForeColor = System.Drawing.Color.White;
+            this.Reports.Location = new System.Drawing.Point(36, 285);
+            this.Reports.Name = "Reports";
+            this.Reports.Size = new System.Drawing.Size(129, 40);
+            this.Reports.TabIndex = 9;
+            this.Reports.Text = "Reports";
+            this.Reports.UseVisualStyleBackColor = false;
+            this.Reports.Click += new System.EventHandler(this.LoginPanelReports);
+            // 
+            // Sales
+            // 
+            this.Sales.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.Sales.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Sales.ForeColor = System.Drawing.Color.White;
+            this.Sales.Location = new System.Drawing.Point(36, 214);
+            this.Sales.Name = "Sales";
+            this.Sales.Size = new System.Drawing.Size(129, 40);
+            this.Sales.TabIndex = 8;
+            this.Sales.Text = "Sales";
+            this.Sales.UseVisualStyleBackColor = false;
+            this.Sales.Click += new System.EventHandler(this.LoginPanelSales);
+            // 
+            // btnUsers
+            // 
+            this.btnUsers.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.btnUsers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUsers.ForeColor = System.Drawing.Color.White;
+            this.btnUsers.Location = new System.Drawing.Point(36, 143);
+            this.btnUsers.Name = "btnUsers";
+            this.btnUsers.Size = new System.Drawing.Size(129, 40);
+            this.btnUsers.TabIndex = 7;
+            this.btnUsers.Text = "Users";
+            this.btnUsers.UseVisualStyleBackColor = false;
+            this.btnUsers.Click += new System.EventHandler(this.LoginPanelUsers);
+            // 
+            // btnProducts
+            // 
+            this.btnProducts.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.btnProducts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnProducts.ForeColor = System.Drawing.Color.White;
+            this.btnProducts.Location = new System.Drawing.Point(36, 76);
+            this.btnProducts.Name = "btnProducts";
+            this.btnProducts.Size = new System.Drawing.Size(129, 40);
+            this.btnProducts.TabIndex = 6;
+            this.btnProducts.Text = "Products";
+            this.btnProducts.UseVisualStyleBackColor = false;
+            this.btnProducts.Click += new System.EventHandler(this.LoginPanelProduct);
+            // 
+            // btnHome
+            // 
+            this.btnHome.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.btnHome.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnHome.ForeColor = System.Drawing.Color.White;
+            this.btnHome.Location = new System.Drawing.Point(36, 11);
+            this.btnHome.Name = "btnHome";
+            this.btnHome.Size = new System.Drawing.Size(129, 40);
+            this.btnHome.TabIndex = 5;
+            this.btnHome.Text = "Home";
+            this.btnHome.UseVisualStyleBackColor = false;
+            this.btnHome.Click += new System.EventHandler(this.LoginPanelbtnHome);
             // 
             // picProduct
             // 
@@ -153,247 +231,6 @@ namespace MyStoreDesktop
             this.rightPanel.Name = "rightPanel";
             this.rightPanel.Size = new System.Drawing.Size(281, 542);
             this.rightPanel.TabIndex = 5;
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.Silver;
-            this.panel1.Controls.Add(this.panel5);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(973, 59);
-            this.panel1.TabIndex = 4;
-            // 
-            // dgvAddToCard
-            // 
-            this.dgvAddToCard.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvAddToCard.BackgroundColor = System.Drawing.Color.White;
-            this.dgvAddToCard.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            this.dgvAddToCard.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAddToCard.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ProductId,
-            this.Title,
-            this.Quantity,
-            this.SalePrice,
-            this.Discount,
-            this.Total,
-            this.UrlImage});
-            dataGridViewCellStyle42.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle42.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle42.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle42.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle42.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle42.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle42.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAddToCard.DefaultCellStyle = dataGridViewCellStyle42;
-            this.dgvAddToCard.GridColor = System.Drawing.Color.LightGray;
-            this.dgvAddToCard.Location = new System.Drawing.Point(6, 127);
-            this.dgvAddToCard.Name = "dgvAddToCard";
-            this.dgvAddToCard.Size = new System.Drawing.Size(683, 471);
-            this.dgvAddToCard.TabIndex = 3;
-            this.dgvAddToCard.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAddToCard_CellEndEdit);
-            this.dgvAddToCard.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvAddToCard_KeyDown);
-            // 
-            // ProductId
-            // 
-            this.ProductId.HeaderText = "Product ID";
-            this.ProductId.Name = "ProductId";
-            this.ProductId.Visible = false;
-            // 
-            // Title
-            // 
-            this.Title.HeaderText = "ProductName";
-            this.Title.Name = "Title";
-            // 
-            // Quantity
-            // 
-            this.Quantity.HeaderText = "Quantity";
-            this.Quantity.Name = "Quantity";
-            this.Quantity.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // SalePrice
-            // 
-            this.SalePrice.HeaderText = "ItemPrice";
-            this.SalePrice.Name = "SalePrice";
-            this.SalePrice.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            // 
-            // Discount
-            // 
-            this.Discount.HeaderText = "Discount";
-            this.Discount.Name = "Discount";
-            // 
-            // Total
-            // 
-            dataGridViewCellStyle41.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle41.ForeColor = System.Drawing.Color.Black;
-            this.Total.DefaultCellStyle = dataGridViewCellStyle41;
-            this.Total.HeaderText = "Total";
-            this.Total.Name = "Total";
-            this.Total.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Total.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // UrlImage
-            // 
-            this.UrlImage.HeaderText = "UrlImage";
-            this.UrlImage.Name = "UrlImage";
-            this.UrlImage.Visible = false;
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.BackColor = System.Drawing.Color.RosyBrown;
-            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSearch.Location = new System.Drawing.Point(605, 68);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(84, 32);
-            this.btnSearch.TabIndex = 1;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = false;
-            // 
-            // txtSearch
-            // 
-            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(9, 71);
-            this.txtSearch.Multiline = true;
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(591, 28);
-            this.txtSearch.TabIndex = 0;
-            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
-            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
-            this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
-            // 
-            // panel2
-            // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel2.Controls.Add(this.txtChange);
-            this.panel2.Controls.Add(this.Change);
-            this.panel2.Controls.Add(this.txtPayment);
-            this.panel2.Controls.Add(this.Payment);
-            this.panel2.Controls.Add(this.lblTotalValue);
-            this.panel2.Controls.Add(this.lblDiscountValue);
-            this.panel2.Controls.Add(this.lblSubtotalValue);
-            this.panel2.Controls.Add(this.txtTaxValue);
-            this.panel2.Controls.Add(this.lblDiscount);
-            this.panel2.Controls.Add(this.lblTotal);
-            this.panel2.Controls.Add(this.lblTax);
-            this.panel2.Controls.Add(this.lblSubTotal);
-            this.panel2.Location = new System.Drawing.Point(11, 3);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(252, 222);
-            this.panel2.TabIndex = 6;
-            // 
-            // txtChange
-            // 
-            this.txtChange.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtChange.Location = new System.Drawing.Point(136, 185);
-            this.txtChange.Name = "txtChange";
-            this.txtChange.Size = new System.Drawing.Size(84, 25);
-            this.txtChange.TabIndex = 40;
-            // 
-            // Change
-            // 
-            this.Change.AutoSize = true;
-            this.Change.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Change.ForeColor = System.Drawing.Color.ForestGreen;
-            this.Change.Location = new System.Drawing.Point(22, 187);
-            this.Change.Name = "Change";
-            this.Change.Size = new System.Drawing.Size(79, 25);
-            this.Change.TabIndex = 39;
-            this.Change.Text = "Change";
-            // 
-            // txtPayment
-            // 
-            this.txtPayment.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPayment.Location = new System.Drawing.Point(136, 150);
-            this.txtPayment.Name = "txtPayment";
-            this.txtPayment.Size = new System.Drawing.Size(84, 25);
-            this.txtPayment.TabIndex = 38;
-            // 
-            // Payment
-            // 
-            this.Payment.AutoSize = true;
-            this.Payment.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Payment.ForeColor = System.Drawing.Color.IndianRed;
-            this.Payment.Location = new System.Drawing.Point(22, 152);
-            this.Payment.Name = "Payment";
-            this.Payment.Size = new System.Drawing.Size(90, 25);
-            this.Payment.TabIndex = 37;
-            this.Payment.Text = "Payment";
-            // 
-            // lblTotalValue
-            // 
-            this.lblTotalValue.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalValue.Location = new System.Drawing.Point(135, 120);
-            this.lblTotalValue.Name = "lblTotalValue";
-            this.lblTotalValue.Size = new System.Drawing.Size(84, 25);
-            this.lblTotalValue.TabIndex = 36;
-            // 
-            // lblDiscountValue
-            // 
-            this.lblDiscountValue.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDiscountValue.Location = new System.Drawing.Point(135, 55);
-            this.lblDiscountValue.Name = "lblDiscountValue";
-            this.lblDiscountValue.Size = new System.Drawing.Size(84, 25);
-            this.lblDiscountValue.TabIndex = 35;
-            // 
-            // lblSubtotalValue
-            // 
-            this.lblSubtotalValue.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSubtotalValue.Location = new System.Drawing.Point(135, 23);
-            this.lblSubtotalValue.Name = "lblSubtotalValue";
-            this.lblSubtotalValue.Size = new System.Drawing.Size(84, 25);
-            this.lblSubtotalValue.TabIndex = 34;
-            // 
-            // txtTaxValue
-            // 
-            this.txtTaxValue.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTaxValue.Location = new System.Drawing.Point(135, 86);
-            this.txtTaxValue.Name = "txtTaxValue";
-            this.txtTaxValue.Size = new System.Drawing.Size(84, 25);
-            this.txtTaxValue.TabIndex = 33;
-            // 
-            // lblDiscount
-            // 
-            this.lblDiscount.AutoSize = true;
-            this.lblDiscount.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDiscount.ForeColor = System.Drawing.Color.Black;
-            this.lblDiscount.Location = new System.Drawing.Point(21, 24);
-            this.lblDiscount.Name = "lblDiscount";
-            this.lblDiscount.Size = new System.Drawing.Size(88, 25);
-            this.lblDiscount.TabIndex = 32;
-            this.lblDiscount.Text = "Subtotal";
-            // 
-            // lblTotal
-            // 
-            this.lblTotal.AutoSize = true;
-            this.lblTotal.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotal.ForeColor = System.Drawing.Color.Red;
-            this.lblTotal.Location = new System.Drawing.Point(21, 122);
-            this.lblTotal.Name = "lblTotal";
-            this.lblTotal.Size = new System.Drawing.Size(55, 25);
-            this.lblTotal.TabIndex = 31;
-            this.lblTotal.Text = "Total";
-            // 
-            // lblTax
-            // 
-            this.lblTax.AutoSize = true;
-            this.lblTax.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTax.ForeColor = System.Drawing.Color.Black;
-            this.lblTax.Location = new System.Drawing.Point(21, 91);
-            this.lblTax.Name = "lblTax";
-            this.lblTax.Size = new System.Drawing.Size(63, 25);
-            this.lblTax.TabIndex = 30;
-            this.lblTax.Text = "Tax %";
-            // 
-            // lblSubTotal
-            // 
-            this.lblSubTotal.AutoSize = true;
-            this.lblSubTotal.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSubTotal.ForeColor = System.Drawing.Color.Black;
-            this.lblSubTotal.Location = new System.Drawing.Point(21, 55);
-            this.lblSubTotal.Name = "lblSubTotal";
-            this.lblSubTotal.Size = new System.Drawing.Size(91, 25);
-            this.lblSubTotal.TabIndex = 29;
-            this.lblSubTotal.Text = "Discount";
             // 
             // panel3
             // 
@@ -574,83 +411,149 @@ namespace MyStoreDesktop
             this.btnZero.Text = "0";
             this.btnZero.UseVisualStyleBackColor = false;
             // 
-            // panel4
+            // panel2
             // 
-            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel4.Controls.Add(this.Reports);
-            this.panel4.Controls.Add(this.Sales);
-            this.panel4.Controls.Add(this.btnUsers);
-            this.panel4.Controls.Add(this.btnProducts);
-            this.panel4.Controls.Add(this.btnHome);
-            this.panel4.Location = new System.Drawing.Point(8, 3);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(200, 353);
-            this.panel4.TabIndex = 6;
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.Controls.Add(this.txtChange);
+            this.panel2.Controls.Add(this.Change);
+            this.panel2.Controls.Add(this.txtPayment);
+            this.panel2.Controls.Add(this.Payment);
+            this.panel2.Controls.Add(this.lblTotalValue);
+            this.panel2.Controls.Add(this.lblDiscountValue);
+            this.panel2.Controls.Add(this.lblSubtotalValue);
+            this.panel2.Controls.Add(this.txtTaxValue);
+            this.panel2.Controls.Add(this.lblDiscount);
+            this.panel2.Controls.Add(this.lblTotal);
+            this.panel2.Controls.Add(this.lblTax);
+            this.panel2.Controls.Add(this.lblSubTotal);
+            this.panel2.Location = new System.Drawing.Point(11, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(252, 222);
+            this.panel2.TabIndex = 6;
             // 
-            // Reports
+            // txtChange
             // 
-            this.Reports.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.Reports.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Reports.ForeColor = System.Drawing.Color.White;
-            this.Reports.Location = new System.Drawing.Point(36, 285);
-            this.Reports.Name = "Reports";
-            this.Reports.Size = new System.Drawing.Size(129, 40);
-            this.Reports.TabIndex = 9;
-            this.Reports.Text = "Reports";
-            this.Reports.UseVisualStyleBackColor = false;
-            this.Reports.Click += new System.EventHandler(this.LoginPanelReports);
+            this.txtChange.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtChange.Location = new System.Drawing.Point(136, 185);
+            this.txtChange.Name = "txtChange";
+            this.txtChange.Size = new System.Drawing.Size(84, 25);
+            this.txtChange.TabIndex = 40;
             // 
-            // Sales
+            // Change
             // 
-            this.Sales.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.Sales.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Sales.ForeColor = System.Drawing.Color.White;
-            this.Sales.Location = new System.Drawing.Point(36, 214);
-            this.Sales.Name = "Sales";
-            this.Sales.Size = new System.Drawing.Size(129, 40);
-            this.Sales.TabIndex = 8;
-            this.Sales.Text = "Sales";
-            this.Sales.UseVisualStyleBackColor = false;
-            this.Sales.Click += new System.EventHandler(this.LoginPanelSales);
+            this.Change.AutoSize = true;
+            this.Change.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Change.ForeColor = System.Drawing.Color.ForestGreen;
+            this.Change.Location = new System.Drawing.Point(22, 187);
+            this.Change.Name = "Change";
+            this.Change.Size = new System.Drawing.Size(79, 25);
+            this.Change.TabIndex = 39;
+            this.Change.Text = "Change";
             // 
-            // btnUsers
+            // txtPayment
             // 
-            this.btnUsers.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnUsers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUsers.ForeColor = System.Drawing.Color.White;
-            this.btnUsers.Location = new System.Drawing.Point(36, 143);
-            this.btnUsers.Name = "btnUsers";
-            this.btnUsers.Size = new System.Drawing.Size(129, 40);
-            this.btnUsers.TabIndex = 7;
-            this.btnUsers.Text = "Users";
-            this.btnUsers.UseVisualStyleBackColor = false;
-            this.btnUsers.Click += new System.EventHandler(this.LoginPanelUsers);
+            this.txtPayment.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPayment.Location = new System.Drawing.Point(136, 150);
+            this.txtPayment.Name = "txtPayment";
+            this.txtPayment.Size = new System.Drawing.Size(84, 25);
+            this.txtPayment.TabIndex = 38;
             // 
-            // btnProducts
+            // Payment
             // 
-            this.btnProducts.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnProducts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnProducts.ForeColor = System.Drawing.Color.White;
-            this.btnProducts.Location = new System.Drawing.Point(36, 76);
-            this.btnProducts.Name = "btnProducts";
-            this.btnProducts.Size = new System.Drawing.Size(129, 40);
-            this.btnProducts.TabIndex = 6;
-            this.btnProducts.Text = "Products";
-            this.btnProducts.UseVisualStyleBackColor = false;
-            this.btnProducts.Click += new System.EventHandler(this.LoginPanelProduct);
+            this.Payment.AutoSize = true;
+            this.Payment.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Payment.ForeColor = System.Drawing.Color.IndianRed;
+            this.Payment.Location = new System.Drawing.Point(22, 152);
+            this.Payment.Name = "Payment";
+            this.Payment.Size = new System.Drawing.Size(90, 25);
+            this.Payment.TabIndex = 37;
+            this.Payment.Text = "Payment";
             // 
-            // btnHome
+            // lblTotalValue
             // 
-            this.btnHome.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnHome.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnHome.ForeColor = System.Drawing.Color.White;
-            this.btnHome.Location = new System.Drawing.Point(36, 11);
-            this.btnHome.Name = "btnHome";
-            this.btnHome.Size = new System.Drawing.Size(129, 40);
-            this.btnHome.TabIndex = 5;
-            this.btnHome.Text = "Home";
-            this.btnHome.UseVisualStyleBackColor = false;
-            this.btnHome.Click += new System.EventHandler(this.LoginPanelbtnHome);
+            this.lblTotalValue.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalValue.Location = new System.Drawing.Point(135, 120);
+            this.lblTotalValue.Name = "lblTotalValue";
+            this.lblTotalValue.Size = new System.Drawing.Size(84, 25);
+            this.lblTotalValue.TabIndex = 36;
+            // 
+            // lblDiscountValue
+            // 
+            this.lblDiscountValue.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDiscountValue.Location = new System.Drawing.Point(135, 55);
+            this.lblDiscountValue.Name = "lblDiscountValue";
+            this.lblDiscountValue.Size = new System.Drawing.Size(84, 25);
+            this.lblDiscountValue.TabIndex = 35;
+            // 
+            // lblSubtotalValue
+            // 
+            this.lblSubtotalValue.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSubtotalValue.Location = new System.Drawing.Point(135, 23);
+            this.lblSubtotalValue.Name = "lblSubtotalValue";
+            this.lblSubtotalValue.Size = new System.Drawing.Size(84, 25);
+            this.lblSubtotalValue.TabIndex = 34;
+            // 
+            // txtTaxValue
+            // 
+            this.txtTaxValue.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTaxValue.Location = new System.Drawing.Point(135, 86);
+            this.txtTaxValue.Name = "txtTaxValue";
+            this.txtTaxValue.Size = new System.Drawing.Size(84, 25);
+            this.txtTaxValue.TabIndex = 33;
+            // 
+            // lblDiscount
+            // 
+            this.lblDiscount.AutoSize = true;
+            this.lblDiscount.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDiscount.ForeColor = System.Drawing.Color.Black;
+            this.lblDiscount.Location = new System.Drawing.Point(21, 24);
+            this.lblDiscount.Name = "lblDiscount";
+            this.lblDiscount.Size = new System.Drawing.Size(88, 25);
+            this.lblDiscount.TabIndex = 32;
+            this.lblDiscount.Text = "Subtotal";
+            // 
+            // lblTotal
+            // 
+            this.lblTotal.AutoSize = true;
+            this.lblTotal.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotal.ForeColor = System.Drawing.Color.Red;
+            this.lblTotal.Location = new System.Drawing.Point(21, 122);
+            this.lblTotal.Name = "lblTotal";
+            this.lblTotal.Size = new System.Drawing.Size(55, 25);
+            this.lblTotal.TabIndex = 31;
+            this.lblTotal.Text = "Total";
+            // 
+            // lblTax
+            // 
+            this.lblTax.AutoSize = true;
+            this.lblTax.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTax.ForeColor = System.Drawing.Color.Black;
+            this.lblTax.Location = new System.Drawing.Point(21, 91);
+            this.lblTax.Name = "lblTax";
+            this.lblTax.Size = new System.Drawing.Size(63, 25);
+            this.lblTax.TabIndex = 30;
+            this.lblTax.Text = "Tax %";
+            // 
+            // lblSubTotal
+            // 
+            this.lblSubTotal.AutoSize = true;
+            this.lblSubTotal.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSubTotal.ForeColor = System.Drawing.Color.Black;
+            this.lblSubTotal.Location = new System.Drawing.Point(21, 55);
+            this.lblSubTotal.Name = "lblSubTotal";
+            this.lblSubTotal.Size = new System.Drawing.Size(91, 25);
+            this.lblSubTotal.TabIndex = 29;
+            this.lblSubTotal.Text = "Discount";
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Silver;
+            this.panel1.Controls.Add(this.panel5);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(973, 59);
+            this.panel1.TabIndex = 4;
             // 
             // panel5
             // 
@@ -666,7 +569,7 @@ namespace MyStoreDesktop
             // 
             this.btnlogout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.btnlogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnlogout.Location = new System.Drawing.Point(832, 12);
+            this.btnlogout.Location = new System.Drawing.Point(832, 11);
             this.btnlogout.Name = "btnlogout";
             this.btnlogout.Size = new System.Drawing.Size(102, 36);
             this.btnlogout.TabIndex = 3;
@@ -680,12 +583,109 @@ namespace MyStoreDesktop
             this.label1.BackColor = System.Drawing.Color.White;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(12, 15);
+            this.label1.Location = new System.Drawing.Point(12, 14);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(132, 32);
             this.label1.TabIndex = 2;
             this.label1.Text = "MY STORE";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // dgvAddToCard
+            // 
+            this.dgvAddToCard.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvAddToCard.BackgroundColor = System.Drawing.Color.White;
+            this.dgvAddToCard.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+            this.dgvAddToCard.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAddToCard.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ProductId,
+            this.Title,
+            this.Quantity,
+            this.SalePrice,
+            this.Discount,
+            this.Total,
+            this.UrlImage});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAddToCard.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvAddToCard.GridColor = System.Drawing.Color.LightGray;
+            this.dgvAddToCard.Location = new System.Drawing.Point(6, 127);
+            this.dgvAddToCard.Name = "dgvAddToCard";
+            this.dgvAddToCard.Size = new System.Drawing.Size(683, 471);
+            this.dgvAddToCard.TabIndex = 3;
+            this.dgvAddToCard.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAddToCard_CellEndEdit);
+            this.dgvAddToCard.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvAddToCard_KeyDown);
+            // 
+            // ProductId
+            // 
+            this.ProductId.HeaderText = "Product ID";
+            this.ProductId.Name = "ProductId";
+            this.ProductId.Visible = false;
+            // 
+            // Title
+            // 
+            this.Title.HeaderText = "ProductName";
+            this.Title.Name = "Title";
+            // 
+            // Quantity
+            // 
+            this.Quantity.HeaderText = "Quantity";
+            this.Quantity.Name = "Quantity";
+            this.Quantity.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // SalePrice
+            // 
+            this.SalePrice.HeaderText = "ItemPrice";
+            this.SalePrice.Name = "SalePrice";
+            this.SalePrice.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            // 
+            // Discount
+            // 
+            this.Discount.HeaderText = "Discount";
+            this.Discount.Name = "Discount";
+            // 
+            // Total
+            // 
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            this.Total.DefaultCellStyle = dataGridViewCellStyle1;
+            this.Total.HeaderText = "Total";
+            this.Total.Name = "Total";
+            this.Total.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Total.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // UrlImage
+            // 
+            this.UrlImage.HeaderText = "UrlImage";
+            this.UrlImage.Name = "UrlImage";
+            this.UrlImage.Visible = false;
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.BackColor = System.Drawing.Color.RosyBrown;
+            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSearch.Location = new System.Drawing.Point(605, 68);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(84, 32);
+            this.btnSearch.TabIndex = 1;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = false;
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.Location = new System.Drawing.Point(9, 71);
+            this.txtSearch.Multiline = true;
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(591, 28);
+            this.txtSearch.TabIndex = 0;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
+            this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
             // 
             // Home
             // 
@@ -700,18 +700,18 @@ namespace MyStoreDesktop
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Home";
             this.panelMenu.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picProduct)).EndInit();
             this.panelMainContent.ResumeLayout(false);
             this.panelMainContent.PerformLayout();
             this.rightPanel.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAddToCard)).EndInit();
+            this.panel3.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAddToCard)).EndInit();
             this.ResumeLayout(false);
 
         }
