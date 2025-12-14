@@ -30,6 +30,7 @@ namespace MyStoreDesktop
             cmbRole.Items.Add("User");
 
             // Setup Grid Columns
+            UserUpdateViewPanel.Visible = false;
             dgvUsers.Columns.Clear();
             dgvUsers.Columns.Add("Id", "Id");
             dgvUsers.Columns["Id"].Visible = false;
@@ -108,55 +109,59 @@ namespace MyStoreDesktop
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if(selectedIndex == -1)
+            if (selectedIndex < 0 || selectedIndex >= dgvUsers.Rows.Count)
             {
-                MessageBox.Show("Please select a row first");
+                MessageBox.Show("Please select a valid user first!");
                 return;
             }
-            
-            if (dgvUsers.CurrentRow != null)
+
+            int userId = Convert.ToInt32(dgvUsers.Rows[selectedIndex].Cells["Id"].Value);
+
+            byte[] passwordHash = null;
+            byte[] passwordSalt = null;
+
+            if (!string.IsNullOrWhiteSpace(UPassword.Text))
             {
-                dgvUsers.CurrentRow.Cells["Username"].Value = txtUsername.Text;
-                dgvUsers.CurrentRow.Cells["Role"].Value = cmbRole.Text;
-                ClearFields();
+                CreatePasswordHash(UPassword.Text, out passwordHash, out passwordSalt);
             }
-            byte[] passwordHash, passwordSalt;
-            CreatePasswordHash(txtPassword.Text, out passwordHash, out passwordSalt);
 
-            var data = new User
+            var user = new User
             {
-                UserName = txtUsername.Text,
+                Id = userId,
+                UserName = Username.Text,
+                Role = URole.Text,
                 PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt,
-
-
+                PasswordSalt = passwordSalt
             };
-            _userService.Update(data);
-            MessageBox.Show("Data Update Successfully ");
-            dgvUsers.Rows.Add(data.Id, data.UserName, data.Role);
+
+            _userService.Update(user);
+
+            LoadUsersToGrid();  // This is enough, grid is refreshed
+
+            MessageBox.Show("User Updated Successfully");
+
+            UserUpdateViewPanel.Hide();
+            dgvUsers.Visible = true;
+            selectedIndex = -1;
             ClearFields();
-
-
         }
-
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (selectedIndex == -1) 
+            if (selectedIndex >= 0 && selectedIndex < dgvUsers.Rows.Count)
             {
                 int id = Convert.ToInt32(dgvUsers.Rows[selectedIndex].Cells["Id"].Value);
                 _userService.Delete(id);
                 dgvUsers.Rows.RemoveAt(selectedIndex);
-                MessageBox.Show("User Delete Successfully");
+                MessageBox.Show("User Deleted Successfully");
                 selectedIndex = -1;
                 ClearFields();
             }
             else
             {
-                MessageBox.Show("Please Select User First");
+                MessageBox.Show("Please select a valid user first!");
             }
         }
-
 
         private void ClearFields()
         {
@@ -167,12 +172,38 @@ namespace MyStoreDesktop
 
         private void dgvUsers_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(dgvUsers.CurrentRow != null)
+            if (e.RowIndex < 0) return; // ignore header clicks
+
+            if (dgvUsers.Columns[e.ColumnIndex].Name == "Edit")
             {
-                selectedIndex = e.RowIndex;
-                txtUsername.Text = dgvUsers.Rows[e.RowIndex].Cells["Username"].Value.ToString();
-                cmbRole.Text = dgvUsers.Rows[e.RowIndex].Cells["Role"].Value.ToString();
+                selectedIndex = e.RowIndex; // update selectedIndex here
+
+                Username.Text = dgvUsers.Rows[e.RowIndex].Cells["Username"].Value.ToString();
+                URole.Text = dgvUsers.Rows[e.RowIndex].Cells["Role"].Value.ToString();
+                UPassword.Text = "";
+
+                UserUpdateViewPanel.Visible = true;
+                dgvUsers.Visible = false;
+            }
+            else if (dgvUsers.Columns[e.ColumnIndex].Name == "Delete")
+            {
+                selectedIndex = e.RowIndex; // update selectedIndex here
+                int id = Convert.ToInt32(dgvUsers.Rows[e.RowIndex].Cells["Id"].Value);
+                _userService.Delete(id);
+                dgvUsers.Rows.RemoveAt(e.RowIndex);
+                MessageBox.Show("User Deleted Successfully");
+                selectedIndex = -1;
+                ClearFields();
             }
         }
+        private void UUVBtnClose_Click(object sender, EventArgs e)
+        {
+            UserUpdateViewPanel.Hide();
+            dgvUsers.Visible = true;
+            selectedIndex = -1;
+            ClearFields();
+        }
+
+
     }
 }

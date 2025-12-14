@@ -31,11 +31,24 @@ namespace MyStoreDesktop.Services.UserService
             _context.SaveChanges();
         }
 
-        public void Update(User user)
+        public void Update(User updatedUser)
         {
-            _context.Entry(user).State = EntityState.Modified;
+            var existingUser = _context.Users.Find(updatedUser.Id);
+            if (existingUser == null) return;
+
+            existingUser.UserName = updatedUser.UserName;
+            existingUser.Role = updatedUser.Role;
+
+            // Password sirf tab update ho jab naya diya ho
+            if (updatedUser.PasswordHash != null)
+            {
+                existingUser.PasswordHash = updatedUser.PasswordHash;
+                existingUser.PasswordSalt = updatedUser.PasswordSalt;
+            }
+
             _context.SaveChanges();
         }
+
 
         public void Delete(int id)
         {
