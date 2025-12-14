@@ -457,6 +457,7 @@ namespace MyStoreDesktop
             this.txtPayment.Name = "txtPayment";
             this.txtPayment.Size = new System.Drawing.Size(84, 25);
             this.txtPayment.TabIndex = 38;
+            this.txtPayment.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPayment_KeyDown);
             // 
             // Payment
             // 

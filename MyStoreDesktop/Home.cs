@@ -38,6 +38,7 @@ namespace MyStoreDesktop
 
 
 
+
         public Home()
         {
             InitializeComponent();
@@ -49,6 +50,7 @@ namespace MyStoreDesktop
             dgvAddToCard.TabIndex = 1;
             txtPayment.TabIndex = 2;
             btnConfirm.TabIndex = 3;
+
 
 
             lstSuggestion.Visible = false;
@@ -178,6 +180,11 @@ namespace MyStoreDesktop
                     row.Cells["Total"].Value = qty * Convert.ToDouble(product.SalePrice);
                     row.Cells["UrlImage"].Value = product.UrlImage;
 
+                    // ✅ FORCE SELECT EXISTING ROW
+                    dgvAddToCard.ClearSelection();
+                    row.Selected = true;
+                    dgvAddToCard.CurrentCell = row.Cells[1];
+
                     UpdateTotals();
                     CheckButtonsAccess();
                     return;
@@ -186,20 +193,25 @@ namespace MyStoreDesktop
 
             double total = Convert.ToDouble(product.SalePrice);
 
-            dgvAddToCard.Rows.Add(
-                 product.ProductId,
-                 product.Title,
-                           1,
-                 product.SalePrice,
-                 product.Discount,
-                 total,
-                 product.UrlImage   // ✅ Ab ye sahi column me jayega
-                  );
+            int newRowIndex = dgvAddToCard.Rows.Add(
+                product.ProductId,
+                product.Title,
+                1,
+                product.SalePrice,
+                product.Discount,
+                total,
+                product.UrlImage
+            );
 
+            // ✅ FORCE SELECT NEW ROW (THIS IS THE KEY 🔥)
+            dgvAddToCard.ClearSelection();
+            dgvAddToCard.Rows[newRowIndex].Selected = true;
+            dgvAddToCard.CurrentCell = dgvAddToCard.Rows[newRowIndex].Cells[1];
 
             UpdateTotals();
             CheckButtonsAccess();
         }
+
 
         private void CalculateChange()
         {
