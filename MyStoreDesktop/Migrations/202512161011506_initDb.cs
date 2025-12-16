@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitDB : DbMigration
+    public partial class initDb : DbMigration
     {
         public override void Up()
         {
@@ -35,11 +35,12 @@
                         BillId = c.Int(nullable: false, identity: true),
                         UserId = c.Int(nullable: false),
                         CustomerInvoiceId = c.Int(nullable: false),
+                        Role = c.String(),
                         BillDate = c.DateTime(nullable: false),
                         CreatedDate = c.DateTime(nullable: false),
                         OwnDate = c.DateTime(nullable: false),
                         Discount = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        SalePrice = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        itemPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
                         TotalAmount = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Tax = c.Decimal(nullable: false, precision: 18, scale: 2),
                         GrandTotal = c.Decimal(nullable: false, precision: 18, scale: 2),
@@ -139,12 +140,23 @@
                     {
                         Id = c.Int(nullable: false, identity: true),
                         ProductId = c.Int(nullable: false),
-                        QrCode = c.Guid(nullable: false),
+                        CodeValue = c.String(nullable: false),
+                        CodeType = c.String(nullable: false),
                         CreatedAt = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Products", t => t.ProductId, cascadeDelete: true)
                 .Index(t => t.ProductId);
+            
+            CreateTable(
+                "dbo.Settings",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Key = c.String(),
+                        Value = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
             
         }
         
@@ -164,6 +176,7 @@
             DropIndex("dbo.Bills", new[] { "UserId" });
             DropIndex("dbo.BillProducts", new[] { "ProductId" });
             DropIndex("dbo.BillProducts", new[] { "BillId" });
+            DropTable("dbo.Settings");
             DropTable("dbo.QrTableDatas");
             DropTable("dbo.Configurations");
             DropTable("dbo.Companies");

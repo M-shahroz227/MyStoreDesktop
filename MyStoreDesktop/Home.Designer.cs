@@ -84,6 +84,7 @@ namespace MyStoreDesktop
             this.UrlImage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picProduct)).BeginInit();
@@ -559,6 +560,7 @@ namespace MyStoreDesktop
             // panel5
             // 
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel5.Controls.Add(this.button1);
             this.panel5.Controls.Add(this.btnlogout);
             this.panel5.Controls.Add(this.label1);
             this.panel5.Location = new System.Drawing.Point(0, 3);
@@ -688,6 +690,17 @@ namespace MyStoreDesktop
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(706, 11);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(102, 36);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "LOGOUT";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -776,5 +789,6 @@ namespace MyStoreDesktop
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Button btnlogout;
         public System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button1;
     }
 }

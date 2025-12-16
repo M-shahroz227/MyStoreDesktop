@@ -34,7 +34,7 @@ namespace MyStoreDesktop.Models
         public string UrlImage { get; set; }
         public string Description { get; set; }
 
-        public virtual ICollection<ProductImageSetting> ProductImages { get; set; } = new HashSet<ProductImageSetting>();
+        
 
 
         public virtual ICollection<BillProduct> BillProducts { get; set; } = new HashSet<BillProduct>();

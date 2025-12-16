@@ -3,7 +3,6 @@ using MyStoreDesktop.Models;
 using MyStoreDesktop.Services.BillProductService;
 using MyStoreDesktop.Services.BillService;
 using MyStoreDesktop.Services.CustomerInvoiceService;
-using MyStoreDesktop.Services.ProductImageService;
 using MyStoreDesktop.Services.ProductService;
 using MyStoreDesktop.Theme;
 using System;
@@ -23,7 +22,7 @@ namespace MyStoreDesktop
         private readonly BillService _billService = new BillService();
         private readonly BillProductService _billProductService = new BillProductService();
         private readonly CustomerInvoiceService _customerService = new CustomerInvoiceService();
-        private readonly ProductImageService _productImageService = new ProductImageService();
+        
 
 
         // Value holders
@@ -176,26 +175,11 @@ namespace MyStoreDesktop
 
         private void AddToCartData(Product product)
         {
-            var setting = _productImageService.GetByProductId(product.ProductId);
+            
 
             string imagePath = null;
 
-            if (setting != null && !string.IsNullOrWhiteSpace(setting.ImagePath))
-            {
-                // 🔥 Auto drive detection (C/D/E change case)
-                if (!System.IO.File.Exists(setting.ImagePath))
-                {
-                    imagePath = TryFindImageOnOtherDrives(setting.ImagePath);
-                }
-                else
-                {
-                    imagePath = setting.ImagePath;
-                }
-            }
-            else
-            {
-                imagePath = product.UrlImage;
-            }
+            
 
             double total = Convert.ToDouble(product.SalePrice);
 
