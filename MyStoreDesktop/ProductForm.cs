@@ -1,4 +1,5 @@
 ﻿using MyStoreDesktop.Models;
+using MyStoreDesktop.Services.ProductImageService;
 using MyStoreDesktop.Services.ProductService;
 using MyStoreDesktop.Services.QrTableDataService;
 using MyStoreDesktop.Theme;
@@ -22,6 +23,8 @@ namespace MyStoreDesktop
     {
         private readonly IProductService _productService = new ProductService();
         private readonly IQrTableDataService _qrService = new QrTableDataService();
+        private readonly IProductImageService _productImageService = new ProductImageService();
+
         private int selectedProductId = 0;
         private Bitmap currentQRCode = null;
         private string currentQRCodeGuid = "";
@@ -177,6 +180,10 @@ namespace MyStoreDesktop
             {
                 cboCompany.SelectedIndex = -1;
             }
+            picProduct.Image?.Dispose();
+            picProduct.Image = null;
+            _selectedImagePath = "";
+
         }
 
         // Add Product + Generate QR
@@ -223,6 +230,19 @@ namespace MyStoreDesktop
                 MessageBox.Show("✅ Product added successfully!");
                 LoadProducts();
                 ClearForm();
+                // Create ProductImageSetting
+                var ProductImageSetting = new ProductImageSetting
+                {
+                    ProductId = addedProduct.ProductId,
+                    ImagePath = _selectedImagePath,
+                    DriveLabel = Drive.C // ya user select kare
+                };
+
+                // Save via service
+                // Correct
+                _productImageService.Add(ProductImageSetting);
+
+
             }
             catch (Exception ex)
             {
@@ -274,6 +294,27 @@ namespace MyStoreDesktop
 
                 // Regenerate QR for product
                 GenerateAndSaveQrCode(product);
+
+                // Update or Add image setting
+                var imgSetting = _productImageService.GetByProductId(selectedProductId);
+                if (imgSetting != null)
+                {
+                    imgSetting.ImagePath = _selectedImagePath;
+                    _productImageService.Update(imgSetting);
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(_selectedImagePath))
+                    {
+                        _productImageService.Add(new ProductImageSetting
+                        {
+                            ProductId = selectedProductId,
+                            ImagePath = _selectedImagePath,
+                            DriveLabel = Drive.C
+                        });
+                    }
+                }
+
 
                 MessageBox.Show("✅ Product updated successfully!");
                 LoadProducts();
@@ -603,28 +644,50 @@ namespace MyStoreDesktop
         }
         private void btnBrowseImage_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
-
-            if (ofd.ShowDialog() == DialogResult.OK)
+            using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                string sourcePath = ofd.FileName;
+                ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
 
-                string imagesFolder = @"E:\MyStore\Images";
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        string sourcePath = ofd.FileName;
 
-                if (!System.IO.Directory.Exists(imagesFolder))
-                    System.IO.Directory.CreateDirectory(imagesFolder);
+                        // Images folder
+                        string imagesFolder = @"E:\MyStore\Images";
+                        if (!Directory.Exists(imagesFolder))
+                            Directory.CreateDirectory(imagesFolder);
 
-                string fileName = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(sourcePath);
-                string destinationPath = System.IO.Path.Combine(imagesFolder, fileName);
+                        // Unique filename
+                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(sourcePath);
+                        string destinationPath = Path.Combine(imagesFolder, fileName);
 
-                System.IO.File.Copy(sourcePath, destinationPath, true);
+                        // Copy file safely
+                        File.Copy(sourcePath, destinationPath, true);
 
-                _selectedImagePath = destinationPath;
+                        // Set selected image path
+                        _selectedImagePath = destinationPath;
 
-                picProduct.Image = Image.FromFile(destinationPath);
+                        // Dispose old image to avoid file lock
+                        picProduct.Image?.Dispose();
+                        picProduct.Image = null;
+
+                        // Load new image safely
+                        using (var fs = new FileStream(destinationPath, FileMode.Open, FileAccess.Read))
+                        {
+                            picProduct.Image = Image.FromStream(fs);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error loading image: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
         }
+
+
 
     }
 

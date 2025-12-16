@@ -1,18 +1,18 @@
-﻿using MyStoreDesktop.Models;
-using MyStoreDesktop.Services.ProductService;
-using MyStoreDesktop.Services.BillService;
+﻿using MyStoreDesktop.Data;
+using MyStoreDesktop.Models;
 using MyStoreDesktop.Services.BillProductService;
+using MyStoreDesktop.Services.BillService;
 using MyStoreDesktop.Services.CustomerInvoiceService;
-using MyStoreDesktop.Data;
+using MyStoreDesktop.Services.ProductImageService;
+using MyStoreDesktop.Services.ProductService;
 using MyStoreDesktop.Theme;
-
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using System.Diagnostics.Eventing.Reader;
 
 namespace MyStoreDesktop
 {
@@ -23,6 +23,8 @@ namespace MyStoreDesktop
         private readonly BillService _billService = new BillService();
         private readonly BillProductService _billProductService = new BillProductService();
         private readonly CustomerInvoiceService _customerService = new CustomerInvoiceService();
+        private readonly ProductImageService _productImageService = new ProductImageService();
+
 
         // Value holders
         private double _subtotal = 0;
@@ -45,6 +47,7 @@ namespace MyStoreDesktop
 
             // Apply professional blue theme
             ThemeManager.ApplyTheme(this);
+            ApplyRoleAccess();
 
             txtSearch.TabIndex = 0;
             dgvAddToCard.TabIndex = 1;
@@ -136,6 +139,7 @@ namespace MyStoreDesktop
             lstSuggestion.Visible = products.Any();
         }
         private void lstSuggestion_Click(object sender, EventArgs e)
+        
         {
             if (lstSuggestion.SelectedItem == null)
                 return;
@@ -145,6 +149,7 @@ namespace MyStoreDesktop
 
             lstSuggestion.Visible = false;
             txtSearch.Clear();
+            ShowSelectedProductImage();
         }
 
         private void txtSearch_Enter(object sender, EventArgs e)
@@ -171,45 +176,46 @@ namespace MyStoreDesktop
 
         private void AddToCartData(Product product)
         {
-            foreach (DataGridViewRow row in dgvAddToCard.Rows)
+            var setting = _productImageService.GetByProductId(product.ProductId);
+
+            string imagePath = null;
+
+            if (setting != null && !string.IsNullOrWhiteSpace(setting.ImagePath))
             {
-                if (!row.IsNewRow && Convert.ToInt32(row.Cells["ProductId"].Value) == product.ProductId)
+                // 🔥 Auto drive detection (C/D/E change case)
+                if (!System.IO.File.Exists(setting.ImagePath))
                 {
-                    int qty = Convert.ToInt32(row.Cells["Quantity"].Value) + 1;
-                    row.Cells["Quantity"].Value = qty;
-                    row.Cells["Total"].Value = qty * Convert.ToDouble(product.SalePrice);
-                    row.Cells["UrlImage"].Value = product.UrlImage;
-
-                    // ✅ FORCE SELECT EXISTING ROW
-                    dgvAddToCard.ClearSelection();
-                    row.Selected = true;
-                    dgvAddToCard.CurrentCell = row.Cells[1];
-
-                    UpdateTotals();
-                    CheckButtonsAccess();
-                    return;
+                    imagePath = TryFindImageOnOtherDrives(setting.ImagePath);
                 }
+                else
+                {
+                    imagePath = setting.ImagePath;
+                }
+            }
+            else
+            {
+                imagePath = product.UrlImage;
             }
 
             double total = Convert.ToDouble(product.SalePrice);
 
-            int newRowIndex = dgvAddToCard.Rows.Add(
+            int rowIndex = dgvAddToCard.Rows.Add(
                 product.ProductId,
                 product.Title,
                 1,
                 product.SalePrice,
                 product.Discount,
                 total,
-                product.UrlImage
+                imagePath
             );
 
-            // ✅ FORCE SELECT NEW ROW (THIS IS THE KEY 🔥)
             dgvAddToCard.ClearSelection();
-            dgvAddToCard.Rows[newRowIndex].Selected = true;
-            dgvAddToCard.CurrentCell = dgvAddToCard.Rows[newRowIndex].Cells[1];
+            dgvAddToCard.Rows[rowIndex].Selected = true;
+            dgvAddToCard.CurrentCell = dgvAddToCard.Rows[rowIndex].Cells[1];
 
             UpdateTotals();
             CheckButtonsAccess();
+            ShowSelectedProductImage();
         }
 
 
@@ -619,6 +625,10 @@ namespace MyStoreDesktop
         }
         private void dgvAddToCard_SelectionChanged(object sender, EventArgs e)
         {
+            ShowSelectedProductImage();
+        }
+        private void ShowSelectedProductImage()
+        {
             try
             {
                 if (dgvAddToCard.CurrentRow == null) return;
@@ -648,9 +658,63 @@ namespace MyStoreDesktop
             }
             catch
             {
-                var _ = picProduct.Image = null;
+                picProduct.Image = null;
             }
         }
+        private void ApplyRoleAccess()
+        {
+            // Default: sab hide
+            btnUsers.Visible = false;
+            btnProducts.Visible = false;
+            btnSales.Visible = false; 
+            btnReports.Visible = false;
+
+            btnHome.Visible = true; 
+
+            // ADMIN
+            if (SessionManager.Role == "Administrator")
+            {
+                btnUsers.Visible = true;
+                btnProducts.Visible = true;
+                btnSales.Visible = true;
+                btnReports.Visible = true;
+            }
+            // NORMAL USER
+            else if (SessionManager.Role == "User")
+            {
+                
+                btnSales.Visible = true;
+            }
+        }
+        private string TryFindImageOnOtherDrives(string originalPath)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(originalPath))
+                    return null;
+
+                string fileName = System.IO.Path.GetFileName(originalPath);
+
+                foreach (var drive in System.IO.DriveInfo.GetDrives())
+                {
+                    if (!drive.IsReady) continue;
+
+                    string newPath = System.IO.Path.Combine(
+                        drive.RootDirectory.FullName,
+                        "MyStoreImages",
+                        fileName
+                    );
+
+                    if (System.IO.File.Exists(newPath))
+                        return newPath;
+                }
+            }
+            catch { }
+
+            return null;
+        }
+
+
 
 
 

@@ -20,6 +20,8 @@ namespace MyStoreDesktop.Data
         public DbSet<Company> Companies { get; set; }
         public DbSet<Configuration> Configurations { get; set; }
        public DbSet<CustomerInvoice> CustomerInvoices { get; set; }
+        public DbSet<ProductImageSetting> ProductImageSettings { get; set; }
+        
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

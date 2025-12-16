@@ -34,8 +34,8 @@ namespace MyStoreDesktop
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.Reports = new System.Windows.Forms.Button();
-            this.Sales = new System.Windows.Forms.Button();
+            this.btnReports = new System.Windows.Forms.Button();
+            this.btnSales = new System.Windows.Forms.Button();
             this.btnUsers = new System.Windows.Forms.Button();
             this.btnProducts = new System.Windows.Forms.Button();
             this.btnHome = new System.Windows.Forms.Button();
@@ -110,8 +110,8 @@ namespace MyStoreDesktop
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel4.Controls.Add(this.Reports);
-            this.panel4.Controls.Add(this.Sales);
+            this.panel4.Controls.Add(this.btnReports);
+            this.panel4.Controls.Add(this.btnSales);
             this.panel4.Controls.Add(this.btnUsers);
             this.panel4.Controls.Add(this.btnProducts);
             this.panel4.Controls.Add(this.btnHome);
@@ -120,31 +120,31 @@ namespace MyStoreDesktop
             this.panel4.Size = new System.Drawing.Size(200, 353);
             this.panel4.TabIndex = 6;
             // 
-            // Reports
+            // btnReports
             // 
-            this.Reports.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.Reports.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Reports.ForeColor = System.Drawing.Color.White;
-            this.Reports.Location = new System.Drawing.Point(36, 285);
-            this.Reports.Name = "Reports";
-            this.Reports.Size = new System.Drawing.Size(129, 40);
-            this.Reports.TabIndex = 9;
-            this.Reports.Text = "Reports";
-            this.Reports.UseVisualStyleBackColor = false;
-            this.Reports.Click += new System.EventHandler(this.LoginPanelReports);
+            this.btnReports.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.btnReports.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReports.ForeColor = System.Drawing.Color.White;
+            this.btnReports.Location = new System.Drawing.Point(36, 285);
+            this.btnReports.Name = "btnReports";
+            this.btnReports.Size = new System.Drawing.Size(129, 40);
+            this.btnReports.TabIndex = 9;
+            this.btnReports.Text = "Reports";
+            this.btnReports.UseVisualStyleBackColor = false;
+            this.btnReports.Click += new System.EventHandler(this.LoginPanelReports);
             // 
-            // Sales
+            // btnSales
             // 
-            this.Sales.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.Sales.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Sales.ForeColor = System.Drawing.Color.White;
-            this.Sales.Location = new System.Drawing.Point(36, 214);
-            this.Sales.Name = "Sales";
-            this.Sales.Size = new System.Drawing.Size(129, 40);
-            this.Sales.TabIndex = 8;
-            this.Sales.Text = "Sales";
-            this.Sales.UseVisualStyleBackColor = false;
-            this.Sales.Click += new System.EventHandler(this.LoginPanelSales);
+            this.btnSales.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.btnSales.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSales.ForeColor = System.Drawing.Color.White;
+            this.btnSales.Location = new System.Drawing.Point(36, 214);
+            this.btnSales.Name = "btnSales";
+            this.btnSales.Size = new System.Drawing.Size(129, 40);
+            this.btnSales.TabIndex = 8;
+            this.btnSales.Text = "Sales";
+            this.btnSales.UseVisualStyleBackColor = false;
+            this.btnSales.Click += new System.EventHandler(this.LoginPanelSales);
             // 
             // btnUsers
             // 
@@ -678,7 +678,7 @@ namespace MyStoreDesktop
             // 
             // txtSearch
             // 
-            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSearch.Location = new System.Drawing.Point(9, 71);
             this.txtSearch.Multiline = true;
             this.txtSearch.Name = "txtSearch";
@@ -768,8 +768,8 @@ namespace MyStoreDesktop
         private System.Windows.Forms.Button btnDot;
         private System.Windows.Forms.Button btnZero;
         private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Button Reports;
-        private System.Windows.Forms.Button Sales;
+        private System.Windows.Forms.Button btnReports;
+        private System.Windows.Forms.Button btnSales;
         private System.Windows.Forms.Button btnUsers;
         private System.Windows.Forms.Button btnProducts;
         private System.Windows.Forms.Button btnHome;

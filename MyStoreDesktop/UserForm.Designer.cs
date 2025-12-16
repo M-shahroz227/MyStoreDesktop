@@ -174,9 +174,9 @@
             this.UserUpdateViewPanel.Controls.Add(this.label2);
             this.UserUpdateViewPanel.Controls.Add(this.Username);
             this.UserUpdateViewPanel.Controls.Add(this.label3);
-            this.UserUpdateViewPanel.Location = new System.Drawing.Point(4, 88);
+            this.UserUpdateViewPanel.Location = new System.Drawing.Point(4, 252);
             this.UserUpdateViewPanel.Name = "UserUpdateViewPanel";
-            this.UserUpdateViewPanel.Size = new System.Drawing.Size(1015, 483);
+            this.UserUpdateViewPanel.Size = new System.Drawing.Size(1015, 319);
             this.UserUpdateViewPanel.TabIndex = 11;
             // 
             // UUVBtnClose

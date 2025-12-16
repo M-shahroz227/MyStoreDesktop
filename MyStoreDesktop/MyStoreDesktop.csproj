@@ -153,6 +153,14 @@
     <Compile Include="Migrations\202512061341573_update.Designer.cs">
       <DependentUpon>202512061341573_update.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202512151301345_AddProductImageSetting.cs" />
+    <Compile Include="Migrations\202512151301345_AddProductImageSetting.Designer.cs">
+      <DependentUpon>202512151301345_AddProductImageSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202512160804345_AddDriveEnum.cs" />
+    <Compile Include="Migrations\202512160804345_AddDriveEnum.Designer.cs">
+      <DependentUpon>202512160804345_AddDriveEnum.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bill.cs" />
     <Compile Include="Models\BillProduct.cs" />
@@ -160,7 +168,9 @@
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\CustomerInvoice.cs" />
+    <Compile Include="Models\Drive.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductImageSetting.cs" />
     <Compile Include="Models\QrTableData.cs" />
     <Compile Include="Models\SessionManger.cs" />
     <Compile Include="Models\User.cs" />
@@ -223,6 +233,8 @@
     <Compile Include="Services\CredentialManager.cs" />
     <Compile Include="Services\CustomerInvoiceService\CustomerInvoiceService.cs" />
     <Compile Include="Services\CustomerInvoiceService\ICustomerInvoiceService.cs" />
+    <Compile Include="Services\ProductImageService\IProductImageService.cs" />
+    <Compile Include="Services\ProductImageService\ProductImageService.cs" />
     <Compile Include="Services\ProductService\IProductService.cs" />
     <Compile Include="Services\ProductService\ProductService.cs" />
     <Compile Include="Services\QrTableDataService\IQrTableDataService.cs" />
@@ -260,6 +272,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202512061341573_update.resx">
       <DependentUpon>202512061341573_update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202512151301345_AddProductImageSetting.resx">
+      <DependentUpon>202512151301345_AddProductImageSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202512160804345_AddDriveEnum.resx">
+      <DependentUpon>202512160804345_AddDriveEnum.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PrintForm.resx">
       <DependentUpon>PrintForm.cs</DependentUpon>

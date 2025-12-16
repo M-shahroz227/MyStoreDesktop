@@ -13,6 +13,7 @@ namespace MyStoreDesktop
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            // Database initializer
             Database.SetInitializer(new CreateDatabaseIfNotExists<DatabaseHelper>());
 
             try
@@ -20,12 +21,14 @@ namespace MyStoreDesktop
                 using (var db = new DatabaseHelper())
                 {
                     db.Database.CreateIfNotExists();
+
+                    // Pass DatabaseHelper to LoginForm
                     Application.Run(new LoginForm(db));
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Exeption Occure:\n\n{ex.ToString()}",
+                MessageBox.Show($"Exception Occurred:\n\n{ex.ToString()}",
                     "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
