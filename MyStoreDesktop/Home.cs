@@ -698,9 +698,10 @@ namespace MyStoreDesktop
             return null;
         }
 
-
-
-
-
+        private void Setting_Click(object sender, EventArgs e)
+        {
+            var setting = new SettingForm();
+            setting.Show();
+        }
     }
 }

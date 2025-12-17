@@ -61,6 +61,7 @@ namespace MyStoreDesktop.Data
                 .HasForeignKey(p => p.CompanyId)
                 .WillCascadeOnDelete(false);
 
+
             base.OnModelCreating(modelBuilder);
         }
     }
