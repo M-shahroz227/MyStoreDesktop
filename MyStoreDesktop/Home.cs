@@ -670,38 +670,6 @@ namespace MyStoreDesktop
                 btnSales.Visible = true;
             }
         }
-        private string TryFindImageOnOtherDrives(string originalPath)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(originalPath))
-                    return null;
-
-                string fileName = System.IO.Path.GetFileName(originalPath);
-
-                foreach (var drive in System.IO.DriveInfo.GetDrives())
-                {
-                    if (!drive.IsReady) continue;
-
-                    string newPath = System.IO.Path.Combine(
-                        drive.RootDirectory.FullName,
-                        "MyStoreImages",
-                        fileName
-                    );
-
-                    if (System.IO.File.Exists(newPath))
-                        return newPath;
-                }
-            }
-            catch { }
-
-            return null;
-        }
-
-        private void Setting_Click(object sender, EventArgs e)
-        {
-            var setting = new SettingForm();
-            setting.Show();
-        }
+        
     }
 }

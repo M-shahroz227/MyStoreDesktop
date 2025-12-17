@@ -212,6 +212,7 @@
     <Compile Include="Services\CredentialManager.cs" />
     <Compile Include="Services\CustomerInvoiceService\CustomerInvoiceService.cs" />
     <Compile Include="Services\CustomerInvoiceService\ICustomerInvoiceService.cs" />
+    <Compile Include="Services\FileServices\FileServices.cs" />
     <Compile Include="Services\ProductService\IProductService.cs" />
     <Compile Include="Services\ProductService\ProductService.cs" />
     <Compile Include="Services\QrTableDataService\IQrTableDataService.cs" />
@@ -220,6 +221,7 @@
     <Compile Include="Services\SettingService\SettingService.cs" />
     <Compile Include="Services\UserService\IUserService.cs" />
     <Compile Include="Services\UserService\UserService.cs" />
+    <Compile Include="Services\UtilityServices\AppUtilities.cs" />
     <Compile Include="SettingForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -1,4 +1,5 @@
 ﻿using MyStoreDesktop.Models;
+using MyStoreDesktop.Services.FileServices;
 using MyStoreDesktop.Services.ProductService;
 using MyStoreDesktop.Services.QrTableDataService;
 using MyStoreDesktop.Theme;
@@ -22,6 +23,7 @@ namespace MyStoreDesktop
     {
         private readonly IProductService _productService = new ProductService();
         private readonly IQrTableDataService _qrService = new QrTableDataService();
+        private readonly FileServices _fileServices = new FileServices();
         private int selectedProductId = 0;
         private Bitmap currentQRCode = null;
         private string currentQRCodeGuid = "";
@@ -373,10 +375,11 @@ namespace MyStoreDesktop
                 // ✅ ✅ IMAGE LOAD (MOST IMPORTANT)
                 string imgPath = row.Cells["UrlImage"].Value?.ToString();
 
-                if (!string.IsNullOrEmpty(imgPath) && File.Exists(imgPath))
+                var img = _fileServices.GetFileByName(imgPath);
+                if (img!= null)
                 {
                     picProduct.Image?.Dispose();
-                    picProduct.Image = Image.FromFile(imgPath);
+                    picProduct.Image = img;
                     _selectedImagePath = imgPath;   // ✅ update path
                 }
                 else
