@@ -8,6 +8,6 @@ namespace MyStoreDesktop.Services.UtilityServices
 {
     public class AppUtilities
     {
-        public static
+        
     }
 }

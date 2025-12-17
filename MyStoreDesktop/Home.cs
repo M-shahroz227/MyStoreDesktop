@@ -3,6 +3,7 @@ using MyStoreDesktop.Models;
 using MyStoreDesktop.Services.BillProductService;
 using MyStoreDesktop.Services.BillService;
 using MyStoreDesktop.Services.CustomerInvoiceService;
+using MyStoreDesktop.Services.FileServices;
 using MyStoreDesktop.Services.ProductService;
 using MyStoreDesktop.Theme;
 using System;
@@ -22,6 +23,7 @@ namespace MyStoreDesktop
         private readonly BillService _billService = new BillService();
         private readonly BillProductService _billProductService = new BillProductService();
         private readonly CustomerInvoiceService _customerService = new CustomerInvoiceService();
+        private readonly FileServices _fileServices = new FileServices();
         
 
 
@@ -175,12 +177,6 @@ namespace MyStoreDesktop
 
         private void AddToCartData(Product product)
         {
-            
-
-            string imagePath = null;
-
-            
-
             double total = Convert.ToDouble(product.SalePrice);
 
             int rowIndex = dgvAddToCard.Rows.Add(
@@ -190,7 +186,7 @@ namespace MyStoreDesktop
                 product.SalePrice,
                 product.Discount,
                 total,
-                imagePath
+                product.UrlImage
             );
 
             dgvAddToCard.ClearSelection();
@@ -621,19 +617,17 @@ namespace MyStoreDesktop
                 if (cellValue == null) return;
 
                 string imagePath = cellValue.ToString();
-
-                if (!string.IsNullOrWhiteSpace(imagePath) && System.IO.File.Exists(imagePath))
+                
+                var img = _fileServices.GetFileByName(imagePath);
+                
+                if (img != null)
                 {
                     if (picProduct.Image != null)
                     {
                         picProduct.Image.Dispose();
                         picProduct.Image = null;
                     }
-
-                    using (var temp = Image.FromFile(imagePath))
-                    {
-                        picProduct.Image = new Bitmap(temp);
-                    }
+                        picProduct.Image = img;
                 }
                 else
                 {
@@ -670,6 +664,10 @@ namespace MyStoreDesktop
                 btnSales.Visible = true;
             }
         }
-        
+
+        private void Setting_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -42,7 +42,7 @@ public class SettingService : ISettingService
     }
 
     // Get value by key
-    public string Get(string key)
+    public string GetByKey(string key)
     {
         var setting = _context.Settings.FirstOrDefault(s => s.Key == key);
         return setting != null ? setting.Value : null;

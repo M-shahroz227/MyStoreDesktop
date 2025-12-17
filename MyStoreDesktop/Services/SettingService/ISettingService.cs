@@ -9,7 +9,7 @@ public interface ISettingService
     void Update(string key, string value);
 
     // Read a setting by key
-    string Get(string key);
+    string GetByKey(string key);
 
     // Read a setting by Id
     Setting GetById(int id);

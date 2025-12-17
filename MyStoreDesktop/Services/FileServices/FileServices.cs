@@ -22,17 +22,22 @@ namespace MyStoreDesktop.Services.FileServices
         }
         public Image GetFileByName(string imgNameWithExt)
         {
-            if (!string.IsNullOrEmpty(imgNameWithExt) && File.Exists(imgNameWithExt))
+            var basePath = _settingService.GetByKey("BasePath");
+            if (!string.IsNullOrEmpty(basePath) && !string.IsNullOrEmpty(imgNameWithExt))
             {
-                return Image.FromFile(imgNameWithExt);
-                
+                var fullPath = basePath +@"\"+ imgNameWithExt;
+                if (File.Exists(fullPath))
+                {
+                    return Image.FromFile(fullPath);
+
+                }
+                else
+                {
+                    return null;
+
+                }
             }
-            else
-            {
-                return null;
-        
-            }
-            
+            else return null;
 
         }
 
