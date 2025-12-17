@@ -1,8 +1,5 @@
 ﻿using MyStoreDesktop.Theme;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -10,7 +7,8 @@ namespace MyStoreDesktop
 {
     public partial class SettingForm : Form
     {
-        private SettingService _settingService = new SettingService();
+        private readonly SettingService _settingService = new SettingService();
+        private string _updateKey = string.Empty;
 
         public SettingForm()
         {
@@ -21,6 +19,8 @@ namespace MyStoreDesktop
             LoadKeysToComboBox();
         }
 
+        // ================= LOAD =================
+
         private void LoadSettings()
         {
             dgvSettings.DataSource = null;
@@ -30,15 +30,16 @@ namespace MyStoreDesktop
         private void LoadKeysToComboBox()
         {
             cmbKey.Items.Clear();
-            foreach (var setting in _settingService.GetAll())
-            {
-                cmbKey.Items.Add(setting.Key);
-            }
+            cmbKey.Items.Add("BasePath");
+            cmbKey.Items.Add("StoreName");
         }
+
+        // ================= GRID =================
 
         private void SetupDataGridView()
         {
             SettingUpdateViewPanel.Visible = false;
+
             dgvSettings.AutoGenerateColumns = false;
             dgvSettings.Columns.Clear();
 
@@ -47,6 +48,7 @@ namespace MyStoreDesktop
                 HeaderText = "Id",
                 DataPropertyName = "Id",
                 Name = "Id",
+                Width = 50,
                 ReadOnly = true
             });
 
@@ -54,90 +56,130 @@ namespace MyStoreDesktop
             {
                 HeaderText = "Key",
                 DataPropertyName = "Key",
-                Name = "Key"
+                Name = "Key",
+                Width = 150,
+                ReadOnly = true
             });
 
             dgvSettings.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Value",
                 DataPropertyName = "Value",
-                Name = "Value"
+                Name = "Value",
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
             });
 
-            var updateButton = new DataGridViewButtonColumn
+            dgvSettings.Columns.Add(new DataGridViewButtonColumn
             {
+                HeaderText = "Update",
                 Text = "Update",
                 UseColumnTextForButtonValue = true,
-                HeaderText = "Update"
-            };
-            dgvSettings.Columns.Add(updateButton);
+                Width = 80
+            });
 
-            var deleteButton = new DataGridViewButtonColumn
+            dgvSettings.Columns.Add(new DataGridViewButtonColumn
             {
+                HeaderText = "Delete",
                 Text = "Delete",
                 UseColumnTextForButtonValue = true,
-                HeaderText = "Delete",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-            };
-            dgvSettings.Columns.Add(deleteButton);
+                Width = 80
+            });
 
             dgvSettings.CellClick += DgvSettings_CellClick;
         }
+
+        // ================= GRID EVENTS =================
 
         private void DgvSettings_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
-            var row = dgvSettings.Rows[e.RowIndex];
-            string key = row.Cells["Key"].Value.ToString();
-            string value = row.Cells["Value"].Value.ToString();
+            string columnName = dgvSettings.Columns[e.ColumnIndex].HeaderText;
+            string key = dgvSettings.Rows[e.RowIndex].Cells["Key"].Value.ToString();
+            string value = dgvSettings.Rows[e.RowIndex].Cells["Value"].Value.ToString();
 
-            if (dgvSettings.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
+            if (columnName == "Update")
             {
-                string buttonText = dgvSettings.Columns[e.ColumnIndex].HeaderText;
+                _updateKey = key;
 
-                if (buttonText == "Update")
+                lblUpdateKey.Text = key;
+                txtSUpdateValue.Text = value;
+
+                SettingUpdateViewPanel.Visible = true;
+                SettingUpdateViewPanel.BringToFront();
+            }
+            else if (columnName == "Delete")
+            {
+                var confirm = MessageBox.Show(
+                    $"Are you sure you want to delete '{key}'?",
+                    "Confirm Delete",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
                 {
-                    SettingUpdateViewPanel.Visible = true;
-                }
-                else if (buttonText == "Delete")
-                {
-                    var confirm = MessageBox.Show($"Are you sure you want to delete '{key}'?", "Confirm Delete", MessageBoxButtons.YesNo);
-                    if (confirm == DialogResult.Yes)
-                    {
-                        _settingService.Delete(key);
-                        LoadSettings();
-                        LoadKeysToComboBox();
-                        MessageBox.Show("Deleted successfully!");
-                    }
+                    _settingService.Delete(key);
+                    LoadSettings();
+                    MessageBox.Show("Deleted successfully!");
                 }
             }
         }
+
+        // ================= ADD =================
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             string key = cmbKey.Text.Trim();
             string value = txtValue.Text.Trim();
 
-            if (string.IsNullOrEmpty(key))
+            if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value))
             {
-                MessageBox.Show("Key cannot be empty!");
+                MessageBox.Show("Key and Value are required!");
                 return;
             }
 
-            if (string.IsNullOrEmpty(value))
+            var existing = _settingService.GetAll()
+                .FirstOrDefault(x => x.Key == key);
+
+            if (existing != null)
+            {
+                _settingService.Update(key, value);
+                MessageBox.Show("Updated successfully!");
+            }
+            else
+            {
+                _settingService.Add(key, value);
+                MessageBox.Show("Added successfully!");
+            }
+
+            txtValue.Clear();
+            LoadSettings();
+        }
+
+        // ================= UPDATE PANEL =================
+
+        private void SettingbtnUpdate_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(_updateKey))
+            {
+                MessageBox.Show("No setting selected!");
+                return;
+            }
+
+            string newValue = txtSUpdateValue.Text.Trim();
+
+            if (string.IsNullOrEmpty(newValue))
             {
                 MessageBox.Show("Value cannot be empty!");
                 return;
             }
-            _settingService.Add(key, value);
+
+            _settingService.Update(_updateKey, newValue);
+
+            SettingUpdateViewPanel.Visible = false;
             LoadSettings();
 
-        }
-
-        private void SettingbtnUpdate_Click(object sender, EventArgs e)
-        {
-
+            MessageBox.Show("Setting updated successfully!");
         }
 
         private void btnClose_Click(object sender, EventArgs e)
