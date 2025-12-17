@@ -667,6 +667,13 @@ namespace MyStoreDesktop
 
         private void Setting_Click(object sender, EventArgs e)
         {
+            var setting = new SettingForm();
+            setting.Show();
+
+        }
+
+        private void label1_TextChanged(object sender, EventArgs e)
+        {
 
         }
     }
