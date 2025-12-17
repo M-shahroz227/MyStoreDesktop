@@ -24,6 +24,7 @@ namespace MyStoreDesktop
         private readonly IProductService _productService = new ProductService();
         private readonly IQrTableDataService _qrService = new QrTableDataService();
         private readonly FileServices _fileServices = new FileServices();
+        private readonly SettingService _settingService = new SettingService();
         private int selectedProductId = 0;
         private Bitmap currentQRCode = null;
         private string currentQRCodeGuid = "";
@@ -379,7 +380,7 @@ namespace MyStoreDesktop
                 if (img!= null)
                 {
                     picProduct.Image?.Dispose();
-                    picProduct.Image = img;
+                    picProduct.Image = Image.FromFile(imgPath);
                     _selectedImagePath = imgPath;   // ✅ update path
                 }
                 else
@@ -608,22 +609,24 @@ namespace MyStoreDesktop
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+           var imgFolder  =_settingService.GetByKey("basePath");
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 string sourcePath = ofd.FileName;
 
-                string imagesFolder = @"E:\MyStore\Images";
+                
 
-                if (!System.IO.Directory.Exists(imagesFolder))
-                    System.IO.Directory.CreateDirectory(imagesFolder);
+                if (!System.IO.Directory.Exists(imgFolder))
+                    System.IO.Directory.CreateDirectory(imgFolder);
 
                 string fileName = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(sourcePath);
-                string destinationPath = System.IO.Path.Combine(imagesFolder, fileName);
+                string destinationPath = System.IO.Path.Combine(imgFolder, fileName);
 
                 System.IO.File.Copy(sourcePath, destinationPath, true);
 
-                _selectedImagePath = destinationPath;
+                 _fileServices.GetFileByName(fileName);
+                _selectedImagePath = fileName;
 
                 picProduct.Image = Image.FromFile(destinationPath);
             }
