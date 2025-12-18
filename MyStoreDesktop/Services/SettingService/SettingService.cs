@@ -48,11 +48,13 @@ public class SettingService : ISettingService
         return setting != null ? setting.Value : null;
     }
 
+
     // Get setting by Id
     public Setting GetById(int id)
     {
         return _context.Settings.FirstOrDefault(s => s.Id == id);
     }
+   
 
     // Get all settings
     public List<Setting> GetAll()

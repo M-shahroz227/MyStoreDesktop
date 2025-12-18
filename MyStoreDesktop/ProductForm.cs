@@ -374,16 +374,15 @@ namespace MyStoreDesktop
                     cboCompany.SelectedValue = Convert.ToInt32(row.Cells["CompanyId"].Value);
 
                 // ✅ ✅ IMAGE LOAD (MOST IMPORTANT)
-                string imgPath = row.Cells["UrlImage"].Value?.ToString();
+                var cellValue= row.Cells["UrlImage"].Value?.ToString();
+                string imgNameWithExt = cellValue.ToString();
+                var img = _fileServices.GetFileByName(imgNameWithExt);
 
-                var img = _fileServices.GetFileByName(imgPath);
-                var basePath = _settingService.GetByKey("basePath");
-                var fullPath = basePath + @"/" + img;
-                if (fullPath != null)
+                if (img != null)
                 {
                     picProduct.Image?.Dispose();
-                    picProduct.Image = Image.FromFile(fullPath);
-                    _selectedImagePath = fullPath;   // ✅ update path
+                    picProduct.Image = img;
+                    _selectedImagePath = "";   // ✅ update path
                 }
                 else
                 {
