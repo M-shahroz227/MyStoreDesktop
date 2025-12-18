@@ -377,11 +377,13 @@ namespace MyStoreDesktop
                 string imgPath = row.Cells["UrlImage"].Value?.ToString();
 
                 var img = _fileServices.GetFileByName(imgPath);
-                if (img!= null)
+                var basePath = _settingService.GetByKey("basePath");
+                var fullPath = basePath + @"/" + img;
+                if (fullPath != null)
                 {
                     picProduct.Image?.Dispose();
-                    picProduct.Image = Image.FromFile(imgPath);
-                    _selectedImagePath = imgPath;   // ✅ update path
+                    picProduct.Image = Image.FromFile(fullPath);
+                    _selectedImagePath = fullPath;   // ✅ update path
                 }
                 else
                 {
