@@ -24,6 +24,7 @@ namespace MyStoreDesktop
         private readonly BillProductService _billProductService = new BillProductService();
         private readonly CustomerInvoiceService _customerService = new CustomerInvoiceService();
         private readonly FileServices _fileServices = new FileServices();
+        private readonly SettingService _settingService = new SettingService();
         
 
 
@@ -45,6 +46,7 @@ namespace MyStoreDesktop
         public Home()
         {
             InitializeComponent();
+            LoadHeaderName();
 
             // Apply professional blue theme
             ThemeManager.ApplyTheme(this);
@@ -672,9 +674,11 @@ namespace MyStoreDesktop
 
         }
 
-        private void label1_TextChanged(object sender, EventArgs e)
+        private void LoadHeaderName()
         {
-
+            var ShopName = _settingService.GetByKey("StoreName");
+            
+            lblMainHeaderName.Text = ShopName;
         }
     }
 }

@@ -61,6 +61,7 @@ public class SettingService : ISettingService
     {
         return _context.Settings.ToList();
     }
+    
 
     // Delete setting by key
     public void Delete(string key)
