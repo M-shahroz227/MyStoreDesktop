@@ -374,21 +374,31 @@ namespace MyStoreDesktop
                     cboCompany.SelectedValue = Convert.ToInt32(row.Cells["CompanyId"].Value);
 
                 // ✅ ✅ IMAGE LOAD (MOST IMPORTANT)
-                var cellValue= row.Cells["UrlImage"].Value?.ToString();
-                string imgNameWithExt = cellValue.ToString();
-                var img = _fileServices.GetFileByName(imgNameWithExt);
+                var cellValue = row.Cells["UrlImage"].Value;
 
-                if (img != null)
+                if (cellValue != null)
                 {
-                    picProduct.Image?.Dispose();
-                    picProduct.Image = img;
-                    _selectedImagePath = "";   // ✅ update path
+                    string imgNameWithExt = cellValue.ToString();
+                    var img = _fileServices.GetFileByName(imgNameWithExt);
+
+                    if (img != null)
+                    {
+                        picProduct.Image?.Dispose();
+                        picProduct.Image = img;
+                        _selectedImagePath = imgNameWithExt; // ✅ IMPORTANT
+                    }
+                    else
+                    {
+                        picProduct.Image = null;
+                        _selectedImagePath = "";
+                    }
                 }
                 else
                 {
                     picProduct.Image = null;
                     _selectedImagePath = "";
                 }
+
             }
         }
 
@@ -608,30 +618,51 @@ namespace MyStoreDesktop
         }
         private void btnBrowseImage_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
-           var imgFolder  =_settingService.GetByKey("basePath");
-
-            if (ofd.ShowDialog() == DialogResult.OK)
+            try
             {
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+
+                if (ofd.ShowDialog() != DialogResult.OK)
+                    return; // User cancelled
+
                 string sourcePath = ofd.FileName;
 
-                
+                // ✅ Get base folder from settings
+                string imgFolder = _settingService.GetByKey("basePath");
+                if (string.IsNullOrEmpty(imgFolder))
+                {
+                    MessageBox.Show("Base image path not set in settings!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
-                if (!System.IO.Directory.Exists(imgFolder))
-                    System.IO.Directory.CreateDirectory(imgFolder);
+                // ✅ Ensure folder exists
+                if (!Directory.Exists(imgFolder))
+                    Directory.CreateDirectory(imgFolder);
 
-                string fileName = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(sourcePath);
-                string destinationPath = System.IO.Path.Combine(imgFolder, fileName);
+                // ✅ Create unique filename (GUID) + extension
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(sourcePath);
 
-                System.IO.File.Copy(sourcePath, destinationPath, true);
+                // ✅ Full destination path
+                string destinationPath = Path.Combine(imgFolder, fileName);
 
-                 _fileServices.GetFileByName(fileName);
+                // ✅ Copy image
+                File.Copy(sourcePath, destinationPath, true);
+
+                // ✅ Set _selectedImagePath = filename only (DB me save hoga)
                 _selectedImagePath = fileName;
 
+                // ✅ Show image preview in picture box
+                picProduct.Image?.Dispose();
                 picProduct.Image = Image.FromFile(destinationPath);
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Image selection failed: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _selectedImagePath = "";
+            }
         }
+
 
     }
 

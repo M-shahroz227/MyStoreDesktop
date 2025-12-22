@@ -137,9 +137,9 @@
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202512161011506_initDb.cs" />
-    <Compile Include="Migrations\202512161011506_initDb.Designer.cs">
-      <DependentUpon>202512161011506_initDb.cs</DependentUpon>
+    <Compile Include="Migrations\202512220338189_UpdateModels.cs" />
+    <Compile Include="Migrations\202512220338189_UpdateModels.Designer.cs">
+      <DependentUpon>202512220338189_UpdateModels.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bill.cs" />
@@ -248,8 +248,8 @@
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202512161011506_initDb.resx">
-      <DependentUpon>202512161011506_initDb.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202512220338189_UpdateModels.resx">
+      <DependentUpon>202512220338189_UpdateModels.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PrintForm.resx">
       <DependentUpon>PrintForm.cs</DependentUpon>

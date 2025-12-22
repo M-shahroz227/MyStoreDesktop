@@ -91,6 +91,7 @@ namespace MyStoreDesktop
 
             // ✅ Selection Event for Image Preview
             dgvAddToCard.SelectionChanged += dgvAddToCard_SelectionChanged;
+            
 
         }
 
@@ -669,16 +670,35 @@ namespace MyStoreDesktop
 
         private void Setting_Click(object sender, EventArgs e)
         {
-            var setting = new SettingForm();
-            setting.Show();
+            var settingForm = new SettingForm();
 
+            // 🔥 jab SettingForm close ho
+            settingForm.FormClosed += (s, args) =>
+            {
+                ReloadHomeContent();   // Home ka data reload
+            };
+
+            settingForm.Show();
         }
+
+
 
         private void LoadHeaderName()
         {
-            var ShopName = _settingService.GetByKey("StoreName");
-            
-            lblMainHeaderName.Text = ShopName;
+            var setting = _settingService.GetByKey("StoreName");
+
+            if (setting != null)
+            {
+                lblMainHeaderName.Text = setting;
+            }
+            else 
+            {
+                lblMainHeaderName.Text = "";
+            }
+        }
+        private void ReloadHomeContent()
+        {
+            LoadHeaderName();
         }
     }
 }
