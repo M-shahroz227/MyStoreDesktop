@@ -30,8 +30,8 @@ namespace MyStoreDesktop
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.btnReports = new System.Windows.Forms.Button();
@@ -105,7 +105,7 @@ namespace MyStoreDesktop
             this.panelMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelMenu.Location = new System.Drawing.Point(0, 0);
             this.panelMenu.Name = "panelMenu";
-            this.panelMenu.Size = new System.Drawing.Size(211, 601);
+            this.panelMenu.Size = new System.Drawing.Size(211, 589);
             this.panelMenu.TabIndex = 0;
             // 
             // panel4
@@ -192,7 +192,7 @@ namespace MyStoreDesktop
             this.picProduct.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.picProduct.Location = new System.Drawing.Point(7, 355);
             this.picProduct.Name = "picProduct";
-            this.picProduct.Size = new System.Drawing.Size(200, 200);
+            this.picProduct.Size = new System.Drawing.Size(200, 218);
             this.picProduct.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picProduct.TabIndex = 5;
             this.picProduct.TabStop = false;
@@ -210,7 +210,7 @@ namespace MyStoreDesktop
             this.panelMainContent.ForeColor = System.Drawing.Color.White;
             this.panelMainContent.Location = new System.Drawing.Point(211, 0);
             this.panelMainContent.Name = "panelMainContent";
-            this.panelMainContent.Size = new System.Drawing.Size(973, 601);
+            this.panelMainContent.Size = new System.Drawing.Size(973, 589);
             this.panelMainContent.TabIndex = 1;
             // 
             // lstSuggestion
@@ -230,7 +230,7 @@ namespace MyStoreDesktop
             this.rightPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.rightPanel.Location = new System.Drawing.Point(692, 59);
             this.rightPanel.Name = "rightPanel";
-            this.rightPanel.Size = new System.Drawing.Size(281, 542);
+            this.rightPanel.Size = new System.Drawing.Size(281, 530);
             this.rightPanel.TabIndex = 5;
             // 
             // panel3
@@ -251,7 +251,7 @@ namespace MyStoreDesktop
             this.panel3.Controls.Add(this.btnZero);
             this.panel3.Location = new System.Drawing.Point(11, 221);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(258, 297);
+            this.panel3.Size = new System.Drawing.Size(258, 293);
             this.panel3.TabIndex = 6;
             // 
             // btnConfirm
@@ -572,9 +572,9 @@ namespace MyStoreDesktop
             // 
             this.Setting.BackColor = System.Drawing.Color.Transparent;
             this.Setting.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Setting.Location = new System.Drawing.Point(841, 8);
+            this.Setting.Location = new System.Drawing.Point(841, 9);
             this.Setting.Name = "Setting";
-            this.Setting.Size = new System.Drawing.Size(102, 36);
+            this.Setting.Size = new System.Drawing.Size(102, 35);
             this.Setting.TabIndex = 4;
             this.Setting.Text = "⚙️";
             this.Setting.UseVisualStyleBackColor = false;
@@ -619,18 +619,18 @@ namespace MyStoreDesktop
             this.Discount,
             this.Total,
             this.UrlImage});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAddToCard.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAddToCard.DefaultCellStyle = dataGridViewCellStyle8;
             this.dgvAddToCard.GridColor = System.Drawing.Color.LightGray;
             this.dgvAddToCard.Location = new System.Drawing.Point(6, 127);
             this.dgvAddToCard.Name = "dgvAddToCard";
-            this.dgvAddToCard.Size = new System.Drawing.Size(683, 471);
+            this.dgvAddToCard.Size = new System.Drawing.Size(683, 446);
             this.dgvAddToCard.TabIndex = 3;
             this.dgvAddToCard.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAddToCard_CellEndEdit);
             this.dgvAddToCard.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvAddToCard_KeyDown);
@@ -665,9 +665,9 @@ namespace MyStoreDesktop
             // 
             // Total
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            this.Total.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
+            this.Total.DefaultCellStyle = dataGridViewCellStyle7;
             this.Total.HeaderText = "Total";
             this.Total.Name = "Total";
             this.Total.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -706,7 +706,7 @@ namespace MyStoreDesktop
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1184, 601);
+            this.ClientSize = new System.Drawing.Size(1184, 589);
             this.Controls.Add(this.panelMainContent);
             this.Controls.Add(this.panelMenu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -714,6 +714,7 @@ namespace MyStoreDesktop
             this.Name = "Home";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Home";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panelMenu.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picProduct)).EndInit();

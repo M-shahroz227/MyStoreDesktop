@@ -698,6 +698,7 @@ namespace MyStoreDesktop
         }
         private void ReloadHomeContent()
         {
+            var setting = new SettingForm();
             LoadHeaderName();
         }
     }

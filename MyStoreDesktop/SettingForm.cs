@@ -154,6 +154,7 @@ namespace MyStoreDesktop
 
             txtValue.Clear();
             LoadSettings();
+            
         }
 
         // ================= UPDATE PANEL =================
@@ -185,6 +186,7 @@ namespace MyStoreDesktop
         private void btnClose_Click(object sender, EventArgs e)
         {
             SettingUpdateViewPanel.Visible = false;
+           
         }
     }
 }
