@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyStoreDesktop.Models;
 using MyStoreDesktop.Services;
@@ -12,14 +14,21 @@ namespace MyStoreDesktop
     {
         private readonly UserService _userService;
 
-        public LoginForm()
-        {
-        }
-
         public LoginForm(Data.DatabaseHelper db)
         {
             InitializeComponent();
             _userService = new UserService();
+            string loaderPath = @"C:\Users\<YourUsername>\Downloads\LOADER2.gif"; // <-- Replace <YourUsername>
+            if (System.IO.File.Exists(loaderPath))
+            {
+                picloader.Image = Image.FromFile(loaderPath);
+                picloader.SizeMode = PictureBoxSizeMode.Zoom;
+                picloader.Visible = false; // hidden by default
+            }
+            else
+            {
+                MessageBox.Show("Loader image not found at " + loaderPath);
+            }
 
             // Apply professional blue theme
             ThemeManager.ApplyTheme(this);
@@ -29,12 +38,21 @@ namespace MyStoreDesktop
         }
         
 
-        private void btnLogin_Click(object sender, EventArgs e)
+        private async Task btnLogin_Click(object sender, EventArgs e)
         {
             string username = txtUsername.Text.Trim();
             string password = txtPassword.Text.Trim();
-            this.Visible = false;
-            barloaderPanel.Visible = true;
+            foreach(Control ctrl in this.Controls)
+            {
+                if(ctrl != picloader)
+                {
+                    picloader.Visible = true;
+                }
+                picloader.Visible = false;
+                picloader.BringToFront();
+                await Task.Delay(300);
+            }
+            
             
             
 
@@ -42,6 +60,7 @@ namespace MyStoreDesktop
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
                 MessageBox.Show("Please enter username and password", "Warning");
+                ResetLoginForm();
                 return;
             }
 
@@ -73,10 +92,11 @@ namespace MyStoreDesktop
                 }
 
                 // 🔹 Open Home Form
-                barloaderPanel.Visible = true;
+               
                 Home home = new Home();
                 home.FormClosed += (s, args) => Application.Exit(); // Exit app when Home closes
                 home.Show();
+
 
                 // 🔹 Close login properly
                 this.Hide();
@@ -84,6 +104,7 @@ namespace MyStoreDesktop
             else
             {
                 MessageBox.Show("Invalid password!", "Error");
+                ResetLoginForm();
             }
         }
 
@@ -107,6 +128,13 @@ namespace MyStoreDesktop
                 txtPassword.Text = password;
                 chkRememberMe.Checked = true;
             }
+        }
+        private void ResetLoginForm()
+        {
+            foreach (Control ctrl in this.Controls)
+                ctrl.Visible = true;
+
+            picloader.Visible = false;
         }
     }
 }
