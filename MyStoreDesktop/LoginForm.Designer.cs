@@ -31,6 +31,7 @@ namespace MyStoreDesktop
         private void InitializeComponent()
         {
             this.panelLogin = new System.Windows.Forms.Panel();
+            this.picloader = new System.Windows.Forms.PictureBox();
             this.chkRememberMe = new System.Windows.Forms.CheckBox();
             this.linkRegister = new System.Windows.Forms.LinkLabel();
             this.btnLogin = new System.Windows.Forms.Button();
@@ -39,7 +40,6 @@ namespace MyStoreDesktop
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.lblUsername = new System.Windows.Forms.Label();
             this.lblTitle = new System.Windows.Forms.Label();
-            this.picloader = new System.Windows.Forms.PictureBox();
             this.panelLogin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picloader)).BeginInit();
             this.SuspendLayout();
@@ -61,6 +61,18 @@ namespace MyStoreDesktop
             this.panelLogin.Name = "panelLogin";
             this.panelLogin.Size = new System.Drawing.Size(400, 400);
             this.panelLogin.TabIndex = 0;
+            // 
+            // picloader
+            // 
+            this.picloader.BackColor = System.Drawing.Color.White;
+            this.picloader.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picloader.Image = global::MyStoreDesktop.Properties.Resources.LOADER2;
+            this.picloader.Location = new System.Drawing.Point(99, 90);
+            this.picloader.Name = "picloader";
+            this.picloader.Size = new System.Drawing.Size(200, 218);
+            this.picloader.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picloader.TabIndex = 8;
+            this.picloader.TabStop = false;
             // 
             // chkRememberMe
             // 
@@ -149,16 +161,6 @@ namespace MyStoreDesktop
             this.lblTitle.Size = new System.Drawing.Size(99, 37);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "LOGIN";
-            // 
-            // picloader
-            // 
-            this.picloader.Location = new System.Drawing.Point(97, 100);
-            this.picloader.Name = "picloader";
-            this.picloader.Size = new System.Drawing.Size(188, 161);
-            this.picloader.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picloader.TabIndex = 8;
-            this.picloader.TabStop = false;
-            this.picloader.Visible = false;
             // 
             // LoginForm
             // 

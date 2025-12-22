@@ -13,22 +13,17 @@ namespace MyStoreDesktop
     public partial class LoginForm : Form
     {
         private readonly UserService _userService;
+        public LoginForm()
+        {
+
+        }
 
         public LoginForm(Data.DatabaseHelper db)
         {
             InitializeComponent();
             _userService = new UserService();
-            string loaderPath = @"C:\Users\<YourUsername>\Downloads\LOADER2.gif"; // <-- Replace <YourUsername>
-            if (System.IO.File.Exists(loaderPath))
-            {
-                picloader.Image = Image.FromFile(loaderPath);
-                picloader.SizeMode = PictureBoxSizeMode.Zoom;
-                picloader.Visible = false; // hidden by default
-            }
-            else
-            {
-                MessageBox.Show("Loader image not found at " + loaderPath);
-            }
+            
+
 
             // Apply professional blue theme
             ThemeManager.ApplyTheme(this);
@@ -38,7 +33,7 @@ namespace MyStoreDesktop
         }
         
 
-        private async Task btnLogin_Click(object sender, EventArgs e)
+        private void btnLogin_Click(object sender, EventArgs e)
         {
             string username = txtUsername.Text.Trim();
             string password = txtPassword.Text.Trim();
@@ -50,7 +45,7 @@ namespace MyStoreDesktop
                 }
                 picloader.Visible = false;
                 picloader.BringToFront();
-                await Task.Delay(300);
+               
             }
             
             
@@ -136,5 +131,7 @@ namespace MyStoreDesktop
 
             picloader.Visible = false;
         }
+
+       
     }
 }
