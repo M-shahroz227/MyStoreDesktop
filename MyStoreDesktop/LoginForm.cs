@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Design.Serialization;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,25 +32,31 @@ namespace MyStoreDesktop
             // Load saved credentials if Remember Me was checked previously
             LoadSavedCredentials();
         }
-        
-
-        private void btnLogin_Click(object sender, EventArgs e)
+        private  async Task DesignerLoader()
         {
-            string username = txtUsername.Text.Trim();
-            string password = txtPassword.Text.Trim();
-            foreach(Control ctrl in this.Controls)
+            foreach (Control ctrl in this.Controls)
             {
-                if(ctrl != picloader)
+                if (ctrl != picloader)
                 {
                     picloader.Visible = true;
                 }
                 picloader.Visible = false;
                 picloader.BringToFront();
-               
+                await Task.Delay(300);
+
             }
-            
-            
-            
+
+        }
+
+        private async Task btnLogin_Click(object sender, EventArgs e)
+        {
+            string username = txtUsername.Text.Trim();
+            string password = txtPassword.Text.Trim();
+            await DesignerLoader();
+
+
+
+
 
 
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))

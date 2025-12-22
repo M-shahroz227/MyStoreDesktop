@@ -73,6 +73,7 @@ namespace MyStoreDesktop
             this.picloader.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picloader.TabIndex = 8;
             this.picloader.TabStop = false;
+            this.picloader.Visible = false;
             // 
             // chkRememberMe
             // 
