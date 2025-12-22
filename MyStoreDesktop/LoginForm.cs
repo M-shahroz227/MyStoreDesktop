@@ -27,11 +27,17 @@ namespace MyStoreDesktop
             // Load saved credentials if Remember Me was checked previously
             LoadSavedCredentials();
         }
+        
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
             string username = txtUsername.Text.Trim();
             string password = txtPassword.Text.Trim();
+            this.Visible = false;
+            barloaderPanel.Visible = true;
+            
+            
+
 
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
@@ -67,6 +73,7 @@ namespace MyStoreDesktop
                 }
 
                 // 🔹 Open Home Form
+                barloaderPanel.Visible = true;
                 Home home = new Home();
                 home.FormClosed += (s, args) => Application.Exit(); // Exit app when Home closes
                 home.Show();

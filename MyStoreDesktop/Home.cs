@@ -661,7 +661,7 @@ namespace MyStoreDesktop
                 btnReports.Visible = true;
             }
             // NORMAL USER
-            else if (SessionManager.Role == "User")
+            else if (SessionManager.Role == "user")
             {
                 
                 btnSales.Visible = true;

@@ -39,13 +39,18 @@ namespace MyStoreDesktop
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.lblUsername = new System.Windows.Forms.Label();
             this.lblTitle = new System.Windows.Forms.Label();
+            this.barloaderPanel = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelLogin.SuspendLayout();
+            this.barloaderPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panelLogin
-            //
+            // 
             this.panelLogin.BackColor = System.Drawing.Color.White;
             this.panelLogin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelLogin.Controls.Add(this.barloaderPanel);
             this.panelLogin.Controls.Add(this.chkRememberMe);
             this.panelLogin.Controls.Add(this.linkRegister);
             this.panelLogin.Controls.Add(this.btnLogin);
@@ -58,9 +63,9 @@ namespace MyStoreDesktop
             this.panelLogin.Name = "panelLogin";
             this.panelLogin.Size = new System.Drawing.Size(400, 400);
             this.panelLogin.TabIndex = 0;
-            //
+            // 
             // chkRememberMe
-            //
+            // 
             this.chkRememberMe.AutoSize = true;
             this.chkRememberMe.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkRememberMe.ForeColor = System.Drawing.Color.Gray;
@@ -147,6 +152,23 @@ namespace MyStoreDesktop
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "LOGIN";
             // 
+            // barloaderPanel
+            // 
+            this.barloaderPanel.Controls.Add(this.pictureBox1);
+            this.barloaderPanel.Location = new System.Drawing.Point(50, 100);
+            this.barloaderPanel.Name = "barloaderPanel";
+            this.barloaderPanel.Size = new System.Drawing.Size(300, 193);
+            this.barloaderPanel.TabIndex = 8;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::MyStoreDesktop.Properties.Resources.LOADER2;
+            this.pictureBox1.Location = new System.Drawing.Point(22, 24);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(255, 155);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -162,6 +184,8 @@ namespace MyStoreDesktop
             this.Load += new System.EventHandler(this.LoginForm_Load);
             this.panelLogin.ResumeLayout(false);
             this.panelLogin.PerformLayout();
+            this.barloaderPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -181,5 +205,7 @@ namespace MyStoreDesktop
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.LinkLabel linkRegister;
         private System.Windows.Forms.CheckBox chkRememberMe;
+        private System.Windows.Forms.Panel barloaderPanel;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
