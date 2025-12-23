@@ -649,6 +649,7 @@ namespace MyStoreDesktop
             btnProducts.Visible = false;
             btnSales.Visible = false; 
             btnReports.Visible = false;
+            
 
             btnHome.Visible = true; 
 
@@ -659,12 +660,16 @@ namespace MyStoreDesktop
                 btnProducts.Visible = true;
                 btnSales.Visible = true;
                 btnReports.Visible = true;
+                btnSetting.Visible = true;
             }
             // NORMAL USER
-            else if (SessionManager.Role == "user")
+            else 
             {
-                
-                btnSales.Visible = true;
+                btnUsers.Visible = false;
+                btnProducts.Visible = false;
+                btnSales.Visible = false;
+                btnReports.Visible = false;
+                btnSetting.Visible= false;
             }
         }
 

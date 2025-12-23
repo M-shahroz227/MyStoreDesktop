@@ -64,7 +64,7 @@ namespace MyStoreDesktop
 
             // 🔹 Initialize rotation timer
             rotateTimer = new Timer();
-            rotateTimer.Interval = 50; // rotation speed
+            rotateTimer.Interval = 50; 
             rotateTimer.Tick += RotateTimer_Tick;
         }
 
