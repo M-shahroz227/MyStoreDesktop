@@ -1,11 +1,12 @@
-﻿using System;
+﻿using MyStoreDesktop.Models;
+using MyStoreDesktop.Services;
+using MyStoreDesktop.Services.UserService;
+using MyStoreDesktop.Theme;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MyStoreDesktop.Services;
-using MyStoreDesktop.Services.UserService;
-using MyStoreDesktop.Theme;
 
 namespace MyStoreDesktop
 {
@@ -145,6 +146,9 @@ namespace MyStoreDesktop
             var dbPassword = System.Text.Encoding.UTF8.GetString(user.PasswordHash);
             if (dbPassword == password)
             {
+                SessionManager.UserId = user.Id;
+                SessionManager.UserName = user.UserName;
+                SessionManager.Role = user.Role;
                 if (chkRememberMe.Checked)
                     CredentialManager.SaveCredentials(username, password);
                 else
