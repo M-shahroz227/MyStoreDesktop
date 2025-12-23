@@ -44,7 +44,7 @@ namespace MyStoreDesktop
             {
                 _userService.Add(user);
                 MessageBox.Show("Registration successful! Please login.");
-                LoginForm login = new LoginForm();
+                LoginForm login = new LoginForm(null);
                 login.Show();
                 this.Hide();
             }

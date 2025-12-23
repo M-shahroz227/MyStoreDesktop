@@ -1,10 +1,8 @@
 ﻿using System;
-using System.ComponentModel.Design.Serialization;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MyStoreDesktop.Models;
 using MyStoreDesktop.Services;
 using MyStoreDesktop.Services.UserService;
 using MyStoreDesktop.Theme;
@@ -14,112 +12,158 @@ namespace MyStoreDesktop
     public partial class LoginForm : Form
     {
         private readonly UserService _userService;
-        public LoginForm()
-        {
-
-        }
+        private PictureBox picLoader;
+        private Timer rotateTimer;
+        private float angle = 0;
 
         public LoginForm(Data.DatabaseHelper db)
         {
             InitializeComponent();
+
             _userService = new UserService();
-            
 
+            // 🔹 Initialize Loader PictureBox
+            InitializeLoader();
 
-            // Apply professional blue theme
+            // 🔹 Apply theme
             ThemeManager.ApplyTheme(this);
 
-            // Load saved credentials if Remember Me was checked previously
+            // 🔹 Load saved credentials
             LoadSavedCredentials();
         }
-        private  async Task DesignerLoader()
-        {
-            foreach (Control ctrl in this.Controls)
-            {
-                if (ctrl != picloader)
-                {
-                    picloader.Visible = true;
-                }
-                picloader.Visible = false;
-                picloader.BringToFront();
-                await Task.Delay(300);
 
+        // ==================== LOADER ====================
+        private void InitializeLoader()
+        {
+            picLoader = new PictureBox
+            {
+                SizeMode = PictureBoxSizeMode.Zoom,
+                Size = new Size(150, 150),
+                Location = new Point(
+                    (this.ClientSize.Width - 150) / 2,
+                    (this.ClientSize.Height - 150) / 2
+                ),
+                BackColor = Color.Transparent,
+                Visible = false
+            };
+
+            string loaderPath = @"E:\image\LOADER2.png";
+
+            if (System.IO.File.Exists(loaderPath))
+            {
+                picLoader.Image = Image.FromFile(loaderPath);
+            }
+            else
+            {
+                MessageBox.Show("Loader image NOT FOUND:\n" + loaderPath);
             }
 
+            this.Controls.Add(picLoader);
+            picLoader.BringToFront();
+
+            // 🔹 Initialize rotation timer
+            rotateTimer = new Timer();
+            rotateTimer.Interval = 50; // rotation speed
+            rotateTimer.Tick += RotateTimer_Tick;
         }
 
-        private async Task btnLogin_Click(object sender, EventArgs e)
+        private void RotateTimer_Tick(object sender, EventArgs e)
+        {
+            if (picLoader.Image == null) return;
+
+            angle += 10; // rotate 10 degrees each tick
+            if (angle >= 360) angle = 0;
+
+            picLoader.Image = RotateImage((Bitmap)picLoader.Image, angle);
+        }
+
+        private Bitmap RotateImage(Bitmap bmp, float angle)
+        {
+            Bitmap rotated = new Bitmap(bmp.Width, bmp.Height);
+            rotated.SetResolution(bmp.HorizontalResolution, bmp.VerticalResolution);
+            using (Graphics g = Graphics.FromImage(rotated))
+            {
+                g.TranslateTransform(bmp.Width / 2, bmp.Height / 2);
+                g.RotateTransform(angle);
+                g.TranslateTransform(-bmp.Width / 2, -bmp.Height / 2);
+                g.DrawImage(bmp, new Point(0, 0));
+            }
+            return rotated;
+        }
+
+        // ==================== SHOW/HIDE LOADER ====================
+        private void ShowLoader()
+        {
+            // Hide all controls except loader
+            foreach (Control ctrl in this.Controls)
+            {
+                if (ctrl != picLoader)
+                    ctrl.Visible = false;
+            }
+
+            picLoader.Visible = true;
+            picLoader.BringToFront();
+            rotateTimer.Start();
+            Application.DoEvents();
+        }
+
+        private void HideLoader()
+        {
+            rotateTimer.Stop();
+            foreach (Control ctrl in this.Controls)
+                ctrl.Visible = true;
+
+            picLoader.Visible = false;
+        }
+
+        // ==================== LOGIN ====================
+        private async void btnLogin_Click(object sender, EventArgs e)
         {
             string username = txtUsername.Text.Trim();
             string password = txtPassword.Text.Trim();
-            await DesignerLoader();
 
-
-
-
-
+            ShowLoader();
+            await Task.Delay(500); // optional delay
 
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
                 MessageBox.Show("Please enter username and password", "Warning");
-                ResetLoginForm();
+                HideLoader();
                 return;
             }
 
-            // 🔹 Get all users from DB
             var user = _userService.GetAll()
                 .FirstOrDefault(u => u.UserName == username);
 
             if (user == null)
             {
                 MessageBox.Show("User not found!", "Error");
+                HideLoader();
                 return;
             }
 
-            // 🔹 Simple password validation (NOTE: add real hashing later)
             var dbPassword = System.Text.Encoding.UTF8.GetString(user.PasswordHash);
             if (dbPassword == password)
             {
-                SessionManager.UserId = user.Id;
-                SessionManager.UserName = user.UserName;
-                SessionManager.Role = user.Role;
-                // Handle Remember Me functionality
                 if (chkRememberMe.Checked)
-                {
                     CredentialManager.SaveCredentials(username, password);
-                }
                 else
-                {
                     CredentialManager.ClearCredentials();
-                }
 
-                // 🔹 Open Home Form
-               
                 Home home = new Home();
-                home.FormClosed += (s, args) => Application.Exit(); // Exit app when Home closes
+                home.FormClosed += (s, args) => Application.Exit();
                 home.Show();
-
-
-                // 🔹 Close login properly
                 this.Hide();
             }
             else
             {
                 MessageBox.Show("Invalid password!", "Error");
-                ResetLoginForm();
             }
+
+            HideLoader();
         }
 
-        private void linkRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            RegisterForm reg = new RegisterForm();
-            reg.Show();
-            this.Hide();
-        }
-
-        /// <summary>
-        /// Load saved credentials if Remember Me was previously checked
-        /// </summary>
+        // ==================== REMEMBER ME ====================
         private void LoadSavedCredentials()
         {
             var (username, password, rememberMe) = CredentialManager.LoadCredentials();
@@ -131,14 +175,12 @@ namespace MyStoreDesktop
                 chkRememberMe.Checked = true;
             }
         }
-        private void ResetLoginForm()
+
+        private void linkRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            foreach (Control ctrl in this.Controls)
-                ctrl.Visible = true;
-
-            picloader.Visible = false;
+            RegisterForm reg = new RegisterForm();
+            reg.Show();
+            this.Hide();
         }
-
-       
     }
 }

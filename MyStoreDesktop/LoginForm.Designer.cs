@@ -66,7 +66,6 @@ namespace MyStoreDesktop
             // 
             this.picloader.BackColor = System.Drawing.Color.White;
             this.picloader.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picloader.Image = global::MyStoreDesktop.Properties.Resources.LOADER2;
             this.picloader.Location = new System.Drawing.Point(99, 90);
             this.picloader.Name = "picloader";
             this.picloader.Size = new System.Drawing.Size(200, 218);
