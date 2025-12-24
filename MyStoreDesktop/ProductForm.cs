@@ -14,6 +14,9 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using ZXing;
 using ZXing.Common;
+using static System.Net.Mime.MediaTypeNames;
+using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 
 
@@ -29,7 +32,7 @@ namespace MyStoreDesktop
         private Bitmap currentQRCode = null;
         private string currentQRCodeGuid = "";
         private string _selectedImagePath = "";  // ✅
-
+        
 
         public ProductForm()
         {
@@ -37,6 +40,18 @@ namespace MyStoreDesktop
 
             // Apply professional blue theme
             ThemeManager.ApplyTheme(this);
+            // ✅ TextBox validation rules (Tag set kar rahe hain)
+            txtTitle.Tag = "required|min:3|max:50";
+            txtQuantity.Tag = "required|number|min:1|max:10000";
+            txtSalePrice.Tag = "required|number";
+            txtPurchasePrice.Tag = "required|number";
+            txtDiscount.Tag = "number|min:0|max:100";
+            txtModel.Tag = "max:30";
+            txtDescription.Tag = "max:200";
+            txtManualCode.Tag = "required|nospace";
+
+            
+            
 
             cmbCodeType.SelectedIndexChanged += cmbCodeType_SelectedIndexChanged;
         }
@@ -199,9 +214,12 @@ namespace MyStoreDesktop
                     return;
                 }
 
+
                 int categoryId = (int)cboCategory.SelectedValue;
                 int companyId = (int)cboCompany.SelectedValue;
-
+                if (!ValidateForm())
+                    return;
+                
                 var product = new Product
                 {
                     Title = txtTitle.Text,
@@ -259,6 +277,9 @@ namespace MyStoreDesktop
 
                 int categoryId = (int)cboCategory.SelectedValue;
                 int companyId = (int)cboCompany.SelectedValue;
+
+                if (!ValidateForm())
+                    return;
 
                 product.Title = txtTitle.Text;
                 product.CategoryId = categoryId;
@@ -335,7 +356,7 @@ namespace MyStoreDesktop
                     Bitmap qrImage = qrCode.GetGraphic(20);
 
                     // Save QR image to folder
-                    string folderPath = Path.Combine(Application.StartupPath, "QRCodes");
+                    string folderPath = Path.Combine(System.Windows.Forms.Application.StartupPath, "QRCodes");
                     if (!Directory.Exists(folderPath))
                         Directory.CreateDirectory(folderPath);
 
@@ -651,10 +672,10 @@ namespace MyStoreDesktop
 
                 // ✅ Set _selectedImagePath = filename only (DB me save hoga)
                 _selectedImagePath = fileName;
-
+                  
                 // ✅ Show image preview in picture box
                 picProduct.Image?.Dispose();
-                picProduct.Image = Image.FromFile(destinationPath);
+                picProduct.Image = System.Drawing.Image.FromFile(destinationPath);
             }
             catch (Exception ex)
             {
@@ -662,8 +683,49 @@ namespace MyStoreDesktop
                 _selectedImagePath = "";
             }
         }
+        private bool ValidateForm()
+        {
+            if (string.IsNullOrWhiteSpace(txtTitle.Text))
+                return ShowError(txtTitle);
 
+            if (string.IsNullOrWhiteSpace(txtQuantity.Text))
+                return ShowError(txtQuantity);
+
+            if (!int.TryParse(txtQuantity.Text, out _))
+                return ShowError(txtQuantity, "Quantity must be a number");
+
+            if (string.IsNullOrWhiteSpace(txtSalePrice.Text))
+                return ShowError(txtSalePrice, "SalePrice must be a number");
+
+            if (string.IsNullOrWhiteSpace(txtPurchasePrice.Text))
+                return ShowError(txtPurchasePrice, "PurchasePrice must be a number");
+
+            if (string.IsNullOrWhiteSpace(txtDiscount.Text))
+                return ShowError(txtDiscount, "Discount must be a number");
+
+            if (string.IsNullOrWhiteSpace(txtModel.Text))
+                return ShowError(txtModel);
+
+            if (string.IsNullOrWhiteSpace(txtDescription.Text))
+                return ShowError(txtDescription);
+
+            if (string.IsNullOrWhiteSpace(_selectedImagePath))
+            {
+                MessageBox.Show("Please select product image");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool ShowError(Control c, string msg = "Please fill this field")
+        {
+            MessageBox.Show(msg);
+            c.Focus();
+            return false;
+        }
 
     }
 
 }
+

@@ -176,6 +176,8 @@ namespace MyStoreDesktop
             }
 
             _settingService.Update(_updateKey, newValue);
+            var home = new Home();
+            home.LoadHeaderName();
 
             SettingUpdateViewPanel.Visible = false;
             LoadSettings();

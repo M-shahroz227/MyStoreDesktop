@@ -578,7 +578,7 @@ namespace MyStoreDesktop
             this.btnSetting.TabIndex = 4;
             this.btnSetting.Text = "⚙️";
             this.btnSetting.UseVisualStyleBackColor = false;
-            this.btnSetting.Click += new System.EventHandler(this.Setting_Click);
+            
             // 
             // btnlogout
             // 

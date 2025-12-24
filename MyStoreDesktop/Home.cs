@@ -669,42 +669,23 @@ namespace MyStoreDesktop
                 btnProducts.Visible = false;
                 btnSales.Visible = false;
                 btnReports.Visible = false;
-                btnSetting.Visible= false;
+                btnSetting.Visible =false;
             }
         }
-
-        private void Setting_Click(object sender, EventArgs e)
-        {
-            var settingForm = new SettingForm();
-
-            // 🔥 jab SettingForm close ho
-            settingForm.FormClosed += (s, args) =>
-            {
-                ReloadHomeContent();   // Home ka data reload
-            };
-
-            settingForm.Show();
-        }
-
-
-
-        private void LoadHeaderName()
+        public void LoadHeaderName()
         {
             var setting = _settingService.GetByKey("StoreName");
 
             if (setting != null)
             {
                 lblMainHeaderName.Text = setting;
+
             }
             else 
             {
                 lblMainHeaderName.Text = "";
             }
         }
-        private void ReloadHomeContent()
-        {
-            var setting = new SettingForm();
-            LoadHeaderName();
-        }
+        
     }
 }

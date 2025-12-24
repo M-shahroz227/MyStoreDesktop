@@ -88,6 +88,7 @@
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.Size = new System.Drawing.Size(220, 20);
             this.txtTitle.TabIndex = 1;
+            
             // 
             // cboCategory
             // 
@@ -122,6 +123,7 @@
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.Size = new System.Drawing.Size(220, 20);
             this.txtQuantity.TabIndex = 5;
+            
             // 
             // lblSalePrice
             // 
@@ -138,6 +140,7 @@
             this.txtSalePrice.Name = "txtSalePrice";
             this.txtSalePrice.Size = new System.Drawing.Size(220, 20);
             this.txtSalePrice.TabIndex = 7;
+            
             // 
             // lblPurchasePrice
             // 
@@ -154,6 +157,7 @@
             this.txtPurchasePrice.Name = "txtPurchasePrice";
             this.txtPurchasePrice.Size = new System.Drawing.Size(220, 20);
             this.txtPurchasePrice.TabIndex = 9;
+            
             // 
             // lblDiscount
             // 
@@ -170,6 +174,7 @@
             this.txtDiscount.Name = "txtDiscount";
             this.txtDiscount.Size = new System.Drawing.Size(220, 20);
             this.txtDiscount.TabIndex = 11;
+            
             // 
             // lblCompany
             // 
@@ -214,6 +219,7 @@
             this.txtModel.Name = "txtModel";
             this.txtModel.Size = new System.Drawing.Size(220, 20);
             this.txtModel.TabIndex = 15;
+            
             // 
             // btnAdd
             // 
@@ -272,6 +278,7 @@
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(220, 20);
             this.txtDescription.TabIndex = 21;
+            
             // 
             // lbDescription
             // 
