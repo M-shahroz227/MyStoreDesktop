@@ -40,18 +40,8 @@ namespace MyStoreDesktop
 
             // Apply professional blue theme
             ThemeManager.ApplyTheme(this);
-            // ✅ TextBox validation rules (Tag set kar rahe hain)
-            txtTitle.Tag = "required|min:3|max:50";
-            txtQuantity.Tag = "required|number|min:1|max:10000";
-            txtSalePrice.Tag = "required|number";
-            txtPurchasePrice.Tag = "required|number";
-            txtDiscount.Tag = "number|min:0|max:100";
-            txtModel.Tag = "max:30";
-            txtDescription.Tag = "max:200";
-            txtManualCode.Tag = "required|nospace";
+           
 
-            
-            
 
             cmbCodeType.SelectedIndexChanged += cmbCodeType_SelectedIndexChanged;
         }
@@ -217,7 +207,7 @@ namespace MyStoreDesktop
 
                 int categoryId = (int)cboCategory.SelectedValue;
                 int companyId = (int)cboCompany.SelectedValue;
-                if (!ValidateForm())
+                if (!this.ValidateChildren())
                     return;
                 
                 var product = new Product
@@ -278,7 +268,7 @@ namespace MyStoreDesktop
                 int categoryId = (int)cboCategory.SelectedValue;
                 int companyId = (int)cboCompany.SelectedValue;
 
-                if (!ValidateForm())
+                if (!this.ValidateChildren())
                     return;
 
                 product.Title = txtTitle.Text;
@@ -683,47 +673,9 @@ namespace MyStoreDesktop
                 _selectedImagePath = "";
             }
         }
-        private bool ValidateForm()
-        {
-            if (string.IsNullOrWhiteSpace(txtTitle.Text))
-                return ShowError(txtTitle);
+      
 
-            if (string.IsNullOrWhiteSpace(txtQuantity.Text))
-                return ShowError(txtQuantity);
 
-            if (!int.TryParse(txtQuantity.Text, out _))
-                return ShowError(txtQuantity, "Quantity must be a number");
-
-            if (string.IsNullOrWhiteSpace(txtSalePrice.Text))
-                return ShowError(txtSalePrice, "SalePrice must be a number");
-
-            if (string.IsNullOrWhiteSpace(txtPurchasePrice.Text))
-                return ShowError(txtPurchasePrice, "PurchasePrice must be a number");
-
-            if (string.IsNullOrWhiteSpace(txtDiscount.Text))
-                return ShowError(txtDiscount, "Discount must be a number");
-
-            if (string.IsNullOrWhiteSpace(txtModel.Text))
-                return ShowError(txtModel);
-
-            if (string.IsNullOrWhiteSpace(txtDescription.Text))
-                return ShowError(txtDescription);
-
-            if (string.IsNullOrWhiteSpace(_selectedImagePath))
-            {
-                MessageBox.Show("Please select product image");
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool ShowError(Control c, string msg = "Please fill this field")
-        {
-            MessageBox.Show(msg);
-            c.Focus();
-            return false;
-        }
 
     }
 
