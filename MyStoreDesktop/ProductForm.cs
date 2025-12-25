@@ -207,8 +207,19 @@ namespace MyStoreDesktop
 
                 int categoryId = (int)cboCategory.SelectedValue;
                 int companyId = (int)cboCompany.SelectedValue;
-                if (!this.ValidateChildren())
+                if(string.IsNullOrWhiteSpace(txtTitle.Text) ||
+                     string.IsNullOrWhiteSpace(txtQuantity.Text) ||
+                     string.IsNullOrWhiteSpace(txtSalePrice.Text) ||
+                     string.IsNullOrWhiteSpace(txtPurchasePrice.Text) ||
+                     string.IsNullOrWhiteSpace(txtDiscount.Text) ||
+                     string.IsNullOrWhiteSpace(txtModel.Text) ||
+                     string.IsNullOrWhiteSpace(txtDescription.Text)
+
+                    )
+                {
+                    MessageBox.Show("plz fill all the Fields");
                     return;
+                }
                 
                 var product = new Product
                 {
@@ -268,8 +279,19 @@ namespace MyStoreDesktop
                 int categoryId = (int)cboCategory.SelectedValue;
                 int companyId = (int)cboCompany.SelectedValue;
 
-                if (!this.ValidateChildren())
+                if (string.IsNullOrWhiteSpace(txtTitle.Text) ||
+                     string.IsNullOrWhiteSpace(txtQuantity.Text) ||
+                     string.IsNullOrWhiteSpace(txtSalePrice.Text) ||
+                     string.IsNullOrWhiteSpace(txtPurchasePrice.Text) ||
+                     string.IsNullOrWhiteSpace(txtDiscount.Text) ||
+                     string.IsNullOrWhiteSpace(txtModel.Text) ||
+                     string.IsNullOrWhiteSpace(txtDescription.Text)
+
+                    )
+                {
+                    MessageBox.Show("plz fill all the Fields");
                     return;
+                }
 
                 product.Title = txtTitle.Text;
                 product.CategoryId = categoryId;
