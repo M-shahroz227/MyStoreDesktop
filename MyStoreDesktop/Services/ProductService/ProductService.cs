@@ -22,16 +22,32 @@ namespace MyStoreDesktop.Services.ProductService
         // 🔹 Return type change kiya: void → Product
         public Product Add(Product product)
         {
+            if (IsProductNameExists(product.Title))
+            {
+                throw new System.InvalidOperationException(
+                    "Ye product name pehle se mojood hai"
+                );
+            }
+
             _context.Products.Add(product);
-            _context.SaveChanges(); // yahan ProductId generate hota hai
-            return product; // ✅ ab ProductId return karega
+            _context.SaveChanges();
+            return product;
         }
+
 
         public void Update(Product product)
         {
+            if (IsProductNameExists(product.Title, product.ProductId))
+            {
+                throw new System.InvalidOperationException(
+                    "Ye product name pehle se mojood hai"
+                );
+            }
+
             _context.Entry(product).State = EntityState.Modified;
             _context.SaveChanges();
         }
+
 
         public void Delete(int id)
         {
@@ -110,5 +126,17 @@ namespace MyStoreDesktop.Services.ProductService
             _context.Companies.Remove(company);
             _context.SaveChanges();
         }
+        public bool IsProductNameExists(string productName, int? ignoreProductId = null)
+        {
+            var query = _context.Products.AsQueryable();
+
+            if (ignoreProductId.HasValue)
+            {
+                query = query.Where(p => p.ProductId != ignoreProductId.Value);
+            }
+
+            return query.Any(p => p.Title.ToLower() == productName.ToLower());
+        }
+
     }
 }

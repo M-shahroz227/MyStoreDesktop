@@ -235,16 +235,19 @@ namespace MyStoreDesktop
                     UrlImage = _selectedImagePath
 
                 };
-
+                try { 
                 // Add Product (returns product with ProductId)
                 var addedProduct = _productService.Add(product);
-
-                // Generate QR for new product (this will generate GUID, QR image and save CodeValue)
-                GenerateAndSaveQrCode(addedProduct);
+                     GenerateAndSaveQrCode(addedProduct);
 
                 MessageBox.Show("✅ Product added successfully!");
                 LoadProducts();
                 ClearForm();
+                }catch (Exception ex)
+                { MessageBox.Show(ex.Message); return; }
+
+                // Generate QR for new product (this will generate GUID, QR image and save CodeValue)
+               
             }
             catch (Exception ex)
             {
@@ -306,14 +309,23 @@ namespace MyStoreDesktop
 
 
 
-                _productService.Update(product);
+                try
+                {
+                    _productService.Update(product);
+                    GenerateAndSaveQrCode(product);
+                    MessageBox.Show("✅ Product updated successfully!");
+                    LoadProducts();
+                    ClearForm();
+                }
+                catch (InvalidOperationException ex)
+                {
+                    MessageBox.Show(ex.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("❌ Error updating product: " + ex.Message);
+                }
 
-                // Regenerate QR for product
-                GenerateAndSaveQrCode(product);
-
-                MessageBox.Show("✅ Product updated successfully!");
-                LoadProducts();
-                ClearForm();
             }
         }
 
