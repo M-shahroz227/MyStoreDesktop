@@ -37,6 +37,8 @@ namespace MyStoreDesktop
         private TextBox _selectedBox = null;
         private Timer blinkTimer = new Timer();
         private bool isBlinking = false;
+        private int _suggestionIndex = -1;
+
 
 
 
@@ -141,6 +143,7 @@ namespace MyStoreDesktop
             lstSuggestion.DisplayMember = "Title";
             lstSuggestion.ValueMember = "ProductId";
             lstSuggestion.Visible = products.Any();
+            _suggestionIndex = -1;
         }
         private void lstSuggestion_Click(object sender, EventArgs e)
         
@@ -554,33 +557,38 @@ namespace MyStoreDesktop
         }
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
         {
-            // TAB → Move to grid
-            if (e.KeyCode == Keys.Tab)
-            {
-                if (dgvAddToCard.Rows.Count > 0)
-                {
-                    dgvAddToCard.Focus();
-                    dgvAddToCard.CurrentCell = dgvAddToCard.Rows[0].Cells[1];
-                }
-                e.SuppressKeyPress = true;
+            if (!lstSuggestion.Visible || lstSuggestion.Items.Count == 0)
                 return;
-            }
-
-            // ENTER → Select product from list
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Down)
             {
-                if (lstSuggestion.Visible && lstSuggestion.Items.Count > 0)
+
+                _suggestionIndex++;
+                if (_suggestionIndex >= lstSuggestion.Items.Count)
+                    _suggestionIndex = 0;
+                lstSuggestion.SelectedIndex = _suggestionIndex;
+                e.SuppressKeyPress = true;
+            }
+            else if (e.KeyCode == Keys.Up) 
+            {
+                _suggestionIndex--;
+                if(_suggestionIndex< 0 )
+                _suggestionIndex= lstSuggestion.Items.Count - 1;
+                lstSuggestion.SelectedIndex = _suggestionIndex;
+                e.SuppressKeyPress= true;
+
+            }else if(e.KeyCode == Keys.Enter)
+            {
+                if(_suggestionIndex >=0)
                 {
                     var selectedProduct = (Product)lstSuggestion.SelectedItem;
-
                     AddToCartData(selectedProduct);
-
                     lstSuggestion.Visible = false;
                     txtSearch.Clear();
-
-                    e.SuppressKeyPress = true; // block ding sound
+                    _suggestionIndex = -1;
                 }
+                e.SuppressKeyPress = true;
             }
+
         }
 
         private void dgvAddToCard_KeyDown(object sender, KeyEventArgs e)
