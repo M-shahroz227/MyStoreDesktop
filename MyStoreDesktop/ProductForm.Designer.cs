@@ -64,6 +64,7 @@
             this.cmbCodeType = new System.Windows.Forms.ComboBox();
             this.picProduct = new System.Windows.Forms.PictureBox();
             this.btnBrowseImage = new System.Windows.Forms.Button();
+            this.btnClean = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).BeginInit();
             this.panelQRCode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picQRPreview)).BeginInit();
@@ -420,12 +421,25 @@
             this.btnBrowseImage.UseVisualStyleBackColor = true;
             this.btnBrowseImage.Click += new System.EventHandler(this.btnBrowseImage_Click);
             // 
+            // btnClean
+            // 
+            this.btnClean.BackColor = System.Drawing.Color.Crimson;
+            this.btnClean.ForeColor = System.Drawing.Color.White;
+            this.btnClean.Location = new System.Drawing.Point(177, 270);
+            this.btnClean.Name = "btnClean";
+            this.btnClean.Size = new System.Drawing.Size(100, 35);
+            this.btnClean.TabIndex = 32;
+            this.btnClean.Text = "CleanForm Data";
+            this.btnClean.UseVisualStyleBackColor = false;
+            this.btnClean.Click += new System.EventHandler(this.btnClean_Click);
+            // 
             // ProductForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(1140, 561);
+            this.Controls.Add(this.btnClean);
             this.Controls.Add(this.btnBrowseImage);
             this.Controls.Add(this.picProduct);
             this.Controls.Add(this.panelBarcode);
@@ -512,5 +526,6 @@
         private System.Windows.Forms.TextBox txtManualCode;
         private System.Windows.Forms.PictureBox picProduct;
         private System.Windows.Forms.Button btnBrowseImage;
+        private System.Windows.Forms.Button btnClean;
     }
 }

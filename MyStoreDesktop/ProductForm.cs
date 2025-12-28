@@ -727,10 +727,11 @@ namespace MyStoreDesktop
                 _selectedImagePath = "";
             }
         }
-      
 
-
-
+        private void btnClean_Click(object sender, EventArgs e)
+        {
+            ClearForm();
+        }
     }
 
 }
