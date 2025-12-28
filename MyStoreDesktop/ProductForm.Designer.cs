@@ -265,6 +265,7 @@
             this.dgvProducts.Size = new System.Drawing.Size(1115, 225);
             this.dgvProducts.TabIndex = 19;
             this.dgvProducts.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProducts_CellClick);
+            this.dgvProducts.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dgvProducts_KeyUp);
             // 
             // txtDescription
             // 

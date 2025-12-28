@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -236,7 +236,74 @@ namespace MyStoreDesktop.Theme
         private static void ApplyTabControlTheme(TabControl tabControl)
         {
             tabControl.Font = AppTheme.BodyFont;
+            tabControl.DrawMode = TabDrawMode.OwnerDrawFixed;
+
+            tabControl.DrawItem += (s, e) =>
+            {
+                TabControl tc = (TabControl)s;
+                TabPage tab = tc.TabPages[e.Index];
+
+                bool isSelected = (tc.SelectedIndex == e.Index);
+                bool hasFocus = tc.Focused;
+
+                Rectangle rect = e.Bounds;
+
+                Color backColor;
+                Color textColor;
+
+                // Background color logic
+                if (isSelected && hasFocus)
+                {
+                    backColor = AppTheme.PrimaryBlue;
+                    textColor = Color.White;
+                }
+                else if (isSelected)
+                {
+                    backColor = AppTheme.PrimaryBlueLight;
+                    textColor = Color.Black;
+                }
+                else
+                {
+                    backColor = AppTheme.BackgroundWhite;
+                    textColor = AppTheme.TextSecondary;
+                }
+
+                // 🔹 Tab background draw
+                using (SolidBrush brush = new SolidBrush(backColor))
+                    e.Graphics.FillRectangle(brush, rect);
+
+                // 🔹 Tab text draw
+                TextRenderer.DrawText(
+                    e.Graphics,
+                    tab.Text,
+                    tab.Font,
+                    rect,
+                    textColor,
+                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
+                );
+
+                // ✅ 🔵 YAHAN add karna hai (BOTTOM BLUE LINE)
+                if (isSelected && hasFocus)
+                {
+                    using (Pen pen = new Pen(AppTheme.PrimaryBlueDark, 3))
+                    {
+                        e.Graphics.DrawLine(
+                            pen,
+                            rect.Left,
+                            rect.Bottom - 2,
+                            rect.Right,
+                            rect.Bottom - 2
+                        );
+                    }
+                }
+            };
+
+            // Focus refresh
+            tabControl.GotFocus += (s, e) => tabControl.Invalidate();
+            tabControl.LostFocus += (s, e) => tabControl.Invalidate();
         }
+
+
 
         /// <summary>
         /// Apply theme to menu strips

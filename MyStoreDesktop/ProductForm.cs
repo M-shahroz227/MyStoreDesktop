@@ -398,54 +398,74 @@ namespace MyStoreDesktop
         {
             if (e.RowIndex >= 0)
             {
-                var row = dgvProducts.Rows[e.RowIndex];
+                LoadProductFromRow(dgvProducts.Rows[e.RowIndex]);
 
-                selectedProductId = Convert.ToInt32(row.Cells["ProductId"].Value);
+            }
+        }
+        private void LoadProductFromRow(DataGridViewRow row)
+        {
+            if (row == null)
+                return;
+            selectedProductId = Convert.ToInt32(row.Cells["ProductId"].Value);
 
-                txtTitle.Text = row.Cells["Title"].Value.ToString();
-                txtQuantity.Text = row.Cells["Quantity"].Value.ToString();
-                txtSalePrice.Text = row.Cells["SalePrice"].Value.ToString();
-                txtPurchasePrice.Text = row.Cells["PurchasePrice"].Value.ToString();
-                txtDiscount.Text = row.Cells["Discount"].Value.ToString();
-                txtModel.Text = row.Cells["Model"].Value?.ToString() ?? "";
-                txtDescription.Text = row.Cells["Description"].Value?.ToString() ?? "";
+            txtTitle.Text = row.Cells["Title"].Value.ToString();
+            txtQuantity.Text = row.Cells["Quantity"].Value.ToString();
+            txtSalePrice.Text = row.Cells["SalePrice"].Value.ToString();
+            txtPurchasePrice.Text = row.Cells["PurchasePrice"].Value.ToString();
+            txtDiscount.Text = row.Cells["Discount"].Value.ToString();
+            txtModel.Text = row.Cells["Model"].Value?.ToString() ?? "";
+            txtDescription.Text = row.Cells["Description"].Value?.ToString() ?? "";
 
-                // ✅ CATEGORY LOAD
-                if (row.Cells["CategoryId"].Value != null)
-                    cboCategory.SelectedValue = Convert.ToInt32(row.Cells["CategoryId"].Value);
+            // ✅ CATEGORY LOAD
+            if (row.Cells["CategoryId"].Value != null)
+                cboCategory.SelectedValue = Convert.ToInt32(row.Cells["CategoryId"].Value);
 
-                // ✅ COMPANY LOAD
-                if (row.Cells["CompanyId"].Value != null)
-                    cboCompany.SelectedValue = Convert.ToInt32(row.Cells["CompanyId"].Value);
+            // ✅ COMPANY LOAD
+            if (row.Cells["CompanyId"].Value != null)
+                cboCompany.SelectedValue = Convert.ToInt32(row.Cells["CompanyId"].Value);
 
-                // ✅ ✅ IMAGE LOAD (MOST IMPORTANT)
-                var cellValue = row.Cells["UrlImage"].Value;
+            // ✅ ✅ IMAGE LOAD (MOST IMPORTANT)
+            var cellValue = row.Cells["UrlImage"].Value;
 
-                if (cellValue != null)
+            if (cellValue != null)
+            {
+                string imgNameWithExt = cellValue.ToString();
+                var img = _fileServices.GetFileByName(imgNameWithExt);
+
+                if (img != null)
                 {
-                    string imgNameWithExt = cellValue.ToString();
-                    var img = _fileServices.GetFileByName(imgNameWithExt);
-
-                    if (img != null)
-                    {
-                        picProduct.Image?.Dispose();
-                        picProduct.Image = img;
-                        _selectedImagePath = imgNameWithExt; // ✅ IMPORTANT
-                    }
-                    else
-                    {
-                        picProduct.Image = null;
-                        _selectedImagePath = "";
-                    }
+                    picProduct.Image?.Dispose();
+                    picProduct.Image = img;
+                    _selectedImagePath = imgNameWithExt; // ✅ IMPORTANT
                 }
                 else
                 {
                     picProduct.Image = null;
                     _selectedImagePath = "";
                 }
+            }
+            else
+            {
+                picProduct.Image = null;
+                _selectedImagePath = "";
+            }
 
+
+        }
+        private void dgvProducts_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
+            {
+                if (dgvProducts.CurrentRow != null)
+                {
+                    LoadProductFromRow(dgvProducts.CurrentRow);
+                }
             }
         }
+
+
+
+
 
 
         private void btnManageCategories_Click(object sender, EventArgs e)
