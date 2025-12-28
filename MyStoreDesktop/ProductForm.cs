@@ -791,6 +791,11 @@ namespace MyStoreDesktop
 
             return isValid;
         }
+        private void txtTitle_TextChanged(object sender, EventArgs e)
+        {
+            errorProvider1.SetError(txtTitle, "");
+        }
+
 
     }
 
