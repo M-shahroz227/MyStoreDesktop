@@ -207,20 +207,14 @@ namespace MyStoreDesktop
 
                 int categoryId = (int)cboCategory.SelectedValue;
                 int companyId = (int)cboCompany.SelectedValue;
-                if(string.IsNullOrWhiteSpace(txtTitle.Text) ||
-                     string.IsNullOrWhiteSpace(txtQuantity.Text) ||
-                     string.IsNullOrWhiteSpace(txtSalePrice.Text) ||
-                     string.IsNullOrWhiteSpace(txtPurchasePrice.Text) ||
-                     string.IsNullOrWhiteSpace(txtDiscount.Text) ||
-                     string.IsNullOrWhiteSpace(txtModel.Text) ||
-                     string.IsNullOrWhiteSpace(txtDescription.Text)
-
-                    )
+                if (!ValidateForm())
                 {
-                    MessageBox.Show("plz fill all the Fields");
+                    MessageBox.Show("Please fix validation errors", "Validation",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                
+
+
                 var product = new Product
                 {
                     Title = txtTitle.Text,
@@ -282,19 +276,13 @@ namespace MyStoreDesktop
                 int categoryId = (int)cboCategory.SelectedValue;
                 int companyId = (int)cboCompany.SelectedValue;
 
-                if (string.IsNullOrWhiteSpace(txtTitle.Text) ||
-                     string.IsNullOrWhiteSpace(txtQuantity.Text) ||
-                     string.IsNullOrWhiteSpace(txtSalePrice.Text) ||
-                     string.IsNullOrWhiteSpace(txtPurchasePrice.Text) ||
-                     string.IsNullOrWhiteSpace(txtDiscount.Text) ||
-                     string.IsNullOrWhiteSpace(txtModel.Text) ||
-                     string.IsNullOrWhiteSpace(txtDescription.Text)
-
-                    )
+                if (!ValidateForm())
                 {
-                    MessageBox.Show("plz fill all the Fields");
+                    MessageBox.Show("Please fix validation errors", "Validation",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+
 
                 product.Title = txtTitle.Text;
                 product.CategoryId = categoryId;
@@ -732,7 +720,80 @@ namespace MyStoreDesktop
         {
             ClearForm();
         }
+        private bool ValidateForm()
+        {
+            bool isValid = true;
+
+            errorProvider1.Clear();
+
+            // TITLE
+            if (string.IsNullOrWhiteSpace(txtTitle.Text))
+            {
+                errorProvider1.SetError(txtTitle, "Title is required");
+                isValid = false;
+            }
+
+            // QUANTITY
+            if (!int.TryParse(txtQuantity.Text, out int qty) || qty <= 0)
+            {
+                errorProvider1.SetError(txtQuantity, "Enter valid quantity");
+                isValid = false;
+            }
+
+            // SALE PRICE
+            if (!decimal.TryParse(txtSalePrice.Text, out decimal sale) || sale <= 0)
+            {
+                errorProvider1.SetError(txtSalePrice, "Enter valid sale price");
+                isValid = false;
+            }
+
+            // PURCHASE PRICE
+            if (!decimal.TryParse(txtPurchasePrice.Text, out decimal purchase) || purchase <= 0)
+            {
+                errorProvider1.SetError(txtPurchasePrice, "Enter valid purchase price");
+                isValid = false;
+            }
+
+            // DISCOUNT
+            if (!decimal.TryParse(txtDiscount.Text, out decimal discount) || discount < 0)
+            {
+                errorProvider1.SetError(txtDiscount, "Enter valid discount");
+                isValid = false;
+            }
+
+            // MODEL
+            if (string.IsNullOrWhiteSpace(txtModel.Text))
+            {
+                errorProvider1.SetError(txtModel, "Model is required");
+                isValid = false;
+            }
+
+            // DESCRIPTION
+            if (string.IsNullOrWhiteSpace(txtDescription.Text))
+            {
+                errorProvider1.SetError(txtDescription, "Description is required");
+                isValid = false;
+            }
+
+            // CATEGORY
+            if (cboCategory.SelectedValue == null)
+            {
+                errorProvider1.SetError(cboCategory, "Select category");
+                isValid = false;
+            }
+
+            // COMPANY
+            if (cboCompany.SelectedValue == null)
+            {
+                errorProvider1.SetError(cboCompany, "Select company");
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
     }
+
 
 }
 

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lblTitle = new System.Windows.Forms.Label();
             this.txtTitle = new System.Windows.Forms.TextBox();
             this.cboCategory = new System.Windows.Forms.ComboBox();
@@ -65,6 +66,7 @@
             this.picProduct = new System.Windows.Forms.PictureBox();
             this.btnBrowseImage = new System.Windows.Forms.Button();
             this.btnClean = new System.Windows.Forms.Button();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).BeginInit();
             this.panelQRCode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picQRPreview)).BeginInit();
@@ -72,6 +74,7 @@
             this.panelBarcode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBarcodePreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picProduct)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -432,6 +435,10 @@
             this.btnClean.UseVisualStyleBackColor = false;
             this.btnClean.Click += new System.EventHandler(this.btnClean_Click);
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // ProductForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -482,6 +489,7 @@
             this.panelBarcode.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picBarcodePreview)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picProduct)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -526,5 +534,6 @@
         private System.Windows.Forms.PictureBox picProduct;
         private System.Windows.Forms.Button btnBrowseImage;
         private System.Windows.Forms.Button btnClean;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }
