@@ -30,6 +30,7 @@ namespace MyStoreDesktop
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panelLogin = new System.Windows.Forms.Panel();
             this.picloader = new System.Windows.Forms.PictureBox();
             this.chkRememberMe = new System.Windows.Forms.CheckBox();
@@ -40,8 +41,10 @@ namespace MyStoreDesktop
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.lblUsername = new System.Windows.Forms.Label();
             this.lblTitle = new System.Windows.Forms.Label();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.panelLogin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picloader)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // panelLogin
@@ -66,7 +69,7 @@ namespace MyStoreDesktop
             // 
             this.picloader.BackColor = System.Drawing.Color.White;
             this.picloader.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picloader.Location = new System.Drawing.Point(99, 90);
+            this.picloader.Location = new System.Drawing.Point(101, 60);
             this.picloader.Name = "picloader";
             this.picloader.Size = new System.Drawing.Size(200, 218);
             this.picloader.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -162,6 +165,10 @@ namespace MyStoreDesktop
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "LOGIN";
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -178,6 +185,7 @@ namespace MyStoreDesktop
             this.panelLogin.ResumeLayout(false);
             this.panelLogin.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picloader)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -198,5 +206,6 @@ namespace MyStoreDesktop
         private System.Windows.Forms.LinkLabel linkRegister;
         private System.Windows.Forms.CheckBox chkRememberMe;
         private System.Windows.Forms.PictureBox picloader;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

@@ -120,8 +120,14 @@ namespace MyStoreDesktop
         // ==================== LOGIN ====================
         private async void btnLogin_Click(object sender, EventArgs e)
         {
+            if (!ValidateLogin())
+            {
+                HideLoader();
+                return;
+            }
             string username = txtUsername.Text.Trim();
             string password = txtPassword.Text.Trim();
+            
 
             ShowLoader();
             await Task.Delay(500); // optional delay
@@ -186,5 +192,37 @@ namespace MyStoreDesktop
             reg.Show();
             this.Hide();
         }
+        private bool ValidateLogin()
+        {
+            errorProvider1.Clear();
+            bool isValid = true;
+
+            if (string.IsNullOrWhiteSpace(txtUsername.Text))
+            {
+                errorProvider1.SetError(txtUsername, "Username is required");
+                isValid = false;
+            }
+            else if (txtUsername.Text.Length < 3)
+            {
+                errorProvider1.SetError(txtUsername, "Minimum 3 characters");
+                isValid = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtPassword.Text))
+            {
+                errorProvider1.SetError(txtPassword, "Password is required");
+                isValid = false;
+            }
+            else if (txtPassword.Text.Length < 6)
+            {
+                errorProvider1.SetError(txtPassword, "Password must be at least 6 characters");
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+
+
     }
 }

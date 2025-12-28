@@ -30,7 +30,10 @@ namespace MyStoreDesktop
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtFullPhone = new System.Windows.Forms.TextBox();
+            this.lblPhone = new System.Windows.Forms.Label();
             this.linkLogin = new System.Windows.Forms.LinkLabel();
             this.btnRegister = new System.Windows.Forms.Button();
             this.txtPassword = new System.Windows.Forms.TextBox();
@@ -40,9 +43,9 @@ namespace MyStoreDesktop
             this.txtFullEmail = new System.Windows.Forms.TextBox();
             this.lbltxtlEmail = new System.Windows.Forms.Label();
             this.lblTitle = new System.Windows.Forms.Label();
-            this.txtFullPhone = new System.Windows.Forms.TextBox();
-            this.lblPhone = new System.Windows.Forms.Label();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -64,6 +67,25 @@ namespace MyStoreDesktop
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(400, 420);
             this.panel1.TabIndex = 0;
+            // 
+            // txtFullPhone
+            // 
+            this.txtFullPhone.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtFullPhone.Location = new System.Drawing.Point(49, 300);
+            this.txtFullPhone.Multiline = true;
+            this.txtFullPhone.Name = "txtFullPhone";
+            this.txtFullPhone.Size = new System.Drawing.Size(300, 30);
+            this.txtFullPhone.TabIndex = 10;
+            // 
+            // lblPhone
+            // 
+            this.lblPhone.AutoSize = true;
+            this.lblPhone.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPhone.Location = new System.Drawing.Point(49, 270);
+            this.lblPhone.Name = "lblPhone";
+            this.lblPhone.Size = new System.Drawing.Size(54, 21);
+            this.lblPhone.TabIndex = 9;
+            this.lblPhone.Text = "Phone";
             // 
             // linkLogin
             // 
@@ -160,24 +182,9 @@ namespace MyStoreDesktop
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "REGISTER";
             // 
-            // txtFullPhone
+            // errorProvider1
             // 
-            this.txtFullPhone.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFullPhone.Location = new System.Drawing.Point(49, 300);
-            this.txtFullPhone.Multiline = true;
-            this.txtFullPhone.Name = "txtFullPhone";
-            this.txtFullPhone.Size = new System.Drawing.Size(300, 30);
-            this.txtFullPhone.TabIndex = 10;
-            // 
-            // lblPhone
-            // 
-            this.lblPhone.AutoSize = true;
-            this.lblPhone.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPhone.Location = new System.Drawing.Point(49, 270);
-            this.lblPhone.Name = "lblPhone";
-            this.lblPhone.Size = new System.Drawing.Size(54, 21);
-            this.lblPhone.TabIndex = 9;
-            this.lblPhone.Text = "Phone";
+            this.errorProvider1.ContainerControl = this;
             // 
             // RegisterForm
             // 
@@ -194,6 +201,7 @@ namespace MyStoreDesktop
             this.Load += new System.EventHandler(this.RegisterForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -217,5 +225,6 @@ namespace MyStoreDesktop
         private System.Windows.Forms.LinkLabel linkLogin;
         private System.Windows.Forms.TextBox txtFullPhone;
         private System.Windows.Forms.Label lblPhone;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

@@ -228,9 +228,9 @@ namespace MyStoreDesktop
             this.rightPanel.Controls.Add(this.panel3);
             this.rightPanel.Controls.Add(this.panel2);
             this.rightPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.rightPanel.Location = new System.Drawing.Point(692, 59);
+            this.rightPanel.Location = new System.Drawing.Point(703, 59);
             this.rightPanel.Name = "rightPanel";
-            this.rightPanel.Size = new System.Drawing.Size(281, 524);
+            this.rightPanel.Size = new System.Drawing.Size(270, 524);
             this.rightPanel.TabIndex = 5;
             // 
             // panel3
@@ -578,7 +578,6 @@ namespace MyStoreDesktop
             this.btnSetting.TabIndex = 4;
             this.btnSetting.Text = "⚙️";
             this.btnSetting.UseVisualStyleBackColor = false;
-            
             // 
             // btnlogout
             // 
@@ -630,7 +629,7 @@ namespace MyStoreDesktop
             this.dgvAddToCard.GridColor = System.Drawing.Color.LightGray;
             this.dgvAddToCard.Location = new System.Drawing.Point(6, 127);
             this.dgvAddToCard.Name = "dgvAddToCard";
-            this.dgvAddToCard.Size = new System.Drawing.Size(683, 446);
+            this.dgvAddToCard.Size = new System.Drawing.Size(691, 453);
             this.dgvAddToCard.TabIndex = 3;
             this.dgvAddToCard.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAddToCard_CellEndEdit);
             this.dgvAddToCard.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvAddToCard_KeyDown);

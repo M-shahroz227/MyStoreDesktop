@@ -1,8 +1,11 @@
-﻿using System;
-using System.Windows.Forms;
-using MyStoreDesktop.Models;
+﻿using MyStoreDesktop.Models;
 using MyStoreDesktop.Services.UserService;
 using MyStoreDesktop.Theme;
+using System;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+
 
 namespace MyStoreDesktop
 {
@@ -25,6 +28,10 @@ namespace MyStoreDesktop
             string password = txtPassword.Text.Trim();
             string Email = txtFullEmail.Text.Trim();
             string Phone = txtFullPhone.Text.Trim();
+            if (!ValidateRegister())
+            {
+                return;
+            }
 
             // simple password hash example
             byte[] passwordHash = System.Text.Encoding.UTF8.GetBytes(password);
@@ -56,9 +63,58 @@ namespace MyStoreDesktop
 
         private void linkLogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Home login = new Home();
+           var  login = new LoginForm(null);
             login.Show();
             this.Hide();
         }
+        private bool IsValidEmail(string email)
+        {
+            return Regex.IsMatch(email,
+                @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+        }
+
+        private bool IsStrongPassword(string password)
+        {
+            return password.Length >= 6 &&
+                   password.Any(char.IsUpper) &&
+                   password.Any(char.IsLower) &&
+                   password.Any(char.IsDigit);
+        }
+        private bool ValidateRegister()
+        {
+            errorProvider1.Clear();
+            bool valid = true;
+
+            if (string.IsNullOrWhiteSpace(txtUsername.Text))
+            {
+                errorProvider1.SetError(txtUsername, "Username required");
+                valid = false;
+            }
+
+            if (!IsValidEmail(txtFullEmail.Text))
+            {
+                errorProvider1.SetError(txtFullEmail, "Invalid email format");
+                valid = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtFullPhone.Text) || txtFullPhone.Text.Length < 10)
+            {
+                errorProvider1.SetError(txtFullPhone, "Enter valid phone number");
+                valid = false;
+            }
+
+            if (!IsStrongPassword(txtPassword.Text))
+            {
+                errorProvider1.SetError(
+                    txtPassword,
+                    "Password must contain Upper, Lower & Number (min 6 chars)"
+                );
+                valid = false;
+            }
+
+            return valid;
+        }
+
+
     }
 }
