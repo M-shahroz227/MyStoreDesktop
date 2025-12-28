@@ -546,7 +546,7 @@ namespace MyStoreDesktop
 
             panelQRCode.Visible = (selected == "QR Code");
             panelBarcode.Visible = (selected == "Bar Code");
-            panelManual.Visible = (selected == "Manual Code");
+            
         }
 
         // Single fixed barcode generator button

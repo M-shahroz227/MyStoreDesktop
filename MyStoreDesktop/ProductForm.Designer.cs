@@ -220,7 +220,7 @@
             // 
             this.btnAdd.BackColor = System.Drawing.Color.SeaGreen;
             this.btnAdd.ForeColor = System.Drawing.Color.White;
-            this.btnAdd.Location = new System.Drawing.Point(803, 197);
+            this.btnAdd.Location = new System.Drawing.Point(803, 264);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(100, 35);
             this.btnAdd.TabIndex = 16;
@@ -232,7 +232,7 @@
             // 
             this.btnUpdate.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnUpdate.ForeColor = System.Drawing.Color.White;
-            this.btnUpdate.Location = new System.Drawing.Point(912, 197);
+            this.btnUpdate.Location = new System.Drawing.Point(912, 264);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(100, 35);
             this.btnUpdate.TabIndex = 17;
@@ -244,7 +244,7 @@
             // 
             this.btnDelete.BackColor = System.Drawing.Color.Crimson;
             this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(1022, 197);
+            this.btnDelete.Location = new System.Drawing.Point(1022, 264);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(100, 35);
             this.btnDelete.TabIndex = 18;
@@ -300,7 +300,7 @@
             // 
             this.panelQRCode.Controls.Add(this.picQRPreview);
             this.panelQRCode.Controls.Add(this.btnGenerateQR);
-            this.panelQRCode.Location = new System.Drawing.Point(858, 40);
+            this.panelQRCode.Location = new System.Drawing.Point(852, 36);
             this.panelQRCode.Name = "panelQRCode";
             this.panelQRCode.Size = new System.Drawing.Size(242, 103);
             this.panelQRCode.TabIndex = 26;
@@ -331,18 +331,18 @@
             // 
             this.panelManual.Controls.Add(this.txtManualCode);
             this.panelManual.Controls.Add(this.btnSaveManualCode);
-            this.panelManual.Location = new System.Drawing.Point(858, 40);
+            this.panelManual.Location = new System.Drawing.Point(852, 160);
             this.panelManual.Name = "panelManual";
-            this.panelManual.Size = new System.Drawing.Size(244, 100);
+            this.panelManual.Size = new System.Drawing.Size(219, 95);
             this.panelManual.TabIndex = 27;
             // 
             // txtManualCode
             // 
             this.txtManualCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtManualCode.Location = new System.Drawing.Point(15, 10);
+            this.txtManualCode.Location = new System.Drawing.Point(24, 16);
             this.txtManualCode.Multiline = true;
             this.txtManualCode.Name = "txtManualCode";
-            this.txtManualCode.Size = new System.Drawing.Size(195, 33);
+            this.txtManualCode.Size = new System.Drawing.Size(179, 27);
             this.txtManualCode.TabIndex = 26;
             // 
             // btnSaveManualCode
@@ -361,7 +361,7 @@
             // 
             this.panelBarcode.Controls.Add(this.picBarcodePreview);
             this.panelBarcode.Controls.Add(this.btnGenerateBarcode);
-            this.panelBarcode.Location = new System.Drawing.Point(842, 40);
+            this.panelBarcode.Location = new System.Drawing.Point(831, 39);
             this.panelBarcode.Name = "panelBarcode";
             this.panelBarcode.Size = new System.Drawing.Size(260, 100);
             this.panelBarcode.TabIndex = 28;
@@ -393,9 +393,8 @@
             this.cmbCodeType.FormattingEnabled = true;
             this.cmbCodeType.Items.AddRange(new object[] {
             "QR Code",
-            "Bar Code",
-            "Manual Code"});
-            this.cmbCodeType.Location = new System.Drawing.Point(881, 9);
+            "Bar Code"});
+            this.cmbCodeType.Location = new System.Drawing.Point(852, 9);
             this.cmbCodeType.Name = "cmbCodeType";
             this.cmbCodeType.Size = new System.Drawing.Size(219, 21);
             this.cmbCodeType.TabIndex = 29;
@@ -441,8 +440,8 @@
             this.ClientSize = new System.Drawing.Size(1140, 561);
             this.Controls.Add(this.btnClean);
             this.Controls.Add(this.btnBrowseImage);
-            this.Controls.Add(this.picProduct);
             this.Controls.Add(this.panelBarcode);
+            this.Controls.Add(this.picProduct);
             this.Controls.Add(this.panelManual);
             this.Controls.Add(this.cmbCodeType);
             this.Controls.Add(this.panelQRCode);
