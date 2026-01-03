@@ -85,6 +85,7 @@ namespace MyStoreDesktop
             this.UrlImage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
+            this.tabControlBills = new System.Windows.Forms.TabControl();
             this.panelMenu.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picProduct)).BeginInit();
@@ -198,8 +199,9 @@ namespace MyStoreDesktop
             this.picProduct.TabStop = false;
             // 
             // panelMainContent
-            // 
+            //
             this.panelMainContent.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panelMainContent.Controls.Add(this.tabControlBills);
             this.panelMainContent.Controls.Add(this.lstSuggestion);
             this.panelMainContent.Controls.Add(this.rightPanel);
             this.panelMainContent.Controls.Add(this.panel1);
@@ -700,7 +702,16 @@ namespace MyStoreDesktop
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
-            // 
+            //
+            // tabControlBills
+            //
+            this.tabControlBills.Location = new System.Drawing.Point(6, 62);
+            this.tabControlBills.Name = "tabControlBills";
+            this.tabControlBills.SelectedIndex = 0;
+            this.tabControlBills.Size = new System.Drawing.Size(691, 518);
+            this.tabControlBills.TabIndex = 6;
+            this.tabControlBills.Visible = false;
+            //
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -791,5 +802,6 @@ namespace MyStoreDesktop
         private System.Windows.Forms.Button btnlogout;
         public System.Windows.Forms.Label lblMainHeaderName;
         private System.Windows.Forms.Button btnSetting;
+        private System.Windows.Forms.TabControl tabControlBills;
     }
 }

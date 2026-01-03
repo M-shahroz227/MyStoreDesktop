@@ -241,6 +241,11 @@ namespace MyStoreDesktop.Theme
             tabControl.DrawItem += (s, e) =>
             {
                 TabControl tc = (TabControl)s;
+
+                // Safety check: ensure index is valid
+                if (e.Index < 0 || e.Index >= tc.TabPages.Count)
+                    return;
+
                 TabPage tab = tc.TabPages[e.Index];
 
                 bool isSelected = (tc.SelectedIndex == e.Index);
