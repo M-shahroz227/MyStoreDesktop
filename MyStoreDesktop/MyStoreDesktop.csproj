@@ -150,6 +150,9 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bill.cs" />
     <Compile Include="Models\BillProduct.cs" />
+    <Compile Include="Models\BillSessionState.cs" />
+    <Compile Include="Models\BillTabControls.cs" />
+    <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Configuration.cs" />
@@ -213,6 +216,7 @@
     <Compile Include="Services\BillProductService\IBillProductService.cs" />
     <Compile Include="Services\BillService\BillService.cs" />
     <Compile Include="Services\BillService\IBillService.cs" />
+    <Compile Include="Services\BillTabManager.cs" />
     <Compile Include="Services\ConfigurationService\ConfigurationService.cs" />
     <Compile Include="Services\ConfigurationService\IConfigurationService.cs" />
     <Compile Include="Services\CredentialManager.cs" />
