@@ -212,6 +212,7 @@
     <Compile Include="SalesForm.Designer.cs">
       <DependentUpon>SalesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\BarcodeReaderService\BarcodeReaderService.cs" />
     <Compile Include="Services\BillProductService\BillProductService.cs" />
     <Compile Include="Services\BillProductService\IBillProductService.cs" />
     <Compile Include="Services\BillService\BillService.cs" />

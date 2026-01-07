@@ -1,6 +1,7 @@
 ﻿using MyStoreDesktop.Data;
 using MyStoreDesktop.Models;
 using MyStoreDesktop.Services;
+using MyStoreDesktop.Services.BarcodeReaderService;
 using MyStoreDesktop.Services.BillProductService;
 using MyStoreDesktop.Services.BillService;
 using MyStoreDesktop.Services.CustomerInvoiceService;
@@ -13,6 +14,7 @@ using System.Data;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Windows.Forms;
 
 namespace MyStoreDesktop
@@ -26,6 +28,7 @@ namespace MyStoreDesktop
         private readonly CustomerInvoiceService _customerService = new CustomerInvoiceService();
         private readonly FileServices _fileServices = new FileServices();
         private readonly SettingService _settingService = new SettingService();
+        private readonly BarcodeReaderService _barcodeReader = new BarcodeReaderService();
         
 
 
@@ -106,6 +109,9 @@ namespace MyStoreDesktop
 
             // Wire up Load event for setting focus after form is fully loaded
             this.Load += Home_Load_SetFocus;
+
+            // Setup barcode scanner event handler
+            _barcodeReader.BarcodeScanned += BarcodeReader_BarcodeScanned;
 
         }
 
@@ -235,6 +241,7 @@ namespace MyStoreDesktop
             };
             txtSearchTab.TextChanged += txtSearch_TextChanged;
             txtSearchTab.KeyDown += txtSearch_KeyDown;
+            txtSearchTab.KeyPress += txtSearch_KeyPress;  // For barcode scanner
             txtSearchTab.Enter += txtSearch_Enter;
             txtSearchTab.Leave += txtSearch_Leave;
             tab.Controls.Add(txtSearchTab);
@@ -761,7 +768,87 @@ namespace MyStoreDesktop
             searchBox.BackColor = Color.White;
         }
 
+        // ================= BARCODE SCANNER =================
+        private void txtSearch_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Process barcode scanner input (Symbol scanner sends keystrokes)
+            _barcodeReader.ProcessKeyPress(sender, e);
+        }
 
+        private void BarcodeReader_BarcodeScanned(object sender, BarcodeScannedEventArgs e)
+        {
+            try
+            {
+                // Search for product by barcode (includes QR Code, Bar Code, and Manual Code)
+                var product = _productService.GetAll()
+                    .FirstOrDefault(p => p.ProductCode != null &&
+                                       p.ProductCode.Equals(e.Barcode, StringComparison.OrdinalIgnoreCase) &&
+                                       (p.CodeType == 1 || p.CodeType == 2 || p.CodeType == 3)); // QR, Barcode, or Manual Code
+
+                if (product != null)
+                {
+                    // Add product to current active bill tab automatically
+                    AddToCartData(product);
+
+                    // Play success beep
+                    SystemSounds.Beep.Play();
+
+                    // Clear search box
+                    var controls = GetCurrentTabControls();
+                    if (controls != null)
+                    {
+                        controls.SearchBox.Clear();
+                        controls.SuggestionList.Visible = false;
+                    }
+
+                    // Flash success feedback
+                    FlashSuccessFeedback();
+                }
+                else
+                {
+                    // Product not found - play error sound and show message
+                    SystemSounds.Hand.Play();
+                    MessageBox.Show($"Product with code '{e.Barcode}' not found!",
+                                  "Product Not Found",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Warning);
+
+                    // Clear search box
+                    var controls = GetCurrentTabControls();
+                    if (controls != null)
+                    {
+                        controls.SearchBox.Clear();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error processing barcode: {ex.Message}",
+                              "Barcode Error",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
+            }
+        }
+
+        private void FlashSuccessFeedback()
+        {
+            // Flash the form background briefly to indicate successful scan
+            var controls = GetCurrentTabControls();
+            if (controls != null && controls.SearchBox != null)
+            {
+                var originalColor = controls.SearchBox.BackColor;
+                controls.SearchBox.BackColor = Color.LightGreen;
+
+                var flashTimer = new Timer { Interval = 200 };
+                flashTimer.Tick += (s, e) =>
+                {
+                    controls.SearchBox.BackColor = originalColor;
+                    flashTimer.Stop();
+                    flashTimer.Dispose();
+                };
+                flashTimer.Start();
+            }
+        }
 
         private void BlinkTimer_Tick(object sender, EventArgs e)
         {
@@ -775,17 +862,52 @@ namespace MyStoreDesktop
             var controls = GetCurrentTabControls();
             if (controls == null) return;
 
-            double total = Convert.ToDouble(product.SalePrice);
+            // Check if product already exists in cart
+            DataGridViewRow existingRow = null;
+            foreach (DataGridViewRow row in controls.CartGrid.Rows)
+            {
+                if (!row.IsNewRow && row.Cells["ProductId"].Value != null)
+                {
+                    int existingProductId = Convert.ToInt32(row.Cells["ProductId"].Value);
+                    if (existingProductId == product.ProductId)
+                    {
+                        existingRow = row;
+                        break;
+                    }
+                }
+            }
 
-            int rowIndex = controls.CartGrid.Rows.Add(
-                product.ProductId,
-                product.Title,
-                1,
-                product.SalePrice,
-                product.Discount,
-                total,
-                product.UrlImage
-            );
+            int rowIndex;
+
+            if (existingRow != null)
+            {
+                // Product already exists - increase quantity
+                int currentQuantity = Convert.ToInt32(existingRow.Cells["Quantity"].Value);
+                int newQuantity = currentQuantity + 1;
+                existingRow.Cells["Quantity"].Value = newQuantity;
+
+                // Recalculate total for this row
+                double price = Convert.ToDouble(existingRow.Cells["SalePrice"].Value);
+                double newTotal = newQuantity * price;
+                existingRow.Cells["Total"].Value = newTotal;
+
+                rowIndex = existingRow.Index;
+            }
+            else
+            {
+                // Product doesn't exist - add new row
+                double total = Convert.ToDouble(product.SalePrice);
+
+                rowIndex = controls.CartGrid.Rows.Add(
+                    product.ProductId,
+                    product.Title,
+                    1,
+                    product.SalePrice,
+                    product.Discount,
+                    total,
+                    product.UrlImage
+                );
+            }
 
             controls.CartGrid.ClearSelection();
             controls.CartGrid.Rows[rowIndex].Selected = true;

@@ -1,4 +1,5 @@
 ﻿using MyStoreDesktop.Models;
+using MyStoreDesktop.Services.BarcodeReaderService;
 using MyStoreDesktop.Services.FileServices;
 using MyStoreDesktop.Services.ProductService;
 using MyStoreDesktop.Services.QrTableDataService;
@@ -10,6 +11,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using ZXing;
@@ -28,6 +30,7 @@ namespace MyStoreDesktop
         private readonly IQrTableDataService _qrService = new QrTableDataService();
         private readonly FileServices _fileServices = new FileServices();
         private readonly SettingService _settingService = new SettingService();
+        private readonly BarcodeReaderService _barcodeReader = new BarcodeReaderService();
         private int selectedProductId = 0;
         private Bitmap currentQRCode = null;
         private string currentQRCodeGuid = "";
@@ -40,10 +43,18 @@ namespace MyStoreDesktop
 
             // Apply professional blue theme
             ThemeManager.ApplyTheme(this);
-           
 
+            // Enable KeyPreview to capture barcode scanner input at form level
+            this.KeyPreview = true;
+            this.KeyPress += ProductForm_KeyPress;
+
+            // Setup barcode scanner event handler for product search
+            _barcodeReader.BarcodeScanned += BarcodeReader_BarcodeScanned;
 
             cmbCodeType.SelectedIndexChanged += cmbCodeType_SelectedIndexChanged;
+
+            // Prevent keyboard input on dropdown to avoid barcode values being added
+            cmbCodeType.KeyPress += (s, e) => e.Handled = true;
         }
 
         private void ProductForm_Load(object sender, EventArgs e)
@@ -72,7 +83,9 @@ namespace MyStoreDesktop
                     p.Discount,
                     p.Model,
                     p.Description,
-                    p.UrlImage
+                    p.UrlImage,
+                    p.ProductCode,
+                    p.CodeType
                 })
                 .ToList();
 
@@ -85,6 +98,18 @@ namespace MyStoreDesktop
             if (dgvProducts.Columns.Contains("CompanyId"))
             {
                 dgvProducts.Columns["CompanyId"].Visible = false;
+            }
+            if (dgvProducts.Columns.Contains("ProductCode"))
+            {
+                dgvProducts.Columns["ProductCode"].Visible = false;
+            }
+            if (dgvProducts.Columns.Contains("CodeType"))
+            {
+                dgvProducts.Columns["CodeType"].Visible = false;
+            }
+            if (dgvProducts.Columns.Contains("UrlImage"))
+            {
+                dgvProducts.Columns["UrlImage"].Visible = false;
             }
         }
 
@@ -165,8 +190,10 @@ namespace MyStoreDesktop
             picProduct.Image = null;
             picQRPreview.Image = null;
             picBarcodePreview.Image = null;
-            
-            txtManualCode.Text = "";
+
+            txtBarcodeValue.Text = "";  // Clear barcode input in panel
+            txtBarcodeValue.BackColor = Color.White;  // Reset barcode background color
+            txtCodeValue.Text = "";  // Clear barcode value on main form
 
             if (cboCategory.Items.Count > 0)
             {
@@ -215,6 +242,10 @@ namespace MyStoreDesktop
                 }
 
 
+                // Get selected code type
+                string selectedCodeType = cmbCodeType.SelectedItem?.ToString();
+
+                // Prepare product object
                 var product = new Product
                 {
                     Title = txtTitle.Text,
@@ -227,20 +258,68 @@ namespace MyStoreDesktop
                     Model = txtModel.Text,
                     Description = txtDescription.Text,
                     UrlImage = _selectedImagePath
-
                 };
-                try { 
+
+                // Set barcode if "Bar Code" is selected
+                if (selectedCodeType == "Bar Code")
+                {
+                    string barcodeValue = txtCodeValue.Text.Trim();
+                    if (string.IsNullOrEmpty(barcodeValue))
+                    {
+                        MessageBox.Show("Please scan or enter a barcode value!", "Barcode Required",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        cmbCodeType.Focus();
+                        return;
+                    }
+
+                    // Check if barcode already exists
+                    var existingProduct = _productService.GetAll()
+                        .FirstOrDefault(p => p.ProductCode == barcodeValue && p.CodeType == 2);
+                    if (existingProduct != null)
+                    {
+                        MessageBox.Show($"This barcode already exists for product: {existingProduct.Title}",
+                            "Duplicate Barcode", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    product.ProductCode = barcodeValue;
+                    product.CodeType = 2; // Barcode
+                }
+                else if (selectedCodeType == "QR Code")
+                {
+                    // QR code will be generated after product is added
+                    product.CodeType = 1; // QR Code
+                }
+                else if (selectedCodeType == "Manual Code")
+                {
+                    string manualCode = txtCodeValue.Text.Trim();
+                    if (string.IsNullOrEmpty(manualCode))
+                    {
+                        MessageBox.Show("Please enter a manual code value!", "Manual Code Required",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        cmbCodeType.Focus();
+                        return;
+                    }
+
+                    product.ProductCode = manualCode;
+                    product.CodeType = 3; // Manual Code
+                }
+
+                try {
                 // Add Product (returns product with ProductId)
                 var addedProduct = _productService.Add(product);
-                     GenerateAndSaveQrCode(addedProduct);
 
-                MessageBox.Show("✅ Product added successfully!");
+                // Generate QR code if selected (barcode is already set above)
+                if (selectedCodeType == "QR Code")
+                {
+                    GenerateAndSaveQrCode(addedProduct);
+                }
+
+                MessageBox.Show("✅ Product added successfully with " + (selectedCodeType ?? "no code") + "!");
                 LoadProducts();
                 ClearForm();
                 }catch (Exception ex)
                 { MessageBox.Show(ex.Message); return; }
-
-                // Generate QR for new product (this will generate GUID, QR image and save CodeValue)
                
             }
             catch (Exception ex)
@@ -284,6 +363,9 @@ namespace MyStoreDesktop
                 }
 
 
+                // Get selected code type
+                string selectedCodeType = cmbCodeType.SelectedItem?.ToString();
+
                 product.Title = txtTitle.Text;
                 product.CategoryId = categoryId;
                 product.CompanyId = companyId;
@@ -295,12 +377,60 @@ namespace MyStoreDesktop
                 product.Description = txtDescription.Text;
                 product.UrlImage = _selectedImagePath;
 
+                // Update barcode if "Bar Code" is selected
+                if (selectedCodeType == "Bar Code")
+                {
+                    string barcodeValue = txtCodeValue.Text.Trim();
+                    if (string.IsNullOrEmpty(barcodeValue))
+                    {
+                        MessageBox.Show("Please scan or enter a barcode value!", "Barcode Required",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        cmbCodeType.Focus();
+                        return;
+                    }
 
+                    // Check if barcode already exists on a different product
+                    var existingProduct = _productService.GetAll()
+                        .FirstOrDefault(p => p.ProductCode == barcodeValue && p.CodeType == 2 && p.ProductId != selectedProductId);
+                    if (existingProduct != null)
+                    {
+                        MessageBox.Show($"This barcode already exists for product: {existingProduct.Title}",
+                            "Duplicate Barcode", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    product.ProductCode = barcodeValue;
+                    product.CodeType = 2; // Barcode
+                }
+                else if (selectedCodeType == "QR Code")
+                {
+                    product.CodeType = 1; // QR Code
+                }
+                else if (selectedCodeType == "Manual Code")
+                {
+                    string manualCode = txtCodeValue.Text.Trim();
+                    if (string.IsNullOrEmpty(manualCode))
+                    {
+                        MessageBox.Show("Please enter a manual code value!", "Manual Code Required",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        cmbCodeType.Focus();
+                        return;
+                    }
+
+                    product.ProductCode = manualCode;
+                    product.CodeType = 3; // Manual Code
+                }
 
                 try
                 {
                     _productService.Update(product);
-                    GenerateAndSaveQrCode(product);
+
+                    // Generate QR code if selected (barcode is already set above)
+                    if (selectedCodeType == "QR Code")
+                    {
+                        GenerateAndSaveQrCode(product);
+                    }
+
                     MessageBox.Show("✅ Product updated successfully!");
                     LoadProducts();
                     ClearForm();
@@ -412,6 +542,36 @@ namespace MyStoreDesktop
             if (row.Cells["CompanyId"].Value != null)
                 cboCompany.SelectedValue = Convert.ToInt32(row.Cells["CompanyId"].Value);
 
+            // ✅ LOAD CODE TYPE AND BARCODE
+            if (row.Cells["CodeType"].Value != null)
+            {
+                int codeType = Convert.ToInt32(row.Cells["CodeType"].Value);
+                if (codeType == 1)
+                {
+                    cmbCodeType.SelectedItem = "QR Code";
+                }
+                else if (codeType == 2)
+                {
+                    cmbCodeType.SelectedItem = "Bar Code";
+
+                    // Load barcode value if exists
+                    if (row.Cells["ProductCode"].Value != null)
+                    {
+                        txtCodeValue.Text = row.Cells["ProductCode"].Value.ToString();
+                    }
+                }
+                else if (codeType == 3)
+                {
+                    cmbCodeType.SelectedItem = "Manual Code";
+
+                    // Load manual code value if exists
+                    if (row.Cells["ProductCode"].Value != null)
+                    {
+                        txtCodeValue.Text = row.Cells["ProductCode"].Value.ToString();
+                    }
+                }
+            }
+
             // ✅ ✅ IMAGE LOAD (MOST IMPORTANT)
             var cellValue = row.Cells["UrlImage"].Value;
 
@@ -451,8 +611,144 @@ namespace MyStoreDesktop
             }
         }
 
+        // ================= BARCODE SCANNER =================
+        private void ProductForm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Don't process barcode scanner input if barcode panel is visible
+            // (we're capturing barcode for entry, not searching)
+            if (panelBarcode.Visible)
+                return;
 
+            // Don't process barcode scanner input if user is typing in a textbox
+            if (this.ActiveControl is TextBox)
+                return;
 
+            // Process barcode scanner input for product search
+            _barcodeReader.ProcessKeyPress(sender, e);
+        }
+
+        private void BarcodeReader_BarcodeScanned(object sender, BarcodeScannedEventArgs e)
+        {
+            try
+            {
+                // Search for product by barcode in the loaded products
+                var products = _productService.GetAll().ToList();
+                var product = products.FirstOrDefault(p =>
+                    p.ProductCode != null &&
+                    p.ProductCode.Equals(e.Barcode, StringComparison.OrdinalIgnoreCase) &&
+                    (p.CodeType == 1 || p.CodeType == 2)); // QR or Barcode
+
+                if (product != null)
+                {
+                    // Find the row in the grid
+                    foreach (DataGridViewRow row in dgvProducts.Rows)
+                    {
+                        if (Convert.ToInt32(row.Cells["ProductId"].Value) == product.ProductId)
+                        {
+                            // Select and scroll to the row
+                            dgvProducts.ClearSelection();
+                            row.Selected = true;
+                            dgvProducts.CurrentCell = row.Cells[0];
+                            dgvProducts.FirstDisplayedScrollingRowIndex = row.Index;
+
+                            // Load product into form
+                            LoadProductFromRow(row);
+
+                            // Play success beep
+                            SystemSounds.Beep.Play();
+
+                            // Flash success feedback on the grid
+                            FlashGridSuccessFeedback(row);
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    // Product not found
+                    SystemSounds.Hand.Play();
+                    MessageBox.Show($"Product with barcode '{e.Barcode}' not found!",
+                                  "Barcode Not Found",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error processing barcode: {ex.Message}",
+                              "Barcode Error",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
+            }
+        }
+
+        private void FlashGridSuccessFeedback(DataGridViewRow row)
+        {
+            // Flash the selected row briefly to indicate successful scan
+            var originalBackColor = row.DefaultCellStyle.BackColor;
+            var originalSelectionBackColor = row.DefaultCellStyle.SelectionBackColor;
+
+            row.DefaultCellStyle.BackColor = Color.LightGreen;
+            row.DefaultCellStyle.SelectionBackColor = Color.Green;
+
+            var flashTimer = new Timer { Interval = 300 };
+            flashTimer.Tick += (s, e) =>
+            {
+                row.DefaultCellStyle.BackColor = originalBackColor;
+                row.DefaultCellStyle.SelectionBackColor = originalSelectionBackColor;
+                flashTimer.Stop();
+                flashTimer.Dispose();
+            };
+            flashTimer.Start();
+        }
+
+        // ================= BARCODE INPUT FOR NEW PRODUCTS =================
+        private void txtBarcodeValue_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Handle Enter key to confirm barcode scan
+            if (e.KeyChar == (char)Keys.Return || e.KeyChar == '\r' || e.KeyChar == '\n')
+            {
+                e.Handled = true;
+
+                // Automatically copy value and close panel when Enter is pressed
+                if (!string.IsNullOrWhiteSpace(txtBarcodeValue.Text))
+                {
+                    string barcodeValue = txtBarcodeValue.Text.Trim();
+
+                    // Validate barcode is not empty
+                    if (string.IsNullOrEmpty(barcodeValue))
+                    {
+                        MessageBox.Show("Please scan or enter a barcode value!", "Barcode Required",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtBarcodeValue.Focus();
+                        return;
+                    }
+
+                    // Validate barcode length (minimum 4 characters)
+                    if (barcodeValue.Length < 4)
+                    {
+                        MessageBox.Show("Barcode must be at least 4 characters long!", "Invalid Barcode",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtBarcodeValue.Focus();
+                        return;
+                    }
+
+                    // Copy the barcode to the main form's txtCodeValue
+                    txtCodeValue.Text = barcodeValue;
+
+                    // Play success beep
+                    SystemSounds.Beep.Play();
+
+                    // Close the barcode panel
+                    panelBarcode.Visible = false;
+
+                    // Clear the panel textbox for next use
+                    txtBarcodeValue.Clear();
+                    txtBarcodeValue.BackColor = Color.White;
+                }
+                return;
+            }
+        }
 
 
 
@@ -489,7 +785,7 @@ namespace MyStoreDesktop
             {
                 // Generate new GUID for QR code preview
                 currentQRCodeGuid = Guid.NewGuid().ToString();
-
+                txtCodeValue.Text = currentQRCodeGuid;
                 // Generate QR Code using QRCoder
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
                 QRCodeData qrCodeData = qrGenerator.CreateQrCode(currentQRCodeGuid, QRCodeGenerator.ECCLevel.Q);
@@ -507,17 +803,6 @@ namespace MyStoreDesktop
                 {
                     // Display QR code in the preview picture box
                     picQRPreview.Image = currentQRCode;
-
-                    // If a product is selected (existing) save the code; otherwise tell user to save product first
-                    if (selectedProductId > 0)
-                    {
-                        SaveQRCode(selectedProductId, currentQRCodeGuid);
-                        MessageBox.Show($"QR Code added to product!\nGUID: {currentQRCodeGuid}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show("QR generated for preview. Save product first (Add) to persist QR in database.", "Preview", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
                 }
 
                 popup.Dispose();
@@ -534,7 +819,44 @@ namespace MyStoreDesktop
 
             panelQRCode.Visible = (selected == "QR Code");
             panelBarcode.Visible = (selected == "Bar Code");
-            
+
+            // Clear the barcode input when panel is shown (ready for new scan)
+            if (selected == "Bar Code")
+            {
+                txtBarcodeValue.Clear();
+                txtBarcodeValue.BackColor = Color.White;
+                txtBarcodeValue.Focus();
+            }
+            else if (selected == "Manual Code")
+            {
+                // Auto-generate code based on last product ID
+                try
+                {
+                    var allProducts = _productService.GetAll().ToList();
+                    int lastProductId = 0;
+
+                    if (allProducts.Any())
+                    {
+                        lastProductId = allProducts.Max(p => p.ProductId);
+                    }
+
+                    // Generate next code by adding 1 to last product ID
+                    int nextCode = lastProductId + 1;
+
+                    // Set the generated code to txtCodeValue
+                    txtCodeValue.Text = nextCode.ToString();
+
+                    // Play success beep
+                    SystemSounds.Beep.Play();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error generating manual code: {ex.Message}",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
         }
 
         // Single fixed barcode generator button
@@ -602,35 +924,6 @@ namespace MyStoreDesktop
             }
         }
 
-
-        private void btnSaveManualCode_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string manualCode = txtManualCode.Text.Trim();
-
-                if (string.IsNullOrEmpty(manualCode))
-                {
-                    MessageBox.Show("Enter manual code!");
-                    return;
-                }
-
-                if (selectedProductId > 0)
-                {
-                    SaveManualCode(selectedProductId, manualCode);
-                    MessageBox.Show("Manual Code Saved!");
-                }
-                else
-                {
-                    MessageBox.Show("Enter/Select product first (Add a product) to save manual code.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Manual Code Error: " + ex.Message);
-            }
-        }
-
         private void SaveQRCode(int productId, string qrText)
         {
             var data = new QrTableData
@@ -657,18 +950,6 @@ namespace MyStoreDesktop
             _qrService.Add(data);
         }
 
-        private void SaveManualCode(int productId, string manualCode)
-        {
-            var data = new QrTableData
-            {
-                ProductId = productId,
-                CodeValue = manualCode,
-                CodeType = "MANUAL",
-                CreatedAt = DateTime.Now
-            };
-
-            _qrService.Add(data);
-        }
         private void btnBrowseImage_Click(object sender, EventArgs e)
         {
             try
