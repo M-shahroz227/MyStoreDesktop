@@ -41,6 +41,7 @@ namespace MyStoreDesktop
             this.btnHome = new System.Windows.Forms.Button();
             this.picProduct = new System.Windows.Forms.PictureBox();
             this.panelMainContent = new System.Windows.Forms.Panel();
+            this.tabControlBills = new System.Windows.Forms.TabControl();
             this.lstSuggestion = new System.Windows.Forms.ListBox();
             this.rightPanel = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -85,7 +86,7 @@ namespace MyStoreDesktop
             this.UrlImage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
-            this.tabControlBills = new System.Windows.Forms.TabControl();
+            this.btnCloudBackup = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picProduct)).BeginInit();
@@ -199,7 +200,7 @@ namespace MyStoreDesktop
             this.picProduct.TabStop = false;
             // 
             // panelMainContent
-            //
+            // 
             this.panelMainContent.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panelMainContent.Controls.Add(this.tabControlBills);
             this.panelMainContent.Controls.Add(this.lstSuggestion);
@@ -214,6 +215,15 @@ namespace MyStoreDesktop
             this.panelMainContent.Name = "panelMainContent";
             this.panelMainContent.Size = new System.Drawing.Size(973, 583);
             this.panelMainContent.TabIndex = 1;
+            // 
+            // tabControlBills
+            // 
+            this.tabControlBills.Location = new System.Drawing.Point(6, 62);
+            this.tabControlBills.Name = "tabControlBills";
+            this.tabControlBills.SelectedIndex = 0;
+            this.tabControlBills.Size = new System.Drawing.Size(691, 518);
+            this.tabControlBills.TabIndex = 6;
+            this.tabControlBills.Visible = false;
             // 
             // lstSuggestion
             // 
@@ -562,6 +572,7 @@ namespace MyStoreDesktop
             // panel5
             // 
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel5.Controls.Add(this.btnCloudBackup);
             this.panel5.Controls.Add(this.btnSetting);
             this.panel5.Controls.Add(this.btnlogout);
             this.panel5.Controls.Add(this.lblMainHeaderName);
@@ -585,7 +596,7 @@ namespace MyStoreDesktop
             // 
             this.btnlogout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.btnlogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnlogout.Location = new System.Drawing.Point(721, 9);
+            this.btnlogout.Location = new System.Drawing.Point(603, 12);
             this.btnlogout.Name = "btnlogout";
             this.btnlogout.Size = new System.Drawing.Size(102, 36);
             this.btnlogout.TabIndex = 3;
@@ -702,16 +713,19 @@ namespace MyStoreDesktop
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
-            //
-            // tabControlBills
-            //
-            this.tabControlBills.Location = new System.Drawing.Point(6, 62);
-            this.tabControlBills.Name = "tabControlBills";
-            this.tabControlBills.SelectedIndex = 0;
-            this.tabControlBills.Size = new System.Drawing.Size(691, 518);
-            this.tabControlBills.TabIndex = 6;
-            this.tabControlBills.Visible = false;
-            //
+            // 
+            // btnCloudBackup
+            // 
+            this.btnCloudBackup.BackColor = System.Drawing.Color.Transparent;
+            this.btnCloudBackup.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCloudBackup.Location = new System.Drawing.Point(728, 11);
+            this.btnCloudBackup.Name = "btnCloudBackup";
+            this.btnCloudBackup.Size = new System.Drawing.Size(102, 35);
+            this.btnCloudBackup.TabIndex = 5;
+            this.btnCloudBackup.Text = "☁";
+            this.btnCloudBackup.UseVisualStyleBackColor = false;
+            this.btnCloudBackup.Click += new System.EventHandler(this.btnCloudBackup_Click);
+            // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -803,5 +817,6 @@ namespace MyStoreDesktop
         public System.Windows.Forms.Label lblMainHeaderName;
         private System.Windows.Forms.Button btnSetting;
         private System.Windows.Forms.TabControl tabControlBills;
+        private System.Windows.Forms.Button btnCloudBackup;
     }
 }

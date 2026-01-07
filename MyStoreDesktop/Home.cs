@@ -8,6 +8,7 @@ using MyStoreDesktop.Services.CustomerInvoiceService;
 using MyStoreDesktop.Services.FileServices;
 using MyStoreDesktop.Services.ProductService;
 using MyStoreDesktop.Theme;
+using POSApp;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -29,7 +30,8 @@ namespace MyStoreDesktop
         private readonly FileServices _fileServices = new FileServices();
         private readonly SettingService _settingService = new SettingService();
         private readonly BarcodeReaderService _barcodeReader = new BarcodeReaderService();
-        
+        private readonly FrmGoogleDriveBackup _frmGoogleDriveBackup = new FrmGoogleDriveBackup();
+
 
 
         // Value holders
@@ -1511,6 +1513,11 @@ namespace MyStoreDesktop
                 lblMainHeaderName.Text = "";
             }
         }
-        
+
+        private void btnCloudBackup_Click(object sender, EventArgs e)
+        {
+            FrmGoogleDriveBackup form = new FrmGoogleDriveBackup();
+            form.Show();
+        }
     }
 }
