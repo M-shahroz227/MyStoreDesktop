@@ -94,6 +94,7 @@
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.Size = new System.Drawing.Size(292, 22);
             this.txtTitle.TabIndex = 1;
+            this.txtTitle.TextChanged += new System.EventHandler(this.txtTitle_TextChanged);
             // 
             // cboCategory
             // 
