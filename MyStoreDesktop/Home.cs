@@ -143,10 +143,10 @@ namespace MyStoreDesktop
             dgvAddToCard.Visible = false;
 
             // Configure TabControl (already added in Designer.cs)
-            tabControlBills.Location = new Point(6, 62);
-            tabControlBills.Size = new Size(691, 518);
-            tabControlBills.Dock = DockStyle.None;
-            tabControlBills.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tabControlBills.Dock = DockStyle.Fill;
+            tabControlBills.Margin = new Padding(5);
+
+            
             tabControlBills.BringToFront();
             tabControlBills.Visible = true;
 
@@ -229,10 +229,12 @@ namespace MyStoreDesktop
             // Ensure the tab page is set up properly
             tab.UseVisualStyleBackColor = true;
             tab.BackColor = Color.WhiteSmoke;
+            
 
             // Create search textbox
             TextBox txtSearchTab = new TextBox
             {
+
                 Name = "txtSearch",
                 Font = new Font("Segoe UI", 12F, FontStyle.Regular),
                 Location = new Point(9, 11),
@@ -240,6 +242,7 @@ namespace MyStoreDesktop
                 Multiline = false,
                 TabIndex = 0,
                 Visible = true
+
             };
             txtSearchTab.TextChanged += txtSearch_TextChanged;
             txtSearchTab.KeyDown += txtSearch_KeyDown;
@@ -256,7 +259,7 @@ namespace MyStoreDesktop
                 BackColor = Color.RosyBrown,
                 FlatStyle = FlatStyle.Flat,
                 Location = new Point(605, 8),
-                Size = new Size(84, 32),
+                Size = new Size(84, 36),
                 TabIndex = 1,
                 Visible = true
             };
@@ -276,8 +279,9 @@ namespace MyStoreDesktop
 
             // Create DataGridView
             DataGridView dgv = CreateShoppingCartGrid();
+            dgv.Dock = DockStyle.Fill;
             dgv.Location = new Point(6, 67);
-            dgv.Size = new Size(691, 420);
+            dgv.Size = new Size(140, 100);
             dgv.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgv.TabIndex = 3;
             dgv.Visible = true;
@@ -293,89 +297,107 @@ namespace MyStoreDesktop
                 Session = session
             };
             tab.Tag = controls;
+            ThemeManager.ApplyThemeToControl(tab);
         }
 
         private DataGridView CreateShoppingCartGrid()
-        {
-            DataGridView dgv = new DataGridView
-            {
-                Name = "dgvAddToCard",
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                BackgroundColor = Color.White,
-                CellBorderStyle = DataGridViewCellBorderStyle.Raised,
-                ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
-                GridColor = Color.LightGray
-            };
+{
+    DataGridView dgv = new DataGridView
+    {
+        Name = "dgvAddToCard",
 
-            // Add columns
-            dgv.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "ProductId",
-                HeaderText = "Product ID",
-                Visible = false
-            });
-            dgv.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "Title",
-                HeaderText = "ProductName"
-            });
-            dgv.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "Quantity",
-                HeaderText = "Quantity"
-            });
-            dgv.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "SalePrice",
-                HeaderText = "ItemPrice",
-                ReadOnly = false
-            });
-            dgv.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "Discount",
-                HeaderText = "Discount"
-            });
-            dgv.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "Total",
-                HeaderText = "Total"
-            });
-            dgv.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "UrlImage",
-                HeaderText = "UrlImage",
-                Visible = false
-            });
+        // ✅ MANUAL POSITIONING
+        Location = new Point(6, 127),
+        Size = new Size(691, 453),
 
-            // Add Delete button column
-            DataGridViewButtonColumn deleteButton = new DataGridViewButtonColumn
-            {
-                Name = "Delete",
-                HeaderText = "Delete",
-                Text = "Delete",
-                UseColumnTextForButtonValue = true
-            };
-            deleteButton.DefaultCellStyle.SelectionBackColor = Color.IndianRed;
-            dgv.Columns.Add(deleteButton);
+        Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
+        Dock = DockStyle.None,
 
-            // Wire up events
-            dgv.CellEndEdit += dgvAddToCard_CellEndEdit;
-            dgv.CellClick += dgvAddToCard_CellClick;
-            dgv.CellContentClick += dgvAddToCard_CellContentClick;
-            dgv.SelectionChanged += dgvAddToCard_SelectionChanged;
-            dgv.KeyDown += dgvAddToCard_KeyDown;
+        AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
 
-            // Apply theme styling
-            dgv.ColumnHeadersVisible = true;
-            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
-            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
-            dgv.DefaultCellStyle.ForeColor = Color.Black;
-            dgv.DefaultCellStyle.BackColor = Color.White;
-            dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;
+        BackgroundColor = Color.White,
+        CellBorderStyle = DataGridViewCellBorderStyle.Raised,
+        ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
+        GridColor = Color.LightGray
+    };
 
-            return dgv;
-        }
+    // ===== Columns =====
+    dgv.Columns.Add(new DataGridViewTextBoxColumn
+    {
+        Name = "ProductId",
+        HeaderText = "Product ID",
+        Visible = false
+    });
+
+    dgv.Columns.Add(new DataGridViewTextBoxColumn
+    {
+        Name = "Title",
+        HeaderText = "ProductName"
+    });
+
+    dgv.Columns.Add(new DataGridViewTextBoxColumn
+    {
+        Name = "Quantity",
+        HeaderText = "Quantity"
+    });
+
+    dgv.Columns.Add(new DataGridViewTextBoxColumn
+    {
+        Name = "SalePrice",
+        HeaderText = "ItemPrice",
+        ReadOnly = false
+    });
+
+    dgv.Columns.Add(new DataGridViewTextBoxColumn
+    {
+        Name = "Discount",
+        HeaderText = "Discount"
+    });
+
+    dgv.Columns.Add(new DataGridViewTextBoxColumn
+    {
+        Name = "Total",
+        HeaderText = "Total"
+    });
+
+    dgv.Columns.Add(new DataGridViewTextBoxColumn
+    {
+        Name = "UrlImage",
+        HeaderText = "UrlImage",
+        Visible = false
+    });
+
+    // ===== Delete Button =====
+    DataGridViewButtonColumn deleteButton = new DataGridViewButtonColumn
+    {
+        Name = "Delete",
+        HeaderText = "Delete",
+        Text = "Delete",
+        UseColumnTextForButtonValue = true
+    };
+    deleteButton.DefaultCellStyle.SelectionBackColor = Color.IndianRed;
+    dgv.Columns.Add(deleteButton);
+
+    // ===== Events =====
+    dgv.CellEndEdit += dgvAddToCard_CellEndEdit;
+    dgv.CellClick += dgvAddToCard_CellClick;
+    dgv.CellContentClick += dgvAddToCard_CellContentClick;
+    dgv.SelectionChanged += dgvAddToCard_SelectionChanged;
+    dgv.KeyDown += dgvAddToCard_KeyDown;
+
+    // ===== Styling =====
+    dgv.ColumnHeadersVisible = true;
+    dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
+    dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+    dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+
+    dgv.DefaultCellStyle.ForeColor = Color.Black;
+    dgv.DefaultCellStyle.BackColor = Color.White;
+    dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;
+
+    return dgv;
+}
+
 
         private void CreatePlusTab()
         {

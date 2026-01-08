@@ -336,5 +336,18 @@ namespace MyStoreDesktop.Theme
             linkLabel.VisitedLinkColor = AppTheme.PrimaryBlue;
             linkLabel.Font = AppTheme.BodyFont;
         }
+
+        internal static void ApplyThemeToControl(TabPage tab)
+{
+    if (tab == null) return;
+
+    // Set the tab page background
+    tab.BackColor = AppTheme.PanelBackground;
+    tab.Font = AppTheme.BodyFont;
+
+    // Apply theme to all child controls recursively
+    ApplyThemeToControls(tab.Controls);
+}
+
     }
 }

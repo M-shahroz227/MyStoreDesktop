@@ -30,8 +30,8 @@ namespace MyStoreDesktop
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.btnReports = new System.Windows.Forms.Button();
@@ -73,6 +73,7 @@ namespace MyStoreDesktop
             this.lblSubTotal = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.btnCloudBackup = new System.Windows.Forms.Button();
             this.btnSetting = new System.Windows.Forms.Button();
             this.btnlogout = new System.Windows.Forms.Button();
             this.lblMainHeaderName = new System.Windows.Forms.Label();
@@ -86,7 +87,6 @@ namespace MyStoreDesktop
             this.UrlImage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
-            this.btnCloudBackup = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picProduct)).BeginInit();
@@ -218,10 +218,11 @@ namespace MyStoreDesktop
             // 
             // tabControlBills
             // 
-            this.tabControlBills.Location = new System.Drawing.Point(6, 62);
+            this.tabControlBills.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tabControlBills.Location = new System.Drawing.Point(0, 65);
             this.tabControlBills.Name = "tabControlBills";
             this.tabControlBills.SelectedIndex = 0;
-            this.tabControlBills.Size = new System.Drawing.Size(691, 518);
+            this.tabControlBills.Size = new System.Drawing.Size(703, 518);
             this.tabControlBills.TabIndex = 6;
             this.tabControlBills.Visible = false;
             // 
@@ -581,6 +582,18 @@ namespace MyStoreDesktop
             this.panel5.Size = new System.Drawing.Size(973, 56);
             this.panel5.TabIndex = 6;
             // 
+            // btnCloudBackup
+            // 
+            this.btnCloudBackup.BackColor = System.Drawing.Color.Transparent;
+            this.btnCloudBackup.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCloudBackup.Location = new System.Drawing.Point(728, 11);
+            this.btnCloudBackup.Name = "btnCloudBackup";
+            this.btnCloudBackup.Size = new System.Drawing.Size(102, 35);
+            this.btnCloudBackup.TabIndex = 5;
+            this.btnCloudBackup.Text = "☁";
+            this.btnCloudBackup.UseVisualStyleBackColor = false;
+            this.btnCloudBackup.Click += new System.EventHandler(this.btnCloudBackup_Click);
+            // 
             // btnSetting
             // 
             this.btnSetting.BackColor = System.Drawing.Color.Transparent;
@@ -631,14 +644,14 @@ namespace MyStoreDesktop
             this.Discount,
             this.Total,
             this.UrlImage});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAddToCard.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAddToCard.DefaultCellStyle = dataGridViewCellStyle8;
             this.dgvAddToCard.GridColor = System.Drawing.Color.LightGray;
             this.dgvAddToCard.Location = new System.Drawing.Point(6, 127);
             this.dgvAddToCard.Name = "dgvAddToCard";
@@ -677,9 +690,9 @@ namespace MyStoreDesktop
             // 
             // Total
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            this.Total.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
+            this.Total.DefaultCellStyle = dataGridViewCellStyle7;
             this.Total.HeaderText = "Total";
             this.Total.Name = "Total";
             this.Total.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -713,18 +726,6 @@ namespace MyStoreDesktop
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
-            // 
-            // btnCloudBackup
-            // 
-            this.btnCloudBackup.BackColor = System.Drawing.Color.Transparent;
-            this.btnCloudBackup.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCloudBackup.Location = new System.Drawing.Point(728, 11);
-            this.btnCloudBackup.Name = "btnCloudBackup";
-            this.btnCloudBackup.Size = new System.Drawing.Size(102, 35);
-            this.btnCloudBackup.TabIndex = 5;
-            this.btnCloudBackup.Text = "☁";
-            this.btnCloudBackup.UseVisualStyleBackColor = false;
-            this.btnCloudBackup.Click += new System.EventHandler(this.btnCloudBackup_Click);
             // 
             // Home
             // 
