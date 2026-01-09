@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace POSApp
@@ -102,38 +103,87 @@ namespace POSApp
         {
             if (string.IsNullOrWhiteSpace(txtEmail.Text))
             {
-                MessageBox.Show("Please enter Google Email",
-                    "Validation",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+                MessageBox.Show("Please enter Google Email");
                 return;
             }
 
-            lblStatus.Text = "Status: Backing up data...";
-            lblStatus.ForeColor = Color.DarkOrange;
+            try
+            {
+                lblStatus.Text = "Status: Uploading backup to Google Drive...";
+                lblStatus.ForeColor = Color.DarkOrange;
+                Application.DoEvents();
 
-            // 🔹 Future: Google Drive Backup call yahan hogi
-            lblStatus.Text = "Status: Backup completed successfully!";
-            lblStatus.ForeColor = Color.Green;
+                var service = GoogleDriveServiceHelper.GetService();
+
+                string backupFilePath = @"C:\POS\Backup\POS_Backup.db"; // 👈 apni file
+                string driveFileName = "POS_Backup.db";
+
+                var fileMetadata = new Google.Apis.Drive.v3.Data.File
+                {
+                    Name = driveFileName
+                };
+
+                using (var stream = new FileStream(backupFilePath, FileMode.Open))
+                {
+                    var request = service.Files.Create(
+                        fileMetadata,
+                        stream,
+                        "application/octet-stream"
+                    );
+                    request.Upload();
+                }
+
+                lblStatus.Text = "Status: Backup uploaded successfully ✅";
+                lblStatus.ForeColor = Color.Green;
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Backup Error");
+                lblStatus.Text = "Status: Backup failed ❌";
+                lblStatus.ForeColor = Color.Red;
+            }
         }
+
 
         private void BtnRestore_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtEmail.Text))
+            try
             {
-                MessageBox.Show("Please enter Google Email",
-                    "Validation",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-                return;
+                lblStatus.Text = "Status: Restoring from Google Drive...";
+                lblStatus.ForeColor = Color.DarkOrange;
+                Application.DoEvents();
+
+                var service = GoogleDriveServiceHelper.GetService();
+
+                // 1️⃣ File search
+                var listRequest = service.Files.List();
+                listRequest.Q = "name='POS_Backup.db'";
+                listRequest.Fields = "files(id, name)";
+                var files = listRequest.Execute().Files;
+
+                if (files.Count == 0)
+                {
+                    MessageBox.Show("Backup file not found on Drive");
+                    return;
+                }
+
+                // 2️⃣ Download
+                var request = service.Files.Get(files[0].Id);
+                using (var stream = new FileStream(@"C:\POS\Restore\POS_Backup.db", FileMode.Create))
+                {
+                    request.Download(stream);
+                }
+
+                lblStatus.Text = "Status: Restore completed successfully ✅";
+                lblStatus.ForeColor = Color.Green;
             }
-
-            lblStatus.Text = "Status: Restoring data...";
-            lblStatus.ForeColor = Color.DarkOrange;
-
-            // 🔹 Future: Google Drive Restore call yahan hogi
-            lblStatus.Text = "Status: Restore completed successfully!";
-            lblStatus.ForeColor = Color.Green;
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Restore Error");
+                lblStatus.Text = "Status: Restore failed ❌";
+                lblStatus.ForeColor = Color.Red;
+            }
         }
+
     }
 }

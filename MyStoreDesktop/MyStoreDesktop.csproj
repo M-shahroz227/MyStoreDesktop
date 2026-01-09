@@ -246,6 +246,7 @@
     <Compile Include="Services\CustomerInvoiceService\CustomerInvoiceService.cs" />
     <Compile Include="Services\CustomerInvoiceService\ICustomerInvoiceService.cs" />
     <Compile Include="Services\FileServices\FileServices.cs" />
+    <Compile Include="Services\GoogleDriveService\GoogleDriveService.cs" />
     <Compile Include="Services\ProductService\IProductService.cs" />
     <Compile Include="Services\ProductService\ProductService.cs" />
     <Compile Include="Services\QrTableDataService\IQrTableDataService.cs" />
@@ -321,6 +322,7 @@
     <EmbeddedResource Include="UserForm.resx">
       <DependentUpon>UserForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="credentials.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

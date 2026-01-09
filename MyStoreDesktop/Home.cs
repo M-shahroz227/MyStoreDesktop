@@ -238,7 +238,7 @@ namespace MyStoreDesktop
                 Name = "txtSearch",
                 Font = new Font("Segoe UI", 12F, FontStyle.Regular),
                 Location = new Point(9, 11),
-                Size = new Size(591, 25),
+                Size = new Size(600, 84),
                 Multiline = false,
                 TabIndex = 0,
                 Visible = true
@@ -258,7 +258,7 @@ namespace MyStoreDesktop
                 Text = "Search",
                 BackColor = Color.RosyBrown,
                 FlatStyle = FlatStyle.Flat,
-                Location = new Point(605, 8),
+                Location = new Point(615, 8),
                 Size = new Size(84, 36),
                 TabIndex = 1,
                 Visible = true
@@ -280,6 +280,9 @@ namespace MyStoreDesktop
             // Create DataGridView
             DataGridView dgv = CreateShoppingCartGrid();
             dgv.Dock = DockStyle.Fill;
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
             dgv.Location = new Point(6, 67);
             dgv.Size = new Size(140, 100);
             dgv.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;

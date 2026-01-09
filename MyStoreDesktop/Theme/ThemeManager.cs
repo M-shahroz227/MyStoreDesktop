@@ -338,16 +338,17 @@ namespace MyStoreDesktop.Theme
         }
 
         internal static void ApplyThemeToControl(TabPage tab)
-{
-    if (tab == null) return;
+        {
+            if (tab == null) return;
 
-    // Set the tab page background
-    tab.BackColor = AppTheme.PanelBackground;
-    tab.Font = AppTheme.BodyFont;
+            // Set the tab page background
+            tab.BackColor = AppTheme.PanelBackground;
+            
+            tab.Font = AppTheme.BodyFont;
 
-    // Apply theme to all child controls recursively
-    ApplyThemeToControls(tab.Controls);
-}
+            // Apply theme to all child controls recursively
+            ApplyThemeToControls(tab.Controls);
+        }
 
     }
 }
