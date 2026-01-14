@@ -1544,5 +1544,11 @@ namespace MyStoreDesktop
             FrmGoogleDriveBackup form = new FrmGoogleDriveBackup();
             form.Show();
         }
+
+        private void btnSetting_Click(object sender, EventArgs e)
+        {
+            var settingform = new SettingForm();
+            settingform.Show();
+        }
     }
 }
