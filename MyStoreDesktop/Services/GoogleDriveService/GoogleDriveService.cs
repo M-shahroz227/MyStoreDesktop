@@ -12,10 +12,10 @@ namespace POSApp
     {
         private static DriveService _service;
 
-        // ✅ LIMITED SCOPE (NO VERIFICATION ISSUE)
+        // ✅ FULL SCOPE (access all Google Drive files)
         private static readonly string[] Scopes =
         {
-            DriveService.Scope.DriveFile
+            DriveService.Scope.Drive
         };
 
         public static DriveService GetService(string userEmail)
@@ -23,15 +23,12 @@ namespace POSApp
             if (_service != null)
                 return _service;
 
-            // ✅ credentials.json MUST be copied to exe folder
-            string credentialPath = Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory,
-                "credentials.json"
-            );
+            // ✅ Use absolute path for credentials.json
+            string credentialPath = @"F:\SmartStore\EcommerceDDD\MyDesktopStore\MyStoreDesktop\Credentials\credentials.json";
 
             if (!File.Exists(credentialPath))
                 throw new FileNotFoundException(
-                    "credentials.json not found. Please place it near exe file.",
+                    "credentials.json not found. Please place it in the specified path.",
                     credentialPath
                 );
 

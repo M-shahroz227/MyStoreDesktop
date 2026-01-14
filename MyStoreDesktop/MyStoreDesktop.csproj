@@ -323,7 +323,9 @@
       <DependentUpon>UserForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="credentials.json" />
-    <None Include="Credentials\credentials.json" />
+    <Content Include="Credentials\credentials.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
