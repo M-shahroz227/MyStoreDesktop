@@ -1,189 +1,264 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Net.Mail;
 using System.Windows.Forms;
+using Google.Apis.Drive.v3;
 
 namespace POSApp
 {
     public partial class FrmGoogleDriveBackup : Form
     {
         TextBox txtEmail;
-        Button btnBackup;
-        Button btnRestore;
-        Label lblTitle;
-        Label lblEmail;
-        Label lblStatus;
+        Button btnBackup, btnRestore;
+        CheckBox chkRemember;
+        Label lblTitle, lblEmail, lblStatus;
+
+        private DriveService _service;
 
         public FrmGoogleDriveBackup()
         {
-            CreateUI(); // ✅ sirf ye call hoga
+            InitializeComponent();
+            CreateUI();
+            this.Load += FrmGoogleDriveBackup_Load;
         }
 
         private void CreateUI()
         {
-            // ===== Form Settings =====
             this.Text = "Google Drive Backup";
-            this.Size = new Size(500, 350);
+            this.Size = new Size(520, 330);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
 
-            // ===== Title =====
             lblTitle = new Label
             {
                 Text = "POS Google Drive Backup",
                 Font = new Font("Segoe UI", 14, FontStyle.Bold),
                 AutoSize = true,
-                Location = new Point(120, 20)
+                Location = new Point(130, 20)
             };
-            this.Controls.Add(lblTitle);
+            Controls.Add(lblTitle);
 
-            // ===== Email Label =====
             lblEmail = new Label
             {
-                Text = "Google Email:",
-                Font = new Font("Segoe UI", 10),
-                AutoSize = true,
-                Location = new Point(50, 80)
+                Text = "Google Gmail:",
+                Location = new Point(50, 80),
+                AutoSize = true
             };
-            this.Controls.Add(lblEmail);
+            Controls.Add(lblEmail);
 
-            // ===== Email TextBox =====
             txtEmail = new TextBox
             {
-                Name = "txtEmail",
-                Size = new Size(300, 25),
-                Location = new Point(150, 78)
+                Location = new Point(150, 78),
+                Width = 300
             };
-            this.Controls.Add(txtEmail);
+            Controls.Add(txtEmail);
 
-            // ===== Backup Button =====
+            chkRemember = new CheckBox
+            {
+                Text = "Remember Gmail",
+                Location = new Point(150, 110),
+                AutoSize = true
+            };
+            Controls.Add(chkRemember);
+
             btnBackup = new Button
             {
-                Name = "btnBackup",
                 Text = "Backup to Google Drive",
-                Size = new Size(180, 35),
-                Location = new Point(50, 140),
+                Size = new Size(190, 36),
+                Location = new Point(50, 150),
                 BackColor = Color.SeaGreen,
-                ForeColor = Color.White,
-                FlatStyle = FlatStyle.Flat
+                ForeColor = Color.White
             };
             btnBackup.Click += BtnBackup_Click;
-            this.Controls.Add(btnBackup);
+            Controls.Add(btnBackup);
 
-            // ===== Restore Button =====
             btnRestore = new Button
             {
-                Name = "btnRestore",
                 Text = "Restore from Google Drive",
-                Size = new Size(180, 35),
-                Location = new Point(250, 140),
+                Size = new Size(190, 36),
+                Location = new Point(260, 150),
                 BackColor = Color.SteelBlue,
-                ForeColor = Color.White,
-                FlatStyle = FlatStyle.Flat
+                ForeColor = Color.White
             };
             btnRestore.Click += BtnRestore_Click;
-            this.Controls.Add(btnRestore);
+            Controls.Add(btnRestore);
 
-            // ===== Status Label =====
             lblStatus = new Label
             {
                 Text = "Status: Waiting...",
-                Font = new Font("Segoe UI", 9),
-                AutoSize = true,
-                ForeColor = Color.DarkSlateGray,
-                Location = new Point(50, 200)
+                Location = new Point(50, 220),
+                AutoSize = true
             };
-            this.Controls.Add(lblStatus);
+            Controls.Add(lblStatus);
         }
 
-        // ================= EVENTS =================
-
-        private void BtnBackup_Click(object sender, EventArgs e)
+        private void FrmGoogleDriveBackup_Load(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtEmail.Text))
+            if (!string.IsNullOrWhiteSpace(MyStoreDesktop.Properties.Settings.Default.LastGmail))
             {
-                MessageBox.Show("Please enter Google Email");
-                return;
+                txtEmail.Text = MyStoreDesktop.Properties.Settings.Default.LastGmail;
+                chkRemember.Checked = true;
             }
+        }
 
+        private bool IsValidGmail(string email)
+        {
             try
             {
-                lblStatus.Text = "Status: Uploading backup to Google Drive...";
-                lblStatus.ForeColor = Color.DarkOrange;
+                var addr = new MailAddress(email);
+                return addr.Address == email &&
+                       email.EndsWith("@gmail.com", StringComparison.OrdinalIgnoreCase);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // ================= BACKUP =================
+        private void BtnBackup_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string gmail = txtEmail.Text.Trim();
+
+                if (!IsValidGmail(gmail))
+                {
+                    MessageBox.Show("Please enter a valid Gmail address");
+                    return;
+                }
+
+                lblStatus.Text = "Authorizing Google Drive...";
                 Application.DoEvents();
 
-                var service = GoogleDriveServiceHelper.GetService();
+                _service = GoogleDriveServiceHelper.GetService(gmail);
 
-                string backupFilePath = @"C:\POS\Backup\POS_Backup.db"; // 👈 apni file
-                string driveFileName = "POS_Backup.db";
+                lblStatus.Text = "Creating database backup...";
+                Application.DoEvents();
 
-                var fileMetadata = new Google.Apis.Drive.v3.Data.File
+                string backupDir = @"C:\POS\Backup";
+                Directory.CreateDirectory(backupDir);
+
+                string backupFile = Path.Combine(backupDir, "POS_Backup.bak");
+
+                string sqlConn =
+                    @"Server=DESKTOP-6UR01QA\SQLEXPRESS;
+                      Database=master;
+                      Trusted_Connection=True;
+                      TrustServerCertificate=True;";
+
+                string backupSql =
+                    $"BACKUP DATABASE MyStore TO DISK='{backupFile}' WITH INIT";
+
+                using (SqlConnection con = new SqlConnection(sqlConn))
                 {
-                    Name = driveFileName
+                    con.Open();
+                    new SqlCommand(backupSql, con).ExecuteNonQuery();
+                }
+
+                lblStatus.Text = "Uploading to Google Drive...";
+                Application.DoEvents();
+
+                string folderId =
+                    GoogleDriveServiceHelper.GetOrCreateFolder(_service, "MyStoreDesktop");
+
+                var fileMeta = new Google.Apis.Drive.v3.Data.File
+                {
+                    Name = $"POS_Backup_{DateTime.Now:yyyyMMdd_HHmmss}.bak",
+                    Parents = new List<string> { folderId }
                 };
 
-                using (var stream = new FileStream(backupFilePath, FileMode.Open))
+                using (var fs = new FileStream(backupFile, FileMode.Open, FileAccess.Read))
                 {
-                    var request = service.Files.Create(
-                        fileMetadata,
-                        stream,
-                        "application/octet-stream"
-                    );
+                    var request = _service.Files.Create(fileMeta, fs, "application/octet-stream");
                     request.Upload();
                 }
 
-                lblStatus.Text = "Status: Backup uploaded successfully ✅";
+                if (chkRemember.Checked)
+                    MyStoreDesktop.Properties.Settings.Default.LastGmail = gmail;
+                else
+                    MyStoreDesktop.Properties.Settings.Default.LastGmail = "";
+
+                MyStoreDesktop.Properties.Settings.Default.Save();
+
+                lblStatus.Text = "Backup uploaded successfully ✅";
                 lblStatus.ForeColor = Color.Green;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Backup Error");
-                lblStatus.Text = "Status: Backup failed ❌";
+                MessageBox.Show(ex.ToString(), "Backup Error");
+                lblStatus.Text = "Backup failed ❌";
                 lblStatus.ForeColor = Color.Red;
             }
         }
 
-
+        // ================= RESTORE =================
         private void BtnRestore_Click(object sender, EventArgs e)
         {
             try
             {
-                lblStatus.Text = "Status: Restoring from Google Drive...";
-                lblStatus.ForeColor = Color.DarkOrange;
-                Application.DoEvents();
+                string gmail = txtEmail.Text.Trim();
 
-                var service = GoogleDriveServiceHelper.GetService();
-
-                // 1️⃣ File search
-                var listRequest = service.Files.List();
-                listRequest.Q = "name='POS_Backup.db'";
-                listRequest.Fields = "files(id, name)";
-                var files = listRequest.Execute().Files;
-
-                if (files.Count == 0)
+                if (!IsValidGmail(gmail))
                 {
-                    MessageBox.Show("Backup file not found on Drive");
+                    MessageBox.Show("Please enter a valid Gmail address");
                     return;
                 }
 
-                // 2️⃣ Download
-                var request = service.Files.Get(files[0].Id);
-                using (var stream = new FileStream(@"C:\POS\Restore\POS_Backup.db", FileMode.Create))
+                lblStatus.Text = "Connecting to Google Drive...";
+                Application.DoEvents();
+
+                _service = GoogleDriveServiceHelper.GetService(gmail);
+
+                string folderId =
+                    GoogleDriveServiceHelper.GetOrCreateFolder(_service, "MyStoreDesktop");
+
+                var listReq = _service.Files.List();
+                listReq.Q = $"'{folderId}' in parents and name contains 'POS_Backup'";
+                listReq.Fields = "files(id,name,createdTime)";
+
+                var files = listReq.Execute().Files;
+
+                if (files == null || files.Count == 0)
                 {
-                    request.Download(stream);
+                    MessageBox.Show("No backup found on Google Drive");
+                    return;
                 }
 
-                lblStatus.Text = "Status: Restore completed successfully ✅";
+                var latest =
+                    files.OrderByDescending(f => f.CreatedTime).First();
+
+                string restoreDir = @"C:\POS\Restore";
+                Directory.CreateDirectory(restoreDir);
+
+                string restorePath = Path.Combine(restoreDir, latest.Name);
+
+                lblStatus.Text = "Downloading backup...";
+                Application.DoEvents();
+
+                using (var fs = new FileStream(restorePath, FileMode.Create))
+                {
+                    _service.Files.Get(latest.Id).Download(fs);
+                }
+
+                lblStatus.Text = "Restore file downloaded successfully ✅";
                 lblStatus.ForeColor = Color.Green;
+
+                MessageBox.Show(
+                    "Backup file downloaded.\n\nRestore it manually in SQL Server.",
+                    "Restore Complete");
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Restore Error");
-                lblStatus.Text = "Status: Restore failed ❌";
+                MessageBox.Show(ex.ToString(), "Restore Error");
+                lblStatus.Text = "Restore failed ❌";
                 lblStatus.ForeColor = Color.Red;
             }
         }
-
     }
 }
