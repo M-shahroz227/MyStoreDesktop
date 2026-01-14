@@ -361,3 +361,15 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# Google OAuth credentials
+Credentials/
+credentials.json
+token.json
+
+# Visual Studio files
+.vs/
+bin/
+obj/
+
+*.user
+*.suo
