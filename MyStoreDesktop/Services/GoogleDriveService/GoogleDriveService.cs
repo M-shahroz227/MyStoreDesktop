@@ -12,42 +12,36 @@ namespace POSApp
     {
         private static DriveService _service;
 
-        // ✅ FULL SCOPE (access all Google Drive files)
-        private static readonly string[] Scopes =
-        {
-            DriveService.Scope.Drive
-        };
+        // ✅ Full access to Google Drive
+        private static readonly string[] Scopes = { DriveService.Scope.Drive };
 
         public static DriveService GetService(string userEmail)
         {
             if (_service != null)
                 return _service;
 
-            // ✅ Use absolute path for credentials.json
-            string credentialPath = @"F:\SmartStore\EcommerceDDD\MyDesktopStore\MyStoreDesktop\Credentials\credentials.json";
+            SettingService settings = new SettingService();
+
+            // ✅ Professional: use SettingService
+            string credentialPath = settings.GetGoogleCredentialPath();
 
             if (!File.Exists(credentialPath))
-                throw new FileNotFoundException(
-                    "credentials.json not found. Please place it in the specified path.",
-                    credentialPath
-                );
+                throw new FileNotFoundException("Google credentials file not found.", credentialPath);
 
             UserCredential credential;
 
             using (var stream = new FileStream(credentialPath, FileMode.Open, FileAccess.Read))
             {
-                // ✅ Token stored per Gmail user
                 string tokenPath = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    "MyStoreDesktop",
-                    "GoogleTokens",
-                    userEmail.Replace("@", "_").Replace(".", "_")
+                    settings.GetGoogleTokenFolder(),
+                    SanitizeEmail(userEmail)
                 );
 
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.FromStream(stream).Secrets,
                     Scopes,
-                    userEmail,                   // 👈 Test User Gmail
+                    userEmail,
                     CancellationToken.None,
                     new FileDataStore(tokenPath, true)
                 ).Result;
@@ -56,18 +50,20 @@ namespace POSApp
             _service = new DriveService(new BaseClientService.Initializer
             {
                 HttpClientInitializer = credential,
-                ApplicationName = "MyStoreDesktop"
+                ApplicationName = settings.GetAppName()
             });
 
             return _service;
         }
 
-        // ✅ CREATE / GET FOLDER
+        // 🔧 Email safe for folder names
+        private static string SanitizeEmail(string email) => email.Replace("@", "_").Replace(".", "_");
+
+        // 📁 Create or get folder
         public static string GetOrCreateFolder(DriveService service, string folderName)
         {
             var listRequest = service.Files.List();
-            listRequest.Q =
-                $"mimeType='application/vnd.google-apps.folder' and name='{folderName}' and trashed=false";
+            listRequest.Q = $"mimeType='application/vnd.google-apps.folder' and name='{folderName}' and trashed=false";
             listRequest.Fields = "files(id, name)";
 
             var result = listRequest.Execute();

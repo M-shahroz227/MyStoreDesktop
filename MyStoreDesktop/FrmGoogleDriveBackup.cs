@@ -18,6 +18,7 @@ namespace POSApp
         Label lblTitle, lblEmail, lblStatus;
 
         private DriveService _service;
+        private readonly SettingService _settings = new SettingService();
 
         public FrmGoogleDriveBackup()
         {
@@ -136,15 +137,17 @@ namespace POSApp
                 lblStatus.Text = "Authorizing Google Drive...";
                 Application.DoEvents();
 
+                // ✅ Use professional GoogleDriveServiceHelper
                 _service = GoogleDriveServiceHelper.GetService(gmail);
 
                 lblStatus.Text = "Creating database backup...";
                 Application.DoEvents();
 
-                string backupDir = @"C:\POS\Backup";
+                // ✅ Use SettingService for dynamic path
+                string backupDir = _settings.GetBasePath();
                 Directory.CreateDirectory(backupDir);
 
-                string backupFile = Path.Combine(backupDir, "POS_Backup.bak");
+                string backupFile = Path.Combine(backupDir, $"POS_Backup_{DateTime.Now:yyyyMMdd_HHmmss}.bak");
 
                 string sqlConn =
                     @"Server=DESKTOP-6UR01QA\SQLEXPRESS;
@@ -152,8 +155,7 @@ namespace POSApp
                       Trusted_Connection=True;
                       TrustServerCertificate=True;";
 
-                string backupSql =
-                    $"BACKUP DATABASE MyStore TO DISK='{backupFile}' WITH INIT";
+                string backupSql = $"BACKUP DATABASE MyStore TO DISK='{backupFile}' WITH INIT";
 
                 using (SqlConnection con = new SqlConnection(sqlConn))
                 {
@@ -165,11 +167,11 @@ namespace POSApp
                 Application.DoEvents();
 
                 string folderId =
-                    GoogleDriveServiceHelper.GetOrCreateFolder(_service, "MyStoreDesktop");
+                    GoogleDriveServiceHelper.GetOrCreateFolder(_service, _settings.GetAppName());
 
                 var fileMeta = new Google.Apis.Drive.v3.Data.File
                 {
-                    Name = $"POS_Backup_{DateTime.Now:yyyyMMdd_HHmmss}.bak",
+                    Name = Path.GetFileName(backupFile),
                     Parents = new List<string> { folderId }
                 };
 
@@ -215,8 +217,7 @@ namespace POSApp
 
                 _service = GoogleDriveServiceHelper.GetService(gmail);
 
-                string folderId =
-                    GoogleDriveServiceHelper.GetOrCreateFolder(_service, "MyStoreDesktop");
+                string folderId = GoogleDriveServiceHelper.GetOrCreateFolder(_service, _settings.GetAppName());
 
                 var listReq = _service.Files.List();
                 listReq.Q = $"'{folderId}' in parents and name contains 'POS_Backup'";
@@ -230,10 +231,9 @@ namespace POSApp
                     return;
                 }
 
-                var latest =
-                    files.OrderByDescending(f => f.CreatedTime).First();
+                var latest = files.OrderByDescending(f => f.CreatedTime).First();
 
-                string restoreDir = @"C:\POS\Restore";
+                string restoreDir = Path.Combine(_settings.GetBasePath(), "Restore");
                 Directory.CreateDirectory(restoreDir);
 
                 string restorePath = Path.Combine(restoreDir, latest.Name);

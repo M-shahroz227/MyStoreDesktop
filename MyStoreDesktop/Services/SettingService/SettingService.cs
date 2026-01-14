@@ -13,57 +13,34 @@ public class SettingService : ISettingService
         _context = new DatabaseHelper();
     }
 
-    // Add a new setting
-    // Add a new setting (only if key does not exist)
+    // ================= BASIC CRUD =================
     public void Add(string key, string value)
     {
         if (_context.Settings.Any(s => s.Key == key))
-        {
             throw new InvalidOperationException($"A setting with key '{key}' already exists.");
-        }
 
-        var setting = new Setting { Key = key, Value = value };
-        _context.Settings.Add(setting);
+        _context.Settings.Add(new Setting { Key = key, Value = value });
         _context.SaveChanges();
     }
 
-
-    // Update an existing setting
     public void Update(string key, string value)
     {
         var setting = _context.Settings.FirstOrDefault(s => s.Key == key);
         if (setting == null)
-        {
-            throw new InvalidOperationException($"Setting with key '{key}' does not exist.");
-        }
+            throw new InvalidOperationException($"Setting '{key}' does not exist.");
 
         setting.Value = value;
         _context.SaveChanges();
     }
 
-    // Get value by key
     public string GetByKey(string key)
     {
         var setting = _context.Settings.FirstOrDefault(s => s.Key == key);
-        return setting != null ? setting.Value : null;
+        return setting?.Value;
     }
 
+    public List<Setting> GetAll() => _context.Settings.ToList();
 
-    // Get setting by Id
-    public Setting GetById(int id)
-    {
-        return _context.Settings.FirstOrDefault(s => s.Id == id);
-    }
-   
-
-    // Get all settings
-    public List<Setting> GetAll()
-    {
-        return _context.Settings.ToList();
-    }
-    
-
-    // Delete setting by key
     public void Delete(string key)
     {
         var setting = _context.Settings.FirstOrDefault(s => s.Key == key);
@@ -74,7 +51,8 @@ public class SettingService : ISettingService
         }
     }
 
-    // Delete by Id
+    public Setting GetById(int id) => _context.Settings.FirstOrDefault(s => s.Id == id);
+
     public void DeleteById(int id)
     {
         var setting = _context.Settings.FirstOrDefault(s => s.Id == id);
@@ -84,4 +62,13 @@ public class SettingService : ISettingService
             _context.SaveChanges();
         }
     }
+
+    // ================= PROFESSIONAL HELPERS =================
+    public string GetAppName() => GetByKey("AppName") ?? "MyStoreDesktop";
+    public string GetBasePath() => GetByKey("BasePath") ?? @"C:\MyStore\Backup";
+    public string GetStoreName() => GetByKey("StoreName") ?? "My Store";
+    public string GetGoogleCredentialPath() =>
+        GetByKey("GoogleCredentialPath") ??
+        System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Credentials", "credentials.json");
+    public string GetGoogleTokenFolder() => GetByKey("GoogleTokenFolder") ?? "MyStoreDesktop\\GoogleTokens";
 }
