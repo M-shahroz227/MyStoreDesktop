@@ -1550,5 +1550,10 @@ namespace MyStoreDesktop
             var settingform = new SettingForm();
             settingform.Show();
         }
+
+        private void btnReturn_Click(object sender, EventArgs e)
+        {
+            var returnform = new FrmReturnProduct();
+        }
     }
 }

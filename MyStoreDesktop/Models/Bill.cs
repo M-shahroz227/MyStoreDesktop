@@ -33,6 +33,12 @@ namespace MyStoreDesktop.Models
         public string PaymentMethod { get; set; }
 
         public virtual User User { get; set; }
-        public virtual ICollection<BillProduct> BillProducts { get; set; } = new HashSet<BillProduct>();
+
+        public virtual ICollection<BillProduct> BillProducts { get; set; }
+            = new HashSet<BillProduct>();
+
+        // ✅ ADD THIS (FIX)
+        public virtual ICollection<Return> Returns { get; set; }
+            = new HashSet<Return>();
     }
 }

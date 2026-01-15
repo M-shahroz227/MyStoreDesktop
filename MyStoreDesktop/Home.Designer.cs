@@ -87,6 +87,7 @@ namespace MyStoreDesktop
             this.UrlImage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
+            this.btnReturn = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picProduct)).BeginInit();
@@ -573,6 +574,7 @@ namespace MyStoreDesktop
             // panel5
             // 
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel5.Controls.Add(this.btnReturn);
             this.panel5.Controls.Add(this.btnCloudBackup);
             this.panel5.Controls.Add(this.btnSetting);
             this.panel5.Controls.Add(this.btnlogout);
@@ -610,7 +612,7 @@ namespace MyStoreDesktop
             // 
             this.btnlogout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.btnlogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnlogout.Location = new System.Drawing.Point(603, 12);
+            this.btnlogout.Location = new System.Drawing.Point(489, 12);
             this.btnlogout.Name = "btnlogout";
             this.btnlogout.Size = new System.Drawing.Size(102, 36);
             this.btnlogout.TabIndex = 3;
@@ -728,6 +730,18 @@ namespace MyStoreDesktop
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
             // 
+            // btnReturn
+            // 
+            this.btnReturn.BackColor = System.Drawing.Color.Transparent;
+            this.btnReturn.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReturn.Location = new System.Drawing.Point(620, 12);
+            this.btnReturn.Name = "btnReturn";
+            this.btnReturn.Size = new System.Drawing.Size(102, 35);
+            this.btnReturn.TabIndex = 6;
+            this.btnReturn.Text = "Return";
+            this.btnReturn.UseVisualStyleBackColor = false;
+            this.btnReturn.Click += new System.EventHandler(this.btnReturn_Click);
+            // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -820,5 +834,6 @@ namespace MyStoreDesktop
         private System.Windows.Forms.Button btnSetting;
         private System.Windows.Forms.TabControl tabControlBills;
         private System.Windows.Forms.Button btnCloudBackup;
+        private System.Windows.Forms.Button btnReturn;
     }
 }

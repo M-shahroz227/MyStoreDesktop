@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class UpdateModels : DbMigration
+    public partial class initDb : DbMigration
     {
         public override void Up()
         {
@@ -64,18 +64,37 @@
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.Users",
+                "dbo.Returns",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
-                        UserName = c.String(nullable: false, maxLength: 100),
-                        PasswordHash = c.Binary(nullable: false),
-                        PasswordSalt = c.Binary(nullable: false),
-                        Email = c.String(maxLength: 150),
-                        Phone = c.String(maxLength: 20),
-                        Role = c.String(maxLength: 50),
+                        ReturnId = c.Int(nullable: false, identity: true),
+                        BillId = c.Int(nullable: false),
+                        ReturnDate = c.DateTime(nullable: false),
+                        TotalAmount = c.Decimal(nullable: false, precision: 18, scale: 2),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.ReturnId)
+                .ForeignKey("dbo.Bills", t => t.BillId)
+                .Index(t => t.BillId);
+            
+            CreateTable(
+                "dbo.ReturnItems",
+                c => new
+                    {
+                        ReturnItemId = c.Int(nullable: false, identity: true),
+                        ReturnId = c.Int(nullable: false),
+                        BillProductId = c.Int(nullable: false),
+                        ProductId = c.Int(nullable: false),
+                        ReturnQuantity = c.Int(nullable: false),
+                        ItemPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        TotalPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
+                    })
+                .PrimaryKey(t => t.ReturnItemId)
+                .ForeignKey("dbo.BillProducts", t => t.BillProductId, cascadeDelete: true)
+                .ForeignKey("dbo.Products", t => t.ProductId, cascadeDelete: true)
+                .ForeignKey("dbo.Returns", t => t.ReturnId, cascadeDelete: true)
+                .Index(t => t.ReturnId)
+                .Index(t => t.BillProductId)
+                .Index(t => t.ProductId);
             
             CreateTable(
                 "dbo.Products",
@@ -123,6 +142,20 @@
                 .PrimaryKey(t => t.CompanyId);
             
             CreateTable(
+                "dbo.Users",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        UserName = c.String(nullable: false, maxLength: 100),
+                        PasswordHash = c.Binary(nullable: false),
+                        PasswordSalt = c.Binary(nullable: false),
+                        Email = c.String(maxLength: 150),
+                        Phone = c.String(maxLength: 20),
+                        Role = c.String(maxLength: 50),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.Configurations",
                 c => new
                     {
@@ -163,15 +196,23 @@
         public override void Down()
         {
             DropForeignKey("dbo.QrTableDatas", "ProductId", "dbo.Products");
+            DropForeignKey("dbo.Bills", "UserId", "dbo.Users");
+            DropForeignKey("dbo.Returns", "BillId", "dbo.Bills");
+            DropForeignKey("dbo.ReturnItems", "ReturnId", "dbo.Returns");
+            DropForeignKey("dbo.ReturnItems", "ProductId", "dbo.Products");
             DropForeignKey("dbo.Products", "CompanyId", "dbo.Companies");
             DropForeignKey("dbo.Products", "CategoryId", "dbo.Categories");
             DropForeignKey("dbo.BillProducts", "ProductId", "dbo.Products");
-            DropForeignKey("dbo.Bills", "UserId", "dbo.Users");
+            DropForeignKey("dbo.ReturnItems", "BillProductId", "dbo.BillProducts");
             DropForeignKey("dbo.Bills", "CustomerInvoiceId", "dbo.CustomerInvoices");
             DropForeignKey("dbo.BillProducts", "BillId", "dbo.Bills");
             DropIndex("dbo.QrTableDatas", new[] { "ProductId" });
             DropIndex("dbo.Products", new[] { "CategoryId" });
             DropIndex("dbo.Products", new[] { "CompanyId" });
+            DropIndex("dbo.ReturnItems", new[] { "ProductId" });
+            DropIndex("dbo.ReturnItems", new[] { "BillProductId" });
+            DropIndex("dbo.ReturnItems", new[] { "ReturnId" });
+            DropIndex("dbo.Returns", new[] { "BillId" });
             DropIndex("dbo.Bills", new[] { "CustomerInvoiceId" });
             DropIndex("dbo.Bills", new[] { "UserId" });
             DropIndex("dbo.BillProducts", new[] { "ProductId" });
@@ -179,10 +220,12 @@
             DropTable("dbo.Settings");
             DropTable("dbo.QrTableDatas");
             DropTable("dbo.Configurations");
+            DropTable("dbo.Users");
             DropTable("dbo.Companies");
             DropTable("dbo.Categories");
             DropTable("dbo.Products");
-            DropTable("dbo.Users");
+            DropTable("dbo.ReturnItems");
+            DropTable("dbo.Returns");
             DropTable("dbo.CustomerInvoices");
             DropTable("dbo.Bills");
             DropTable("dbo.BillProducts");
