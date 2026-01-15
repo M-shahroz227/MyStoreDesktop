@@ -153,6 +153,12 @@
     <Compile Include="FrmGoogleDriveBackup.Designer.cs">
       <DependentUpon>FrmGoogleDriveBackup.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmReturnHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmReturnHistory.Designer.cs">
+      <DependentUpon>FrmReturnHistory.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmReturnProduct.cs">
       <SubType>Form</SubType>
     </Compile>

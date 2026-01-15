@@ -39,7 +39,6 @@ namespace MyStoreDesktop
             this.btnUsers = new System.Windows.Forms.Button();
             this.btnProducts = new System.Windows.Forms.Button();
             this.btnHome = new System.Windows.Forms.Button();
-            this.picProduct = new System.Windows.Forms.PictureBox();
             this.panelMainContent = new System.Windows.Forms.Panel();
             this.tabControlBills = new System.Windows.Forms.TabControl();
             this.lstSuggestion = new System.Windows.Forms.ListBox();
@@ -87,10 +86,11 @@ namespace MyStoreDesktop
             this.UrlImage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
+            this.picProduct = new System.Windows.Forms.PictureBox();
+            this.btnReturnHistory = new System.Windows.Forms.Button();
             this.btnReturn = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picProduct)).BeginInit();
             this.panelMainContent.SuspendLayout();
             this.rightPanel.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -98,6 +98,7 @@ namespace MyStoreDesktop
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAddToCard)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picProduct)).BeginInit();
             this.SuspendLayout();
             // 
             // panelMenu
@@ -114,6 +115,7 @@ namespace MyStoreDesktop
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel4.Controls.Add(this.btnReturn);
             this.panel4.Controls.Add(this.btnReports);
             this.panel4.Controls.Add(this.btnSales);
             this.panel4.Controls.Add(this.btnUsers);
@@ -129,7 +131,7 @@ namespace MyStoreDesktop
             this.btnReports.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnReports.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnReports.ForeColor = System.Drawing.Color.White;
-            this.btnReports.Location = new System.Drawing.Point(36, 285);
+            this.btnReports.Location = new System.Drawing.Point(36, 245);
             this.btnReports.Name = "btnReports";
             this.btnReports.Size = new System.Drawing.Size(129, 40);
             this.btnReports.TabIndex = 9;
@@ -142,7 +144,7 @@ namespace MyStoreDesktop
             this.btnSales.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnSales.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSales.ForeColor = System.Drawing.Color.White;
-            this.btnSales.Location = new System.Drawing.Point(36, 214);
+            this.btnSales.Location = new System.Drawing.Point(36, 187);
             this.btnSales.Name = "btnSales";
             this.btnSales.Size = new System.Drawing.Size(129, 40);
             this.btnSales.TabIndex = 8;
@@ -155,7 +157,7 @@ namespace MyStoreDesktop
             this.btnUsers.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnUsers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUsers.ForeColor = System.Drawing.Color.White;
-            this.btnUsers.Location = new System.Drawing.Point(36, 143);
+            this.btnUsers.Location = new System.Drawing.Point(36, 125);
             this.btnUsers.Name = "btnUsers";
             this.btnUsers.Size = new System.Drawing.Size(129, 40);
             this.btnUsers.TabIndex = 7;
@@ -168,7 +170,7 @@ namespace MyStoreDesktop
             this.btnProducts.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnProducts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnProducts.ForeColor = System.Drawing.Color.White;
-            this.btnProducts.Location = new System.Drawing.Point(36, 76);
+            this.btnProducts.Location = new System.Drawing.Point(36, 67);
             this.btnProducts.Name = "btnProducts";
             this.btnProducts.Size = new System.Drawing.Size(129, 40);
             this.btnProducts.TabIndex = 6;
@@ -188,17 +190,6 @@ namespace MyStoreDesktop
             this.btnHome.Text = "Home";
             this.btnHome.UseVisualStyleBackColor = false;
             this.btnHome.Click += new System.EventHandler(this.LoginPanelbtnHome);
-            // 
-            // picProduct
-            // 
-            this.picProduct.BackColor = System.Drawing.Color.White;
-            this.picProduct.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picProduct.Location = new System.Drawing.Point(7, 355);
-            this.picProduct.Name = "picProduct";
-            this.picProduct.Size = new System.Drawing.Size(200, 218);
-            this.picProduct.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picProduct.TabIndex = 5;
-            this.picProduct.TabStop = false;
             // 
             // panelMainContent
             // 
@@ -574,7 +565,7 @@ namespace MyStoreDesktop
             // panel5
             // 
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel5.Controls.Add(this.btnReturn);
+            this.panel5.Controls.Add(this.btnReturnHistory);
             this.panel5.Controls.Add(this.btnCloudBackup);
             this.panel5.Controls.Add(this.btnSetting);
             this.panel5.Controls.Add(this.btnlogout);
@@ -612,7 +603,7 @@ namespace MyStoreDesktop
             // 
             this.btnlogout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.btnlogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnlogout.Location = new System.Drawing.Point(489, 12);
+            this.btnlogout.Location = new System.Drawing.Point(319, 12);
             this.btnlogout.Name = "btnlogout";
             this.btnlogout.Size = new System.Drawing.Size(102, 36);
             this.btnlogout.TabIndex = 3;
@@ -730,17 +721,41 @@ namespace MyStoreDesktop
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
             // 
+            // picProduct
+            // 
+            this.picProduct.BackColor = System.Drawing.Color.White;
+            this.picProduct.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picProduct.Location = new System.Drawing.Point(7, 355);
+            this.picProduct.Name = "picProduct";
+            this.picProduct.Size = new System.Drawing.Size(200, 218);
+            this.picProduct.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picProduct.TabIndex = 5;
+            this.picProduct.TabStop = false;
+            // 
+            // btnReturnHistory
+            // 
+            this.btnReturnHistory.BackColor = System.Drawing.Color.Transparent;
+            this.btnReturnHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReturnHistory.Location = new System.Drawing.Point(427, 10);
+            this.btnReturnHistory.Name = "btnReturnHistory";
+            this.btnReturnHistory.Size = new System.Drawing.Size(180, 35);
+            this.btnReturnHistory.TabIndex = 7;
+            this.btnReturnHistory.Text = "Return History";
+            this.btnReturnHistory.UseVisualStyleBackColor = false;
+            this.btnReturnHistory.Click += new System.EventHandler(this.btnReturnHistory_Click);
+            // 
             // btnReturn
             // 
-            this.btnReturn.BackColor = System.Drawing.Color.Transparent;
-            this.btnReturn.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReturn.Location = new System.Drawing.Point(620, 12);
+            this.btnReturn.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.btnReturn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReturn.ForeColor = System.Drawing.Color.White;
+            this.btnReturn.Location = new System.Drawing.Point(34, 296);
             this.btnReturn.Name = "btnReturn";
-            this.btnReturn.Size = new System.Drawing.Size(102, 35);
-            this.btnReturn.TabIndex = 6;
-            this.btnReturn.Text = "Return";
+            this.btnReturn.Size = new System.Drawing.Size(129, 40);
+            this.btnReturn.TabIndex = 10;
+            this.btnReturn.Text = "Returns";
             this.btnReturn.UseVisualStyleBackColor = false;
-            this.btnReturn.Click += new System.EventHandler(this.btnReturn_Click);
+            this.btnReturn.Click += new System.EventHandler(this.btnReturn_Click_1);
             // 
             // Home
             // 
@@ -757,7 +772,6 @@ namespace MyStoreDesktop
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panelMenu.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picProduct)).EndInit();
             this.panelMainContent.ResumeLayout(false);
             this.panelMainContent.PerformLayout();
             this.rightPanel.ResumeLayout(false);
@@ -768,6 +782,7 @@ namespace MyStoreDesktop
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAddToCard)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picProduct)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -834,6 +849,7 @@ namespace MyStoreDesktop
         private System.Windows.Forms.Button btnSetting;
         private System.Windows.Forms.TabControl tabControlBills;
         private System.Windows.Forms.Button btnCloudBackup;
+        private System.Windows.Forms.Button btnReturnHistory;
         private System.Windows.Forms.Button btnReturn;
     }
 }

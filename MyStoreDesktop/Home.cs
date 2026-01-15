@@ -1550,8 +1550,13 @@ namespace MyStoreDesktop
             var settingform = new SettingForm();
             settingform.Show();
         }
+        private void btnReturnHistory_Click(object sender, EventArgs e)
+        {
+            var histryform = new FrmReturnHistory();
+            histryform.Show();
+        }
 
-        private void btnReturn_Click(object sender, EventArgs e)
+        private void btnReturn_Click_1(object sender, EventArgs e)
         {
             var returnform = new FrmReturnProduct();
             returnform.Show();
