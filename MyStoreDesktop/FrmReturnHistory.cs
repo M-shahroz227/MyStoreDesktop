@@ -1,8 +1,9 @@
-﻿using System;
+﻿using MyStoreDesktop.Models;
+using MyStoreDesktop.Services;
+using MyStoreDesktop.Theme;
+using System;
 using System.Linq;
 using System.Windows.Forms;
-using MyStoreDesktop.Models;
-using MyStoreDesktop.Services;
 
 namespace POSApp
 {
@@ -16,6 +17,8 @@ namespace POSApp
 
         public FrmReturnHistory()
         {
+            InitializeComponent();
+            ThemeManager.ApplyTheme(this);
             _returnService = new ReturnService();
             InitializeForm();
             LoadReturnHistory();

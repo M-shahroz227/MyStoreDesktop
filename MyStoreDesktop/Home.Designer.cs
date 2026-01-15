@@ -30,8 +30,8 @@ namespace MyStoreDesktop
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.btnReports = new System.Windows.Forms.Button();
@@ -131,7 +131,7 @@ namespace MyStoreDesktop
             this.btnReports.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnReports.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnReports.ForeColor = System.Drawing.Color.White;
-            this.btnReports.Location = new System.Drawing.Point(36, 245);
+            this.btnReports.Location = new System.Drawing.Point(36, 243);
             this.btnReports.Name = "btnReports";
             this.btnReports.Size = new System.Drawing.Size(129, 40);
             this.btnReports.TabIndex = 9;
@@ -144,7 +144,7 @@ namespace MyStoreDesktop
             this.btnSales.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnSales.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSales.ForeColor = System.Drawing.Color.White;
-            this.btnSales.Location = new System.Drawing.Point(36, 187);
+            this.btnSales.Location = new System.Drawing.Point(36, 183);
             this.btnSales.Name = "btnSales";
             this.btnSales.Size = new System.Drawing.Size(129, 40);
             this.btnSales.TabIndex = 8;
@@ -157,7 +157,7 @@ namespace MyStoreDesktop
             this.btnUsers.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnUsers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUsers.ForeColor = System.Drawing.Color.White;
-            this.btnUsers.Location = new System.Drawing.Point(36, 125);
+            this.btnUsers.Location = new System.Drawing.Point(36, 123);
             this.btnUsers.Name = "btnUsers";
             this.btnUsers.Size = new System.Drawing.Size(129, 40);
             this.btnUsers.TabIndex = 7;
@@ -170,7 +170,7 @@ namespace MyStoreDesktop
             this.btnProducts.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnProducts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnProducts.ForeColor = System.Drawing.Color.White;
-            this.btnProducts.Location = new System.Drawing.Point(36, 67);
+            this.btnProducts.Location = new System.Drawing.Point(36, 66);
             this.btnProducts.Name = "btnProducts";
             this.btnProducts.Size = new System.Drawing.Size(129, 40);
             this.btnProducts.TabIndex = 6;
@@ -591,7 +591,7 @@ namespace MyStoreDesktop
             // 
             this.btnSetting.BackColor = System.Drawing.Color.Transparent;
             this.btnSetting.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSetting.Location = new System.Drawing.Point(841, 9);
+            this.btnSetting.Location = new System.Drawing.Point(841, 11);
             this.btnSetting.Name = "btnSetting";
             this.btnSetting.Size = new System.Drawing.Size(102, 35);
             this.btnSetting.TabIndex = 4;
@@ -603,7 +603,7 @@ namespace MyStoreDesktop
             // 
             this.btnlogout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.btnlogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnlogout.Location = new System.Drawing.Point(319, 12);
+            this.btnlogout.Location = new System.Drawing.Point(429, 9);
             this.btnlogout.Name = "btnlogout";
             this.btnlogout.Size = new System.Drawing.Size(102, 36);
             this.btnlogout.TabIndex = 3;
@@ -638,14 +638,14 @@ namespace MyStoreDesktop
             this.Discount,
             this.Total,
             this.UrlImage});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAddToCard.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAddToCard.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgvAddToCard.GridColor = System.Drawing.Color.LightGray;
             this.dgvAddToCard.Location = new System.Drawing.Point(6, 127);
             this.dgvAddToCard.Name = "dgvAddToCard";
@@ -684,9 +684,9 @@ namespace MyStoreDesktop
             // 
             // Total
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            this.Total.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
+            this.Total.DefaultCellStyle = dataGridViewCellStyle5;
             this.Total.HeaderText = "Total";
             this.Total.Name = "Total";
             this.Total.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -736,7 +736,7 @@ namespace MyStoreDesktop
             // 
             this.btnReturnHistory.BackColor = System.Drawing.Color.Transparent;
             this.btnReturnHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReturnHistory.Location = new System.Drawing.Point(427, 10);
+            this.btnReturnHistory.Location = new System.Drawing.Point(539, 10);
             this.btnReturnHistory.Name = "btnReturnHistory";
             this.btnReturnHistory.Size = new System.Drawing.Size(180, 35);
             this.btnReturnHistory.TabIndex = 7;
@@ -749,7 +749,7 @@ namespace MyStoreDesktop
             this.btnReturn.BackColor = System.Drawing.Color.LightSeaGreen;
             this.btnReturn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnReturn.ForeColor = System.Drawing.Color.White;
-            this.btnReturn.Location = new System.Drawing.Point(34, 296);
+            this.btnReturn.Location = new System.Drawing.Point(34, 295);
             this.btnReturn.Name = "btnReturn";
             this.btnReturn.Size = new System.Drawing.Size(129, 40);
             this.btnReturn.TabIndex = 10;

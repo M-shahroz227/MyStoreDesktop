@@ -1,6 +1,7 @@
 ﻿using MyStoreDesktop.Data;
 using MyStoreDesktop.Models;
 using MyStoreDesktop.Services;
+using MyStoreDesktop.Theme;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -21,6 +22,7 @@ namespace POSApp
         public FrmReturnProduct()
         {
             _returnService = new ReturnService();
+            ThemeManager.ApplyTheme(this);
             InitializeForm();
         }
 
