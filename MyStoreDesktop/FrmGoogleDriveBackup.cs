@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MyStoreDesktop.Services;
+using System;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using Google.Apis.Drive.v3;
 
 namespace POSApp
 {
@@ -17,18 +17,19 @@ namespace POSApp
         CheckBox chkRemember;
         Label lblTitle, lblEmail, lblStatus;
 
-        private DriveService _service;
+        private readonly ISettingService _settingService;
 
         public FrmGoogleDriveBackup()
         {
             InitializeComponent();
+            _settingService = new SettingService();
             CreateUI();
             this.Load += FrmGoogleDriveBackup_Load;
         }
 
         private void CreateUI()
         {
-            this.Text = "Google Drive Backup";
+            this.Text = _settingService.GetAppName() + " - Google Drive Backup";
             this.Size = new Size(520, 330);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -36,7 +37,7 @@ namespace POSApp
 
             lblTitle = new Label
             {
-                Text = "POS Google Drive Backup",
+                Text = _settingService.GetStoreName() + " Google Drive Backup",
                 Font = new Font("Segoe UI", 14, FontStyle.Bold),
                 AutoSize = true,
                 Location = new Point(130, 20)
@@ -74,7 +75,7 @@ namespace POSApp
                 BackColor = Color.SeaGreen,
                 ForeColor = Color.White
             };
-            btnBackup.Click += BtnBackup_Click;
+            btnBackup.Click += async (s, e) => await BtnBackup_Click();
             Controls.Add(btnBackup);
 
             btnRestore = new Button
@@ -85,7 +86,7 @@ namespace POSApp
                 BackColor = Color.SteelBlue,
                 ForeColor = Color.White
             };
-            btnRestore.Click += BtnRestore_Click;
+            btnRestore.Click += async (s, e) => await BtnRestore_Click();
             Controls.Add(btnRestore);
 
             lblStatus = new Label
@@ -120,8 +121,7 @@ namespace POSApp
             }
         }
 
-        // ================= BACKUP =================
-        private void BtnBackup_Click(object sender, EventArgs e)
+        private async Task BtnBackup_Click()
         {
             try
             {
@@ -136,24 +136,18 @@ namespace POSApp
                 lblStatus.Text = "Authorizing Google Drive...";
                 Application.DoEvents();
 
-                _service = GoogleDriveServiceHelper.GetService(gmail);
+                var service = await GoogleDriveServiceHelper.GetServiceAsync(gmail, _settingService);
 
                 lblStatus.Text = "Creating database backup...";
                 Application.DoEvents();
 
-                string backupDir = @"C:\POS\Backup";
+                string backupDir = Path.Combine(_settingService.GetBasePath(), "Backup");
                 Directory.CreateDirectory(backupDir);
 
-                string backupFile = Path.Combine(backupDir, "POS_Backup.bak");
+                string backupFile = Path.Combine(backupDir, $"{_settingService.GetStoreName()}_{DateTime.Now:yyyyMMdd_HHmmss}.bak");
 
-                string sqlConn =
-                    @"Server=DESKTOP-6UR01QA\SQLEXPRESS;
-                      Database=master;
-                      Trusted_Connection=True;
-                      TrustServerCertificate=True;";
-
-                string backupSql =
-                    $"BACKUP DATABASE MyStore TO DISK='{backupFile}' WITH INIT";
+                string sqlConn = @"Server=DESKTOP-6UR01QA\SQLEXPRESS;Database=master;Trusted_Connection=True;TrustServerCertificate=True;";
+                string backupSql = $"BACKUP DATABASE MyStore TO DISK='{backupFile}' WITH INIT";
 
                 using (SqlConnection con = new SqlConnection(sqlConn))
                 {
@@ -164,19 +158,18 @@ namespace POSApp
                 lblStatus.Text = "Uploading to Google Drive...";
                 Application.DoEvents();
 
-                string folderId =
-                    GoogleDriveServiceHelper.GetOrCreateFolder(_service, "MyStoreDesktop");
+                string folderId = await GoogleDriveServiceHelper.GetOrCreateFolderAsync(service, _settingService.GetAppName());
 
                 var fileMeta = new Google.Apis.Drive.v3.Data.File
                 {
-                    Name = $"POS_Backup_{DateTime.Now:yyyyMMdd_HHmmss}.bak",
-                    Parents = new List<string> { folderId }
+                    Name = Path.GetFileName(backupFile),
+                    Parents = new System.Collections.Generic.List<string> { folderId }
                 };
 
                 using (var fs = new FileStream(backupFile, FileMode.Open, FileAccess.Read))
                 {
-                    var request = _service.Files.Create(fileMeta, fs, "application/octet-stream");
-                    request.Upload();
+                    var request = service.Files.Create(fileMeta, fs, "application/octet-stream");
+                    await request.UploadAsync();
                 }
 
                 if (chkRemember.Checked)
@@ -197,8 +190,7 @@ namespace POSApp
             }
         }
 
-        // ================= RESTORE =================
-        private void BtnRestore_Click(object sender, EventArgs e)
+        private async Task BtnRestore_Click()
         {
             try
             {
@@ -213,27 +205,25 @@ namespace POSApp
                 lblStatus.Text = "Connecting to Google Drive...";
                 Application.DoEvents();
 
-                _service = GoogleDriveServiceHelper.GetService(gmail);
+                var service = await GoogleDriveServiceHelper.GetServiceAsync(gmail, _settingService);
 
-                string folderId =
-                    GoogleDriveServiceHelper.GetOrCreateFolder(_service, "MyStoreDesktop");
+                string folderId = await GoogleDriveServiceHelper.GetOrCreateFolderAsync(service, _settingService.GetAppName());
 
-                var listReq = _service.Files.List();
-                listReq.Q = $"'{folderId}' in parents and name contains 'POS_Backup'";
+                var listReq = service.Files.List();
+                listReq.Q = $"'{folderId}' in parents and name contains '{_settingService.GetStoreName()}'";
                 listReq.Fields = "files(id,name,createdTime)";
 
-                var files = listReq.Execute().Files;
+                var files = await listReq.ExecuteAsync();
 
-                if (files == null || files.Count == 0)
+                if (files.Files == null || files.Files.Count == 0)
                 {
                     MessageBox.Show("No backup found on Google Drive");
                     return;
                 }
 
-                var latest =
-                    files.OrderByDescending(f => f.CreatedTime).First();
+                var latest = files.Files.OrderByDescending(f => f.CreatedTime).First();
 
-                string restoreDir = @"C:\POS\Restore";
+                string restoreDir = Path.Combine(_settingService.GetBasePath(), "Restore");
                 Directory.CreateDirectory(restoreDir);
 
                 string restorePath = Path.Combine(restoreDir, latest.Name);
@@ -243,7 +233,7 @@ namespace POSApp
 
                 using (var fs = new FileStream(restorePath, FileMode.Create))
                 {
-                    _service.Files.Get(latest.Id).Download(fs);
+                    await service.Files.Get(latest.Id).DownloadAsync(fs);
                 }
 
                 lblStatus.Text = "Restore file downloaded successfully ✅";

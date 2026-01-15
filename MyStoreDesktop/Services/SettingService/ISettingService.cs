@@ -2,24 +2,19 @@
 
 public interface ISettingService
 {
-    // Add a new setting
+    // ================= BASIC CRUD =================
     void Add(string key, string value);
-
-    // Update an existing setting
     void Update(string key, string value);
-
-    // Read a setting by key
     string GetByKey(string key);
-
-    // Read a setting by Id
     Setting GetById(int id);
-
-    // Read all settings
     List<Setting> GetAll();
-
-    // Delete a setting by key
     void Delete(string key);
-
-    // Delete a setting by Id
     void DeleteById(int id);
+
+    // ================= PROFESSIONAL HELPERS =================
+    string GetAppName();                // e.g. "MyStoreDesktop"
+    string GetBasePath();               // e.g. "C:\MyStore\Backup"
+    string GetStoreName();              // e.g. "My Store"
+    string GetGoogleCredentialPath();   // e.g. "C:\MyStore\Credentials\credentials.json"
+    string GetGoogleTokenFolder();      // e.g. "C:\Users\User\AppData\GoogleTokens"
 }

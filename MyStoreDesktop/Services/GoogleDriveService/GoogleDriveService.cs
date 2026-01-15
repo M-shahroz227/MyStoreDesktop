@@ -2,34 +2,31 @@
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
+using MyStoreDesktop.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace POSApp
 {
     public static class GoogleDriveServiceHelper
     {
-        private static DriveService _service;
+        // Multi-user service storage
+        private static readonly Dictionary<string, DriveService> Services = new Dictionary<string, DriveService>();
 
-        // 🔒 DriveFile Scope (app-only access, safe)
-        private static readonly string[] Scopes =
+
+        private static readonly string[] Scopes = { DriveService.Scope.DriveFile };
+
+        public static async Task<DriveService> GetServiceAsync(string userEmail, ISettingService settingService)
         {
-            DriveService.Scope.DriveFile
-        };
+            if (Services.ContainsKey(userEmail))
+                return Services[userEmail];
 
-        public static DriveService GetService(string userEmail)
-        {
-            if (_service != null)
-                return _service;
-
-            // ✅ Relative path to credentials.json
-            string credentialPath = Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory,
-                "Credentials",
-                "credentials.json"
-            );
+            // Paths from SettingService
+            string credentialPath = settingService.GetGoogleCredentialPath();
+            string tokenFolder = settingService.GetGoogleTokenFolder();
 
             if (!File.Exists(credentialPath))
                 throw new FileNotFoundException(
@@ -38,33 +35,26 @@ namespace POSApp
                 );
 
             UserCredential credential;
-
             using (var stream = new FileStream(credentialPath, FileMode.Open, FileAccess.Read))
             {
-                // ✅ Token stored per Gmail user
-                string tokenPath = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    "MyStoreDesktop",
-                    "GoogleTokens",
-                    SanitizeEmail(userEmail)
-                );
-
-                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                string tokenPath = Path.Combine(tokenFolder, SanitizeEmail(userEmail));
+                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.FromStream(stream).Secrets,
                     Scopes,
                     userEmail,
                     CancellationToken.None,
                     new FileDataStore(tokenPath, true)
-                ).Result;
+                );
             }
 
-            _service = new DriveService(new BaseClientService.Initializer
+            var service = new DriveService(new BaseClientService.Initializer
             {
                 HttpClientInitializer = credential,
-                ApplicationName = "MyStoreDesktop"
+                ApplicationName = settingService.GetAppName()
             });
 
-            return _service;
+            Services[userEmail] = service;
+            return service;
         }
 
         private static string SanitizeEmail(string email)
@@ -72,15 +62,13 @@ namespace POSApp
             return email.Replace("@", "_").Replace(".", "_");
         }
 
-        // 📁 Create / Get Folder in Google Drive
-        public static string GetOrCreateFolder(DriveService service, string folderName)
+        public static async Task<string> GetOrCreateFolderAsync(DriveService service, string folderName)
         {
             var listRequest = service.Files.List();
-            listRequest.Q =
-                $"mimeType='application/vnd.google-apps.folder' and name='{folderName}' and trashed=false";
+            listRequest.Q = $"mimeType='application/vnd.google-apps.folder' and name='{folderName}' and trashed=false";
             listRequest.Fields = "files(id, name)";
 
-            var result = listRequest.Execute();
+            var result = await listRequest.ExecuteAsync();
 
             if (result.Files != null && result.Files.Count > 0)
                 return result.Files[0].Id;
@@ -94,7 +82,8 @@ namespace POSApp
             var createRequest = service.Files.Create(folderMetadata);
             createRequest.Fields = "id";
 
-            return createRequest.Execute().Id;
+            var createdFolder = await createRequest.ExecuteAsync();
+            return createdFolder.Id;
         }
     }
 }
