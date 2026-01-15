@@ -1554,6 +1554,7 @@ namespace MyStoreDesktop
         private void btnReturn_Click(object sender, EventArgs e)
         {
             var returnform = new FrmReturnProduct();
+            returnform.Show();
         }
     }
 }
