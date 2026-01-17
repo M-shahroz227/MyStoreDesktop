@@ -23,13 +23,17 @@ namespace MyStoreDesktop.Forms
         private void SetupDataGridView()
         {
             dgvBillProducts.AutoGenerateColumns = false;
-           
+            dgvBillProducts.ColumnHeadersHeight = 40;  // height in pixels
+            dgvBillProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+
+
             dgvBillProducts.Columns.Clear();
 
             dgvBillProducts.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "BillProductId",
                 DataPropertyName = "BillProductId",
+                Name = "BillProductId",
                 Visible = false
             });
 
@@ -120,7 +124,7 @@ namespace MyStoreDesktop.Forms
 
             if (dgvBillProducts.Columns[e.ColumnIndex].Name == "ReturnButtonColumn")
             {
-                int billProductId = Convert.ToInt32(dgvBillProducts.Rows[e.RowIndex].Cells["BillProductId"].Value);
+                int billProductId = Convert.ToInt32(dgvBillProducts.Rows[e.RowIndex].Cells["billProductId"].Value);
                 int billId = int.Parse(txtBillID.Text);
 
                 try
