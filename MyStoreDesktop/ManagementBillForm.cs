@@ -82,6 +82,14 @@ namespace MyStoreDesktop.Forms
             dgvBillProducts.Columns.Add(returnButton);
 
             dgvBillProducts.CellContentClick += DgvBillProducts_CellContentClick;
+            var modifyButton = new DataGridViewButtonColumn
+            {
+                HeaderText = "Action",
+                Text = "Modify",
+                Name = "ModifyButtonColumn",
+                UseColumnTextForButtonValue = true
+            };
+            dgvBillProducts.Columns.Add(modifyButton);
         }
 
         private void btnSearchBill_Click(object sender, EventArgs e)
@@ -140,6 +148,12 @@ namespace MyStoreDesktop.Forms
                     MessageBox.Show(ex.Message);
                 }
             }
+            else if (dgvBillProducts.Columns[e.RowIndex].Name == "ModifyButtonColumn")
+            {
+                MessageBox.Show("modifying is starting...");
+            }
+
         }
     }
 }
+

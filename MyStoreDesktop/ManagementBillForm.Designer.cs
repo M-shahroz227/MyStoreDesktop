@@ -26,16 +26,16 @@
             // 
             // txtBillID
             // 
-            this.txtBillID.Location = new System.Drawing.Point(12, 12);
+            this.txtBillID.Location = new System.Drawing.Point(23, 12);
             this.txtBillID.Name = "txtBillID";
-            this.txtBillID.Size = new System.Drawing.Size(100, 22);
+            this.txtBillID.Size = new System.Drawing.Size(193, 20);
             this.txtBillID.TabIndex = 0;
             // 
             // btnSearchBill
             // 
-            this.btnSearchBill.Location = new System.Drawing.Point(130, 10);
+            this.btnSearchBill.Location = new System.Drawing.Point(229, 10);
             this.btnSearchBill.Name = "btnSearchBill";
-            this.btnSearchBill.Size = new System.Drawing.Size(75, 25);
+            this.btnSearchBill.Size = new System.Drawing.Size(100, 34);
             this.btnSearchBill.TabIndex = 1;
             this.btnSearchBill.Text = "Search";
             this.btnSearchBill.UseVisualStyleBackColor = true;
@@ -59,7 +59,7 @@
             this.lblGrandTotal.AutoSize = true;
             this.lblGrandTotal.Location = new System.Drawing.Point(12, 410);
             this.lblGrandTotal.Name = "lblGrandTotal";
-            this.lblGrandTotal.Size = new System.Drawing.Size(95, 17);
+            this.lblGrandTotal.Size = new System.Drawing.Size(69, 13);
             this.lblGrandTotal.TabIndex = 3;
             this.lblGrandTotal.Text = "Grand Total: ";
             // 
@@ -75,6 +75,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvBillProducts)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
     }
 }

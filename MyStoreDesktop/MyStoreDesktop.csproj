@@ -293,6 +293,9 @@
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ManagementBillForm.resx">
+      <DependentUpon>ManagementBillForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202601170436167_InitDb.resx">
       <DependentUpon>202601170436167_InitDb.cs</DependentUpon>
     </EmbeddedResource>
