@@ -22,19 +22,20 @@
             this.dgvBillProducts = new System.Windows.Forms.DataGridView();
             this.lblGrandTotal = new System.Windows.Forms.Label();
             this.btnViewReturnHistoryForm = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBillProducts)).BeginInit();
             this.SuspendLayout();
             // 
             // txtBillID
             // 
-            this.txtBillID.Location = new System.Drawing.Point(23, 12);
+            this.txtBillID.Location = new System.Drawing.Point(105, 12);
             this.txtBillID.Name = "txtBillID";
             this.txtBillID.Size = new System.Drawing.Size(193, 20);
             this.txtBillID.TabIndex = 0;
             // 
             // btnSearchBill
             // 
-            this.btnSearchBill.Location = new System.Drawing.Point(229, 10);
+            this.btnSearchBill.Location = new System.Drawing.Point(311, 10);
             this.btnSearchBill.Name = "btnSearchBill";
             this.btnSearchBill.Size = new System.Drawing.Size(100, 34);
             this.btnSearchBill.TabIndex = 1;
@@ -66,17 +67,28 @@
             // 
             // btnViewReturnHistoryForm
             // 
-            this.btnViewReturnHistoryForm.Location = new System.Drawing.Point(628, 10);
+            this.btnViewReturnHistoryForm.Location = new System.Drawing.Point(658, 7);
             this.btnViewReturnHistoryForm.Name = "btnViewReturnHistoryForm";
-            this.btnViewReturnHistoryForm.Size = new System.Drawing.Size(111, 30);
+            this.btnViewReturnHistoryForm.Size = new System.Drawing.Size(111, 41);
             this.btnViewReturnHistoryForm.TabIndex = 4;
             this.btnViewReturnHistoryForm.Text = "View Histry";
             this.btnViewReturnHistoryForm.UseVisualStyleBackColor = true;
             this.btnViewReturnHistoryForm.Click += new System.EventHandler(this.btnViewReturnHistoryForm_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(81, 16);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "GET ById :";
+            // 
             // ManagementBillForm
             // 
             this.ClientSize = new System.Drawing.Size(784, 441);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnViewReturnHistoryForm);
             this.Controls.Add(this.lblGrandTotal);
             this.Controls.Add(this.dgvBillProducts);
@@ -91,5 +103,6 @@
         }
 
         private System.Windows.Forms.Button btnViewReturnHistoryForm;
+        private System.Windows.Forms.Label label1;
     }
 }
