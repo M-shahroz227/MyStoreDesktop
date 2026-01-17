@@ -135,27 +135,35 @@ namespace MyStoreDesktop.Forms
         {
             if (e.RowIndex < 0) return;
 
+            int billId = int.Parse(txtBillID.Text);
+            string currentUser = SessionManager.UserName;
+
+            // ---------------- Return Button ----------------
             if (dgvBillProducts.Columns[e.ColumnIndex].Name == "ReturnButtonColumn")
             {
                 int billProductId = Convert.ToInt32(
                     dgvBillProducts.Rows[e.RowIndex].Cells["BillProductId"].Value);
 
-                int billId = int.Parse(txtBillID.Text);
-
-                string currentUser = SessionManager.UserName;
                 _returnService.ReturnProduct(billId, billProductId, currentUser);
 
                 MessageBox.Show("Product returned successfully!");
-                btnSearchBill_Click(null, null);
+                btnSearchBill_Click(null, null); // Refresh grid
             }
+            // ---------------- Modify Button ----------------
             else if (dgvBillProducts.Columns[e.ColumnIndex].Name == "ModifyButtonColumn")
             {
                 int billProductId = Convert.ToInt32(
                     dgvBillProducts.Rows[e.RowIndex].Cells["BillProductId"].Value);
 
-                MessageBox.Show("Modifying is starting...");
+                // Open ModifyReturnForm
+                var modifyForm = new ModifyReturnForm(billId, billProductId, (ReturnService)_returnService, currentUser);
+                modifyForm.ShowDialog(); // modal dialog
+
+                // Refresh grid after modification
+                btnSearchBill_Click(null, null);
             }
         }
+
 
     }
 }
