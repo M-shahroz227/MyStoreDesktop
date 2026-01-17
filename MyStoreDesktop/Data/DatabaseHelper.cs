@@ -9,10 +9,14 @@ namespace MyStoreDesktop.Data
         {
         }
 
+        // ================= TABLES =================
+
         public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Bill> Bills { get; set; }
         public DbSet<BillProduct> BillProducts { get; set; }
+        public DbSet<BillHistory> BillHistories { get; set; }
+
         public DbSet<QrTableData> QrTableDatas { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Company> Companies { get; set; }
@@ -20,26 +24,22 @@ namespace MyStoreDesktop.Data
         public DbSet<CustomerInvoice> CustomerInvoices { get; set; }
         public DbSet<Setting> Settings { get; set; }
 
-        // 🔁 RETURNS
-        public DbSet<Return> Returns { get; set; }
-        public DbSet<ReturnItem> ReturnItems { get; set; }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             // ================= BILL =================
 
-            // Bill → BillProducts (CASCADE)
+            // Bill → BillProducts (CASCADE ✅)
             modelBuilder.Entity<Bill>()
                 .HasMany(b => b.BillProducts)
                 .WithRequired(bp => bp.Bill)
                 .HasForeignKey(bp => bp.BillId)
                 .WillCascadeOnDelete(true);
 
-            // Bill → Returns (NO CASCADE ❌)
+            // Bill → BillHistories (NO CASCADE ❌)
             modelBuilder.Entity<Bill>()
-                .HasMany(b => b.Returns)
-                .WithRequired(r => r.Bill)
-                .HasForeignKey(r => r.BillId)
+                .HasMany(b => b.BillHistories)
+                .WithRequired(bh => bh.Bill)
+                .HasForeignKey(bh => bh.BillId)
                 .WillCascadeOnDelete(false);
 
             // ================= PRODUCTS =================
@@ -50,15 +50,6 @@ namespace MyStoreDesktop.Data
                 .WithRequired(bp => bp.Product)
                 .HasForeignKey(bp => bp.ProductId)
                 .WillCascadeOnDelete(false);
-
-            // ================= RETURNS =================
-
-            // Return → ReturnItems (CASCADE ✅)
-            modelBuilder.Entity<Return>()
-                .HasMany(r => r.ReturnItems)
-                .WithRequired(ri => ri.Return)
-                .HasForeignKey(ri => ri.ReturnId)
-                .WillCascadeOnDelete(true);
 
             // ================= USERS =================
 
@@ -71,7 +62,6 @@ namespace MyStoreDesktop.Data
 
             // ================= CATEGORIES =================
 
-            // Category → Products (NO CASCADE)
             modelBuilder.Entity<Category>()
                 .HasMany(c => c.Products)
                 .WithRequired(p => p.Category)
@@ -80,7 +70,6 @@ namespace MyStoreDesktop.Data
 
             // ================= COMPANIES =================
 
-            // Company → Products (NO CASCADE)
             modelBuilder.Entity<Company>()
                 .HasMany(c => c.Products)
                 .WithRequired(p => p.Company)

@@ -1,4 +1,5 @@
 ﻿using MyStoreDesktop.Data;
+using MyStoreDesktop.Forms;
 using MyStoreDesktop.Models;
 using MyStoreDesktop.Services;
 using MyStoreDesktop.Services.BarcodeReaderService;
@@ -1550,16 +1551,12 @@ namespace MyStoreDesktop
             var settingform = new SettingForm();
             settingform.Show();
         }
-        private void btnReturnHistory_Click(object sender, EventArgs e)
+        
+        private void BtnMangmentBill(object sender, EventArgs e)
         {
-            var histryform = new FrmReturnHistory();
-            histryform.Show();
-        }
+            var manageBillForm = new ManagementBillForm();
+            manageBillForm.Show();
 
-        private void btnReturn_Click_1(object sender, EventArgs e)
-        {
-            var returnform = new FrmReturnProduct();
-            returnform.Show();
         }
     }
 }

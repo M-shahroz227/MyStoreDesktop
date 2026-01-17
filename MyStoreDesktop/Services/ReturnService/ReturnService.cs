@@ -1,82 +1,62 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using MyStoreDesktop.Data;
 using MyStoreDesktop.Models;
+using Newtonsoft.Json;
 
 namespace MyStoreDesktop.Services
 {
     public class ReturnService : IReturnService
     {
         private readonly DatabaseHelper _context;
+        private readonly IBillHistoryService _historyService;
 
         public ReturnService()
         {
-            _context = new DatabaseHelper();
         }
 
-        public int CreateReturn(Return returnInvoice)
+        public ReturnService(DatabaseHelper context, BillHistoryService historyService)
         {
-            if (returnInvoice == null)
-                throw new ArgumentNullException(nameof(returnInvoice));
-
-            _context.Returns.Add(returnInvoice);
-            _context.SaveChanges();
-
-            return returnInvoice.ReturnId;
+            _context = context;
+            _historyService = historyService;
         }
 
-        public void AddReturnItem(ReturnItem item)
+        public void ReturnProduct(int billId, int billProductId, string currentUser)
         {
-            if (item == null) throw new ArgumentNullException(nameof(item));
+            var bill = _context.Bills.FirstOrDefault(b => b.BillId == billId);
+            if (bill == null) throw new Exception("Bill not found");
 
-            var billProduct = _context.BillProducts.FirstOrDefault(b => b.BillProductId == item.BillProductId);
-            if (billProduct == null) throw new InvalidOperationException("Bill product not found.");
+            var billProduct = _context.BillProducts.FirstOrDefault(bp => bp.BillProductId == billProductId && bp.BillId == billId);
+            if (billProduct == null) throw new Exception("BillProduct not found");
+            if (billProduct.IsReturn) throw new Exception("Product already returned");
 
-            if (item.ReturnQuantity > billProduct.Quantity)
-                throw new InvalidOperationException("Return quantity cannot exceed purchased quantity.");
-
-            // Set pricing from BillProduct
-            item.ItemPrice = billProduct.ItemPrice;
-            item.TotalPrice = item.ItemPrice * item.ReturnQuantity;
-
-            _context.ReturnItems.Add(item);
-
-            // Update stock
-            var product = _context.Products.FirstOrDefault(p => p.ProductId == item.ProductId);
-            if (product != null)
-            {
-                product.Quantity += item.ReturnQuantity; // adjust according to Product model
-            }
-
-            _context.SaveChanges();
-        }
-
-        public List<ReturnItem> GetReturnItemsByReturnId(int returnId)
-        {
-            return _context.ReturnItems
-                .Where(r => r.ReturnId == returnId)
+            // Before snapshot
+            var beforeProducts = _context.BillProducts
+                .Where(bp => bp.BillId == billId)
+                .Select(bp => new { bp.BillProductId, bp.ProductId, bp.Quantity, bp.Price, bp.IsReturn })
                 .ToList();
-        }
+            string beforeJson = JsonConvert.SerializeObject(beforeProducts);
 
-        public List<ReturnItem> GetAllReturnItems()
-        {
-            return _context.ReturnItems.ToList();
-        }
+            // Return process
+            billProduct.IsReturn = true;
+            decimal productAmount = billProduct.Price * billProduct.Quantity;
+            bill.GrandTotal -= productAmount;
+            if (bill.GrandTotal < 0) bill.GrandTotal = 0;
 
-        public void DeleteReturnItem(int returnItemId)
-        {
-            var item = _context.ReturnItems.FirstOrDefault(r => r.ReturnItemId == returnItemId);
-            if (item == null) throw new InvalidOperationException("Return item not found.");
+            var product = _context.Products.FirstOrDefault(p => p.ProductId == billProduct.ProductId);
+            if (product != null) product.Quantity += billProduct.Quantity;
 
-            var product = _context.Products.FirstOrDefault(p => p.ProductId == item.ProductId);
-            if (product != null)
-            {
-                product.Quantity -= item.ReturnQuantity;
-            }
-
-            _context.ReturnItems.Remove(item);
             _context.SaveChanges();
+
+            // After snapshot
+            var afterProducts = _context.BillProducts
+                .Where(bp => bp.BillId == billId)
+                .Select(bp => new { bp.BillProductId, bp.ProductId, bp.Quantity, bp.Price, bp.IsReturn })
+                .ToList();
+            string afterJson = JsonConvert.SerializeObject(afterProducts);
+
+            // Save history via BillHistoryService
+            _historyService.SaveHistory(bill, beforeJson, afterJson, currentUser);
         }
     }
 }

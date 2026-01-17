@@ -30,15 +30,17 @@ namespace MyStoreDesktop
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.btnMangmentBill = new System.Windows.Forms.Button();
             this.btnReports = new System.Windows.Forms.Button();
             this.btnSales = new System.Windows.Forms.Button();
             this.btnUsers = new System.Windows.Forms.Button();
             this.btnProducts = new System.Windows.Forms.Button();
             this.btnHome = new System.Windows.Forms.Button();
+            this.picProduct = new System.Windows.Forms.PictureBox();
             this.panelMainContent = new System.Windows.Forms.Panel();
             this.tabControlBills = new System.Windows.Forms.TabControl();
             this.lstSuggestion = new System.Windows.Forms.ListBox();
@@ -86,11 +88,9 @@ namespace MyStoreDesktop
             this.UrlImage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
-            this.picProduct = new System.Windows.Forms.PictureBox();
-            this.btnReturnHistory = new System.Windows.Forms.Button();
-            this.btnReturn = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picProduct)).BeginInit();
             this.panelMainContent.SuspendLayout();
             this.rightPanel.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -98,7 +98,6 @@ namespace MyStoreDesktop
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAddToCard)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picProduct)).BeginInit();
             this.SuspendLayout();
             // 
             // panelMenu
@@ -115,7 +114,7 @@ namespace MyStoreDesktop
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel4.Controls.Add(this.btnReturn);
+            this.panel4.Controls.Add(this.btnMangmentBill);
             this.panel4.Controls.Add(this.btnReports);
             this.panel4.Controls.Add(this.btnSales);
             this.panel4.Controls.Add(this.btnUsers);
@@ -125,6 +124,19 @@ namespace MyStoreDesktop
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(200, 353);
             this.panel4.TabIndex = 6;
+            // 
+            // btnMangmentBill
+            // 
+            this.btnMangmentBill.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.btnMangmentBill.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMangmentBill.ForeColor = System.Drawing.Color.White;
+            this.btnMangmentBill.Location = new System.Drawing.Point(34, 295);
+            this.btnMangmentBill.Name = "btnMangmentBill";
+            this.btnMangmentBill.Size = new System.Drawing.Size(129, 40);
+            this.btnMangmentBill.TabIndex = 10;
+            this.btnMangmentBill.Text = "Mangment Bill";
+            this.btnMangmentBill.UseVisualStyleBackColor = false;
+            this.btnMangmentBill.Click += new System.EventHandler(this.BtnMangmentBill);
             // 
             // btnReports
             // 
@@ -190,6 +202,17 @@ namespace MyStoreDesktop
             this.btnHome.Text = "Home";
             this.btnHome.UseVisualStyleBackColor = false;
             this.btnHome.Click += new System.EventHandler(this.LoginPanelbtnHome);
+            // 
+            // picProduct
+            // 
+            this.picProduct.BackColor = System.Drawing.Color.White;
+            this.picProduct.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picProduct.Location = new System.Drawing.Point(7, 355);
+            this.picProduct.Name = "picProduct";
+            this.picProduct.Size = new System.Drawing.Size(200, 218);
+            this.picProduct.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picProduct.TabIndex = 5;
+            this.picProduct.TabStop = false;
             // 
             // panelMainContent
             // 
@@ -565,7 +588,6 @@ namespace MyStoreDesktop
             // panel5
             // 
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel5.Controls.Add(this.btnReturnHistory);
             this.panel5.Controls.Add(this.btnCloudBackup);
             this.panel5.Controls.Add(this.btnSetting);
             this.panel5.Controls.Add(this.btnlogout);
@@ -603,7 +625,7 @@ namespace MyStoreDesktop
             // 
             this.btnlogout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.btnlogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnlogout.Location = new System.Drawing.Point(429, 9);
+            this.btnlogout.Location = new System.Drawing.Point(615, 9);
             this.btnlogout.Name = "btnlogout";
             this.btnlogout.Size = new System.Drawing.Size(102, 36);
             this.btnlogout.TabIndex = 3;
@@ -638,14 +660,14 @@ namespace MyStoreDesktop
             this.Discount,
             this.Total,
             this.UrlImage});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAddToCard.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAddToCard.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvAddToCard.GridColor = System.Drawing.Color.LightGray;
             this.dgvAddToCard.Location = new System.Drawing.Point(6, 127);
             this.dgvAddToCard.Name = "dgvAddToCard";
@@ -684,9 +706,9 @@ namespace MyStoreDesktop
             // 
             // Total
             // 
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
-            this.Total.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            this.Total.DefaultCellStyle = dataGridViewCellStyle1;
             this.Total.HeaderText = "Total";
             this.Total.Name = "Total";
             this.Total.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -721,42 +743,6 @@ namespace MyStoreDesktop
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
             // 
-            // picProduct
-            // 
-            this.picProduct.BackColor = System.Drawing.Color.White;
-            this.picProduct.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picProduct.Location = new System.Drawing.Point(7, 355);
-            this.picProduct.Name = "picProduct";
-            this.picProduct.Size = new System.Drawing.Size(200, 218);
-            this.picProduct.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picProduct.TabIndex = 5;
-            this.picProduct.TabStop = false;
-            // 
-            // btnReturnHistory
-            // 
-            this.btnReturnHistory.BackColor = System.Drawing.Color.Transparent;
-            this.btnReturnHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReturnHistory.Location = new System.Drawing.Point(539, 10);
-            this.btnReturnHistory.Name = "btnReturnHistory";
-            this.btnReturnHistory.Size = new System.Drawing.Size(180, 35);
-            this.btnReturnHistory.TabIndex = 7;
-            this.btnReturnHistory.Text = "Return History";
-            this.btnReturnHistory.UseVisualStyleBackColor = false;
-            this.btnReturnHistory.Click += new System.EventHandler(this.btnReturnHistory_Click);
-            // 
-            // btnReturn
-            // 
-            this.btnReturn.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnReturn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReturn.ForeColor = System.Drawing.Color.White;
-            this.btnReturn.Location = new System.Drawing.Point(34, 295);
-            this.btnReturn.Name = "btnReturn";
-            this.btnReturn.Size = new System.Drawing.Size(129, 40);
-            this.btnReturn.TabIndex = 10;
-            this.btnReturn.Text = "Returns";
-            this.btnReturn.UseVisualStyleBackColor = false;
-            this.btnReturn.Click += new System.EventHandler(this.btnReturn_Click_1);
-            // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -772,6 +758,7 @@ namespace MyStoreDesktop
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panelMenu.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picProduct)).EndInit();
             this.panelMainContent.ResumeLayout(false);
             this.panelMainContent.PerformLayout();
             this.rightPanel.ResumeLayout(false);
@@ -782,7 +769,6 @@ namespace MyStoreDesktop
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAddToCard)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picProduct)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -849,7 +835,6 @@ namespace MyStoreDesktop
         private System.Windows.Forms.Button btnSetting;
         private System.Windows.Forms.TabControl tabControlBills;
         private System.Windows.Forms.Button btnCloudBackup;
-        private System.Windows.Forms.Button btnReturnHistory;
-        private System.Windows.Forms.Button btnReturn;
+        private System.Windows.Forms.Button btnMangmentBill;
     }
 }

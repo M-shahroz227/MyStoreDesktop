@@ -22,8 +22,10 @@ namespace MyStoreDesktop.Models
         public decimal Amount { get; set; }
         public decimal ItemPrice { get; set; }
         public decimal TotalPrice { get; set; }
+        public bool IsReturn { get; set; }
 
         public virtual Bill Bill { get; set; }
         public virtual Product Product { get; set; }
+        public decimal Price { get; internal set; }
     }
 }

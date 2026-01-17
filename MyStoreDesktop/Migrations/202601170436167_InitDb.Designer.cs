@@ -7,13 +7,13 @@ namespace MyStoreDesktop.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class initDb : IMigrationMetadata
+    public sealed partial class InitDb : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(initDb));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitDb));
         
         string IMigrationMetadata.Id
         {
-            get { return "202601151406293_initDb"; }
+            get { return "202601170436167_InitDb"; }
         }
         
         string IMigrationMetadata.Source

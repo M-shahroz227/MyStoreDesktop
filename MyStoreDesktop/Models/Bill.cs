@@ -36,9 +36,6 @@ namespace MyStoreDesktop.Models
 
         public virtual ICollection<BillProduct> BillProducts { get; set; }
             = new HashSet<BillProduct>();
-
-        // ✅ ADD THIS (FIX)
-        public virtual ICollection<Return> Returns { get; set; }
-            = new HashSet<Return>();
+        public virtual ICollection<BillHistory> BillHistories { get; set; } // <-- FIX: Change type from ICollection<object> to ICollection<BillHistory>
     }
 }

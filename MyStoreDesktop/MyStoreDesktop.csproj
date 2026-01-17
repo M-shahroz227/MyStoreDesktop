@@ -153,18 +153,6 @@
     <Compile Include="FrmGoogleDriveBackup.Designer.cs">
       <DependentUpon>FrmGoogleDriveBackup.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmReturnHistory.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmReturnHistory.Designer.cs">
-      <DependentUpon>FrmReturnHistory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FrmReturnProduct.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmReturnProduct.Designer.cs">
-      <DependentUpon>FrmReturnProduct.cs</DependentUpon>
-    </Compile>
     <Compile Include="Home.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -177,12 +165,19 @@
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202601151406293_initDb.cs" />
-    <Compile Include="Migrations\202601151406293_initDb.Designer.cs">
-      <DependentUpon>202601151406293_initDb.cs</DependentUpon>
+    <Compile Include="ManagementBillForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManagementBillForm.Designer.cs">
+      <DependentUpon>ManagementBillForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202601170436167_InitDb.cs" />
+    <Compile Include="Migrations\202601170436167_InitDb.Designer.cs">
+      <DependentUpon>202601170436167_InitDb.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bill.cs" />
+    <Compile Include="Models\BillHistory.cs" />
     <Compile Include="Models\BillProduct.cs" />
     <Compile Include="Models\BillSessionState.cs" />
     <Compile Include="Models\BillTabControls.cs" />
@@ -193,8 +188,6 @@
     <Compile Include="Models\CustomerInvoice.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\QrTableData.cs" />
-    <Compile Include="Models\Return.cs" />
-    <Compile Include="Models\ReturnItem.cs" />
     <Compile Include="Models\SessionManger.cs" />
     <Compile Include="Models\Setting.cs" />
     <Compile Include="Models\User.cs" />
@@ -249,6 +242,8 @@
       <DependentUpon>SalesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\BarcodeReaderService\BarcodeReaderService.cs" />
+    <Compile Include="Services\BillHistoryService\BillHistoryService.cs" />
+    <Compile Include="Services\BillHistoryService\IBillHistoryService.cs" />
     <Compile Include="Services\BillProductService\BillProductService.cs" />
     <Compile Include="Services\BillProductService\IBillProductService.cs" />
     <Compile Include="Services\BillService\BillService.cs" />
@@ -265,8 +260,6 @@
     <Compile Include="Services\ProductService\ProductService.cs" />
     <Compile Include="Services\QrTableDataService\IQrTableDataService.cs" />
     <Compile Include="Services\QrTableDataService\QrTableDataService.cs" />
-    <Compile Include="Services\ReturnItemService\IReturnItemService.cs" />
-    <Compile Include="Services\ReturnItemService\ReturnItemService.cs" />
     <Compile Include="Services\ReturnService\IReturnService.cs" />
     <Compile Include="Services\ReturnService\ReturnService.cs" />
     <Compile Include="Services\SettingService\ISettingService.cs" />
@@ -300,8 +293,8 @@
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202601151406293_initDb.resx">
-      <DependentUpon>202601151406293_initDb.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202601170436167_InitDb.resx">
+      <DependentUpon>202601170436167_InitDb.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PrintForm.resx">
       <DependentUpon>PrintForm.cs</DependentUpon>

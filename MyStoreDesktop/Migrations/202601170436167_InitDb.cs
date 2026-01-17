@@ -3,30 +3,25 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initDb : DbMigration
+    public partial class InitDb : DbMigration
     {
         public override void Up()
         {
             CreateTable(
-                "dbo.BillProducts",
+                "dbo.BillHistories",
                 c => new
                     {
-                        BillProductId = c.Int(nullable: false, identity: true),
+                        BillHistoryId = c.Int(nullable: false, identity: true),
                         BillId = c.Int(nullable: false),
-                        ProductId = c.Int(nullable: false),
-                        Title = c.String(),
-                        SalePrice = c.Double(nullable: false),
-                        Total = c.Double(nullable: false),
-                        Quantity = c.Int(nullable: false),
-                        Amount = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        ItemPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        TotalPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        BeforeJson = c.String(maxLength: 1000),
+                        AfterJson = c.String(maxLength: 1000),
+                        SnapshotJson = c.String(),
+                        ModifiedBy = c.String(),
+                        ModifiedOn = c.DateTime(nullable: false),
                     })
-                .PrimaryKey(t => t.BillProductId)
-                .ForeignKey("dbo.Bills", t => t.BillId, cascadeDelete: true)
-                .ForeignKey("dbo.Products", t => t.ProductId)
-                .Index(t => t.BillId)
-                .Index(t => t.ProductId);
+                .PrimaryKey(t => t.BillHistoryId)
+                .ForeignKey("dbo.Bills", t => t.BillId)
+                .Index(t => t.BillId);
             
             CreateTable(
                 "dbo.Bills",
@@ -53,47 +48,26 @@
                 .Index(t => t.CustomerInvoiceId);
             
             CreateTable(
-                "dbo.CustomerInvoices",
+                "dbo.BillProducts",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
-                        CustomerName = c.String(),
-                        CustomerPhone = c.String(),
-                        CustomerAddress = c.String(),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.Returns",
-                c => new
-                    {
-                        ReturnId = c.Int(nullable: false, identity: true),
+                        BillProductId = c.Int(nullable: false, identity: true),
                         BillId = c.Int(nullable: false),
-                        ReturnDate = c.DateTime(nullable: false),
-                        TotalAmount = c.Decimal(nullable: false, precision: 18, scale: 2),
-                    })
-                .PrimaryKey(t => t.ReturnId)
-                .ForeignKey("dbo.Bills", t => t.BillId)
-                .Index(t => t.BillId);
-            
-            CreateTable(
-                "dbo.ReturnItems",
-                c => new
-                    {
-                        ReturnItemId = c.Int(nullable: false, identity: true),
-                        ReturnId = c.Int(nullable: false),
-                        BillProductId = c.Int(nullable: false),
                         ProductId = c.Int(nullable: false),
-                        ReturnQuantity = c.Int(nullable: false),
+                        Title = c.String(),
+                        SalePrice = c.Double(nullable: false),
+                        Total = c.Double(nullable: false),
+                        Quantity = c.Int(nullable: false),
+                        Amount = c.Decimal(nullable: false, precision: 18, scale: 2),
                         ItemPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
                         TotalPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        IsReturn = c.Boolean(nullable: false),
+                        Price = c.Decimal(nullable: false, precision: 18, scale: 2),
                     })
-                .PrimaryKey(t => t.ReturnItemId)
-                .ForeignKey("dbo.BillProducts", t => t.BillProductId, cascadeDelete: true)
-                .ForeignKey("dbo.Products", t => t.ProductId, cascadeDelete: true)
-                .ForeignKey("dbo.Returns", t => t.ReturnId, cascadeDelete: true)
-                .Index(t => t.ReturnId)
-                .Index(t => t.BillProductId)
+                .PrimaryKey(t => t.BillProductId)
+                .ForeignKey("dbo.Products", t => t.ProductId)
+                .ForeignKey("dbo.Bills", t => t.BillId, cascadeDelete: true)
+                .Index(t => t.BillId)
                 .Index(t => t.ProductId);
             
             CreateTable(
@@ -140,6 +114,17 @@
                         Description = c.String(),
                     })
                 .PrimaryKey(t => t.CompanyId);
+            
+            CreateTable(
+                "dbo.CustomerInvoices",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        CustomerName = c.String(),
+                        CustomerPhone = c.String(),
+                        CustomerAddress = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Users",
@@ -197,38 +182,31 @@
         {
             DropForeignKey("dbo.QrTableDatas", "ProductId", "dbo.Products");
             DropForeignKey("dbo.Bills", "UserId", "dbo.Users");
-            DropForeignKey("dbo.Returns", "BillId", "dbo.Bills");
-            DropForeignKey("dbo.ReturnItems", "ReturnId", "dbo.Returns");
-            DropForeignKey("dbo.ReturnItems", "ProductId", "dbo.Products");
+            DropForeignKey("dbo.Bills", "CustomerInvoiceId", "dbo.CustomerInvoices");
+            DropForeignKey("dbo.BillProducts", "BillId", "dbo.Bills");
             DropForeignKey("dbo.Products", "CompanyId", "dbo.Companies");
             DropForeignKey("dbo.Products", "CategoryId", "dbo.Categories");
             DropForeignKey("dbo.BillProducts", "ProductId", "dbo.Products");
-            DropForeignKey("dbo.ReturnItems", "BillProductId", "dbo.BillProducts");
-            DropForeignKey("dbo.Bills", "CustomerInvoiceId", "dbo.CustomerInvoices");
-            DropForeignKey("dbo.BillProducts", "BillId", "dbo.Bills");
+            DropForeignKey("dbo.BillHistories", "BillId", "dbo.Bills");
             DropIndex("dbo.QrTableDatas", new[] { "ProductId" });
             DropIndex("dbo.Products", new[] { "CategoryId" });
             DropIndex("dbo.Products", new[] { "CompanyId" });
-            DropIndex("dbo.ReturnItems", new[] { "ProductId" });
-            DropIndex("dbo.ReturnItems", new[] { "BillProductId" });
-            DropIndex("dbo.ReturnItems", new[] { "ReturnId" });
-            DropIndex("dbo.Returns", new[] { "BillId" });
-            DropIndex("dbo.Bills", new[] { "CustomerInvoiceId" });
-            DropIndex("dbo.Bills", new[] { "UserId" });
             DropIndex("dbo.BillProducts", new[] { "ProductId" });
             DropIndex("dbo.BillProducts", new[] { "BillId" });
+            DropIndex("dbo.Bills", new[] { "CustomerInvoiceId" });
+            DropIndex("dbo.Bills", new[] { "UserId" });
+            DropIndex("dbo.BillHistories", new[] { "BillId" });
             DropTable("dbo.Settings");
             DropTable("dbo.QrTableDatas");
             DropTable("dbo.Configurations");
             DropTable("dbo.Users");
+            DropTable("dbo.CustomerInvoices");
             DropTable("dbo.Companies");
             DropTable("dbo.Categories");
             DropTable("dbo.Products");
-            DropTable("dbo.ReturnItems");
-            DropTable("dbo.Returns");
-            DropTable("dbo.CustomerInvoices");
-            DropTable("dbo.Bills");
             DropTable("dbo.BillProducts");
+            DropTable("dbo.Bills");
+            DropTable("dbo.BillHistories");
         }
     }
 }
