@@ -11,14 +11,10 @@ namespace MyStoreDesktop.Services
         private readonly DatabaseHelper _context;
         private readonly IBillHistoryService _historyService;
 
-        public ReturnService()
+        public ReturnService( )
         {
-        }
-
-        public ReturnService(DatabaseHelper context, BillHistoryService historyService)
-        {
-            _context = context;
-            _historyService = historyService;
+            _context = new DatabaseHelper();
+            _historyService = new BillHistoryService();
         }
 
         public void ReturnProduct(int billId, int billProductId, string currentUser)

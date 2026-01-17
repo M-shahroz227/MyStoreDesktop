@@ -35,7 +35,7 @@ namespace MyStoreDesktop.Models
         public virtual User User { get; set; }
 
         public virtual ICollection<BillProduct> BillProducts { get; set; }
-            = new HashSet<BillProduct>();
+            =   new HashSet<BillProduct>();
         public virtual ICollection<BillHistory> BillHistories { get; set; } // <-- FIX: Change type from ICollection<object> to ICollection<BillHistory>
     }
 }

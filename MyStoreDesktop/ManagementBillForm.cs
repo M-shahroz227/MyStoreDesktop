@@ -1,6 +1,7 @@
 ﻿using MyStoreDesktop.Data;
 using MyStoreDesktop.Models;
 using MyStoreDesktop.Services;
+using MyStoreDesktop.Services.UserService;
 using MyStoreDesktop.Theme;
 using System;
 using System.Linq;
@@ -10,11 +11,15 @@ namespace MyStoreDesktop.Forms
 {
     public partial class ManagementBillForm : Form
     {
-        private readonly DatabaseHelper _context = new DatabaseHelper();
+        private readonly DatabaseHelper _context =new DatabaseHelper();
         private readonly IReturnService _returnService = new ReturnService();
+        private readonly IUserService _userService = new UserService();
+
+
 
         public ManagementBillForm()
         {
+
             InitializeComponent();
             ThemeManager.ApplyTheme(this);
             SetupDataGridView();
@@ -132,28 +137,26 @@ namespace MyStoreDesktop.Forms
 
             if (dgvBillProducts.Columns[e.ColumnIndex].Name == "ReturnButtonColumn")
             {
-                int billProductId = Convert.ToInt32(dgvBillProducts.Rows[e.RowIndex].Cells["billProductId"].Value);
+                int billProductId = Convert.ToInt32(
+                    dgvBillProducts.Rows[e.RowIndex].Cells["BillProductId"].Value);
+
                 int billId = int.Parse(txtBillID.Text);
 
-                try
-                {
-                    string currentUser = "Shahroz"; // TODO: replace with actual logged-in user
-                    _returnService.ReturnProduct(billId, billProductId, currentUser);
+                string currentUser = SessionManager.UserName;
+                _returnService.ReturnProduct(billId, billProductId, currentUser);
 
-                    MessageBox.Show("Product returned successfully!");
-                    btnSearchBill_Click(null, null); // Refresh
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                MessageBox.Show("Product returned successfully!");
+                btnSearchBill_Click(null, null);
             }
-            else if (dgvBillProducts.Columns[e.RowIndex].Name == "ModifyButtonColumn")
+            else if (dgvBillProducts.Columns[e.ColumnIndex].Name == "ModifyButtonColumn")
             {
-                MessageBox.Show("modifying is starting...");
-            }
+                int billProductId = Convert.ToInt32(
+                    dgvBillProducts.Rows[e.RowIndex].Cells["BillProductId"].Value);
 
+                MessageBox.Show("Modifying is starting...");
+            }
         }
+
     }
 }
 
