@@ -21,6 +21,7 @@
             this.btnSearchBill = new System.Windows.Forms.Button();
             this.dgvBillProducts = new System.Windows.Forms.DataGridView();
             this.lblGrandTotal = new System.Windows.Forms.Label();
+            this.btnViewReturnHistoryForm = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBillProducts)).BeginInit();
             this.SuspendLayout();
             // 
@@ -63,9 +64,20 @@
             this.lblGrandTotal.TabIndex = 3;
             this.lblGrandTotal.Text = "Grand Total: ";
             // 
+            // btnViewReturnHistoryForm
+            // 
+            this.btnViewReturnHistoryForm.Location = new System.Drawing.Point(628, 10);
+            this.btnViewReturnHistoryForm.Name = "btnViewReturnHistoryForm";
+            this.btnViewReturnHistoryForm.Size = new System.Drawing.Size(111, 30);
+            this.btnViewReturnHistoryForm.TabIndex = 4;
+            this.btnViewReturnHistoryForm.Text = "View Histry";
+            this.btnViewReturnHistoryForm.UseVisualStyleBackColor = true;
+            this.btnViewReturnHistoryForm.Click += new System.EventHandler(this.btnViewReturnHistoryForm_Click);
+            // 
             // ManagementBillForm
             // 
             this.ClientSize = new System.Drawing.Size(784, 441);
+            this.Controls.Add(this.btnViewReturnHistoryForm);
             this.Controls.Add(this.lblGrandTotal);
             this.Controls.Add(this.dgvBillProducts);
             this.Controls.Add(this.btnSearchBill);
@@ -77,5 +89,7 @@
             this.PerformLayout();
 
         }
+
+        private System.Windows.Forms.Button btnViewReturnHistoryForm;
     }
 }

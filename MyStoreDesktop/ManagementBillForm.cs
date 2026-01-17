@@ -164,7 +164,11 @@ namespace MyStoreDesktop.Forms
             }
         }
 
-
+        private void btnViewReturnHistoryForm_Click(object sender, EventArgs e)
+        {
+            var viewhistryform = new ViewReturnHistoryForm();
+            viewhistryform.Show();
+        }
     }
 }
 

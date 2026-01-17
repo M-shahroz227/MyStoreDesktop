@@ -266,6 +266,8 @@
     <Compile Include="Services\ProductService\ProductService.cs" />
     <Compile Include="Services\QrTableDataService\IQrTableDataService.cs" />
     <Compile Include="Services\QrTableDataService\QrTableDataService.cs" />
+    <Compile Include="Services\ReturnHistoryService\IReturnHistoryService.cs" />
+    <Compile Include="Services\ReturnHistoryService\ReturnHistoryService.cs" />
     <Compile Include="Services\ReturnService\IReturnService.cs" />
     <Compile Include="Services\ReturnService\ReturnService.cs" />
     <Compile Include="Services\SettingService\ISettingService.cs" />
@@ -286,6 +288,12 @@
     </Compile>
     <Compile Include="UserForm.Designer.cs">
       <DependentUpon>UserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewReturnHistoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewReturnHistoryForm.Designer.cs">
+      <DependentUpon>ViewReturnHistoryForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="AdminForm.resx">
       <DependentUpon>AdminForm.cs</DependentUpon>
