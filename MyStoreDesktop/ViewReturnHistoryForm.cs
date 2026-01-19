@@ -31,6 +31,7 @@ namespace MyStoreDesktop.Forms
 
             InitializeControls();
             LoadHistory();
+           
         }
 
         private void InitializeControls()
