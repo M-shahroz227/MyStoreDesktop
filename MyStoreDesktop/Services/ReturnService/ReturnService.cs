@@ -56,7 +56,7 @@ namespace MyStoreDesktop.Services
             _historyService.SaveHistory(bill, beforeJson, afterJson, currentUser);
         }
 
-        // ------------------ MODIFY RETURNED PRODUCT ------------------
+        // ------------------ MODIFY PRODUCT ANYTIME ------------------
         public void ModifyReturnedProduct(int billId, int billProductId, int newQuantity, decimal newPrice, string currentUser)
         {
             var bill = _context.Bills.FirstOrDefault(b => b.BillId == billId);
@@ -64,7 +64,6 @@ namespace MyStoreDesktop.Services
 
             var billProduct = _context.BillProducts.FirstOrDefault(bp => bp.BillProductId == billProductId && bp.BillId == billId);
             if (billProduct == null) throw new Exception("BillProduct not found");
-            if (!billProduct.IsReturn) throw new Exception("Product is not marked as returned");
 
             // Before snapshot
             var beforeProducts = _context.BillProducts
@@ -73,21 +72,24 @@ namespace MyStoreDesktop.Services
                 .ToList();
             string beforeJson = JsonConvert.SerializeObject(beforeProducts);
 
-            // Adjust grand total (remove old amount, add new amount)
-            decimal oldAmount = billProduct.Price * billProduct.Quantity;
-            decimal newAmount = newPrice * newQuantity;
-            bill.GrandTotal = bill.GrandTotal - oldAmount + newAmount;
-            if (bill.GrandTotal < 0) bill.GrandTotal = 0;
+            // Adjust grand total only if product was already returned
+            if (billProduct.IsReturn)
+            {
+                decimal oldAmount = billProduct.Price * billProduct.Quantity;
+                decimal newAmount = newPrice * newQuantity;
+                bill.GrandTotal = bill.GrandTotal - oldAmount + newAmount;
+                if (bill.GrandTotal < 0) bill.GrandTotal = 0;
+            }
 
-            // Adjust product stock
+            // Adjust stock if product was already returned
             var product = _context.Products.FirstOrDefault(p => p.ProductId == billProduct.ProductId);
-            if (product != null)
+            if (product != null && billProduct.IsReturn)
             {
                 int stockChange = newQuantity - billProduct.Quantity;
                 product.Quantity += stockChange;
             }
 
-            // Update returned product
+            // Update product quantity and price
             billProduct.Quantity = newQuantity;
             billProduct.Price = newPrice;
 
@@ -103,6 +105,8 @@ namespace MyStoreDesktop.Services
             // Save history
             _historyService.SaveHistory(bill, beforeJson, afterJson, currentUser);
         }
+
+        // ------------------ GET BILL PRODUCT ------------------
         public BillProduct GetBillProduct(int billId, int billProductId)
         {
             return _context.BillProducts
