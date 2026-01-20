@@ -53,7 +53,7 @@
             this.dgvBillProducts.ReadOnly = true;
             this.dgvBillProducts.RowHeadersWidth = 51;
             this.dgvBillProducts.RowTemplate.Height = 24;
-            this.dgvBillProducts.Size = new System.Drawing.Size(760, 350);
+            this.dgvBillProducts.Size = new System.Drawing.Size(844, 350);
             this.dgvBillProducts.TabIndex = 2;
             // 
             // lblGrandTotal
@@ -67,7 +67,7 @@
             // 
             // btnViewReturnHistoryForm
             // 
-            this.btnViewReturnHistoryForm.Location = new System.Drawing.Point(658, 7);
+            this.btnViewReturnHistoryForm.Location = new System.Drawing.Point(741, 7);
             this.btnViewReturnHistoryForm.Name = "btnViewReturnHistoryForm";
             this.btnViewReturnHistoryForm.Size = new System.Drawing.Size(111, 41);
             this.btnViewReturnHistoryForm.TabIndex = 4;
@@ -87,7 +87,7 @@
             // 
             // ManagementBillForm
             // 
-            this.ClientSize = new System.Drawing.Size(784, 441);
+            this.ClientSize = new System.Drawing.Size(868, 441);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnViewReturnHistoryForm);
             this.Controls.Add(this.lblGrandTotal);

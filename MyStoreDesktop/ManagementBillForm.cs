@@ -21,12 +21,14 @@ namespace MyStoreDesktop.Forms
             ThemeManager.ApplyTheme(this);
             SetupDataGridView();
 
-            this.Load += ManagementBillForm_Load;   // ✅ Form Load Event
+            this.Load += ManagementBillForm_Load;   // Form Load Event
+            btnSearchBill.Click += btnSearchBill_Click;
+            btnViewReturnHistoryForm.Click += btnViewReturnHistoryForm_Click;
         }
 
         private void ManagementBillForm_Load(object sender, EventArgs e)
         {
-            LoadAllSales();   // auto load BillProducts
+            LoadAllSales();   // Auto-load all bill products
         }
 
         private void SetupDataGridView()
@@ -41,11 +43,39 @@ namespace MyStoreDesktop.Forms
                 Name = "BillProductId",
                 Visible = false
             });
-            dgvBillProducts.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Product", DataPropertyName = "ProductName" });
-            dgvBillProducts.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Qty", DataPropertyName = "Quantity" });
-            dgvBillProducts.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Price", DataPropertyName = "Price" });
-            dgvBillProducts.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Amount", DataPropertyName = "Amount" });
-            dgvBillProducts.Columns.Add(new DataGridViewCheckBoxColumn { HeaderText = "Returned", DataPropertyName = "IsReturn" });
+            dgvBillProducts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "BillId",
+                DataPropertyName = "BillId",
+                Name = "BillId",
+                Visible = true
+            });
+            dgvBillProducts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Product",
+                DataPropertyName = "ProductName"
+            });
+            dgvBillProducts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Qty",
+                DataPropertyName = "Quantity"
+            });
+            dgvBillProducts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Price",
+                DataPropertyName = "Price"
+            });
+            dgvBillProducts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Amount",
+                DataPropertyName = "Amount"
+            });
+            dgvBillProducts.Columns.Add(new DataGridViewCheckBoxColumn
+            {
+                HeaderText = "Returned",
+                DataPropertyName = "IsReturn",
+                Name = "IsReturn"
+            });
 
             dgvBillProducts.Columns.Add(new DataGridViewButtonColumn
             {
@@ -57,7 +87,7 @@ namespace MyStoreDesktop.Forms
             dgvBillProducts.Columns.Add(new DataGridViewButtonColumn
             {
                 Name = "ModifyButtonColumn",
-                HeaderText = "Action",
+                HeaderText = "Modify",
                 Text = "Modify",
                 UseColumnTextForButtonValue = true
             });
@@ -67,9 +97,10 @@ namespace MyStoreDesktop.Forms
 
         private void LoadAllSales()
         {
-            dgvBillProducts.DataSource = _context.BillProducts
+            var allBillProducts = _context.BillProducts
                 .Select(bp => new
                 {
+                    bp.BillId,
                     bp.BillProductId,
                     ProductName = bp.Product.Title,
                     bp.Quantity,
@@ -78,24 +109,29 @@ namespace MyStoreDesktop.Forms
                     bp.IsReturn
                 })
                 .ToList();
+
+            dgvBillProducts.DataSource = allBillProducts;
         }
 
         private void btnSearchBill_Click(object sender, EventArgs e)
         {
             if (!int.TryParse(txtBillID.Text, out int billId))
             {
-                MessageBox.Show("Enter valid Bill ID"); return;
+                MessageBox.Show("Enter valid Bill ID");
+                return;
             }
 
             var bill = _context.Bills.FirstOrDefault(b => b.BillId == billId);
             if (bill == null)
             {
-                MessageBox.Show("Bill not found"); return;
+                MessageBox.Show("Bill not found");
+                return;
             }
 
             dgvBillProducts.DataSource = bill.BillProducts
                 .Select(bp => new
                 {
+                    bp.BillId,
                     bp.BillProductId,
                     ProductName = bp.Product.Title,
                     bp.Quantity,
@@ -112,25 +148,38 @@ namespace MyStoreDesktop.Forms
         {
             if (e.RowIndex < 0) return;
 
-            if (!int.TryParse(txtBillID.Text, out int billId))
-            {
-                MessageBox.Show("Enter Bill ID first"); return;
-            }
+            var row = dgvBillProducts.Rows[e.RowIndex];
+
+            int billId = Convert.ToInt32(row.Cells["BillId"].Value);
+            int bpId = Convert.ToInt32(row.Cells["BillProductId"].Value);
+            bool isReturned = row.Cells["IsReturn"].Value != null && Convert.ToBoolean(row.Cells["IsReturn"].Value);
 
             string user = SessionManager.UserName;
-            int bpId = Convert.ToInt32(dgvBillProducts.Rows[e.RowIndex].Cells["BillProductId"].Value);
 
             if (dgvBillProducts.Columns[e.ColumnIndex].Name == "ReturnButtonColumn")
             {
-                _returnService.ReturnProduct(billId, bpId, user);
-                MessageBox.Show("Returned Successfully");
+                if (isReturned)
+                {
+                    MessageBox.Show("This product is already returned.");
+                    return;
+                }
+
+                try
+                {
+                    _returnService.ReturnProduct(billId, bpId, user);
+                    MessageBox.Show("Returned Successfully");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}");
+                }
             }
             else if (dgvBillProducts.Columns[e.ColumnIndex].Name == "ModifyButtonColumn")
             {
                 new ModifyReturnForm(billId, bpId, (ReturnService)_returnService, user).ShowDialog();
             }
 
-            LoadAllSales(); // refresh grid
+            LoadAllSales(); // Refresh DataGridView
         }
 
         private void btnViewReturnHistoryForm_Click(object sender, EventArgs e)
