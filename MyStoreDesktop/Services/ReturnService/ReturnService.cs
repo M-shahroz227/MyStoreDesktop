@@ -103,5 +103,10 @@ namespace MyStoreDesktop.Services
             // Save history
             _historyService.SaveHistory(bill, beforeJson, afterJson, currentUser);
         }
+        public BillProduct GetBillProduct(int billId, int billProductId)
+        {
+            return _context.BillProducts
+                           .FirstOrDefault(bp => bp.BillId == billId && bp.BillProductId == billProductId);
+        }
     }
 }

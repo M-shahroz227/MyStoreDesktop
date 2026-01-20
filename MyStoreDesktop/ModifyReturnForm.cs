@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using MyStoreDesktop.Services;
+using MyStoreDesktop.Models;
 
 namespace MyStoreDesktop.Forms
 {
@@ -36,32 +37,34 @@ namespace MyStoreDesktop.Forms
             this.ClientSize = new Size(320, 200);
             this.BackColor = Color.White;
 
-            // Initialize controls
             InitializeControls();
+
+            // Load the current values from the bill product
+            LoadCurrentValues();
         }
 
         private void InitializeControls()
         {
-            // ------------------ Labels ------------------
+            // Labels
             lblQuantity = new Label()
             {
-                Text = "New Quantity:",
+                Text = "Quantity:",
                 Left = 20,
                 Top = 30,
                 Width = 120,
-                Font = new Font("Segoe UI", 10, FontStyle.Regular)
+                Font = new Font("Segoe UI", 10)
             };
 
             lblPrice = new Label()
             {
-                Text = "New Price:",
+                Text = "Price:",
                 Left = 20,
                 Top = 80,
                 Width = 120,
-                Font = new Font("Segoe UI", 10, FontStyle.Regular)
+                Font = new Font("Segoe UI", 10)
             };
 
-            // ------------------ Numeric Controls ------------------
+            // NumericUpDowns
             numericQuantity = new NumericUpDown()
             {
                 Left = 150,
@@ -69,7 +72,6 @@ namespace MyStoreDesktop.Forms
                 Width = 120,
                 Minimum = 1,
                 Maximum = 1000,
-                Value = 1,
                 Font = new Font("Segoe UI", 10)
             };
 
@@ -82,11 +84,10 @@ namespace MyStoreDesktop.Forms
                 Maximum = 100000,
                 DecimalPlaces = 2,
                 Increment = 0.5M,
-                Value = 1,
                 Font = new Font("Segoe UI", 10)
             };
 
-            // ------------------ Buttons ------------------
+            // Buttons
             btnSave = new Button()
             {
                 Text = "Save",
@@ -117,7 +118,7 @@ namespace MyStoreDesktop.Forms
             btnCancel.FlatAppearance.BorderSize = 0;
             btnCancel.Click += (s, e) => this.Close();
 
-            // ------------------ Add controls to form ------------------
+            // Add to form
             this.Controls.Add(lblQuantity);
             this.Controls.Add(numericQuantity);
             this.Controls.Add(lblPrice);
@@ -126,7 +127,21 @@ namespace MyStoreDesktop.Forms
             this.Controls.Add(btnCancel);
         }
 
-        // ------------------ Save Button Click ------------------
+        private void LoadCurrentValues()
+        {
+            // Get the current BillProduct from ReturnService
+            BillProduct bp = _returnService.GetBillProduct(_billId, _billProductId);
+            if (bp != null)
+            {
+                numericQuantity.Value = bp.Quantity;
+                numericPrice.Value = bp.ItemPrice;
+
+                // Optional: set max to prevent crazy values
+                numericQuantity.Maximum = bp.Quantity * 2;
+                numericPrice.Maximum = bp.ItemPrice * 5;
+            }
+        }
+
         private void BtnSave_Click(object sender, EventArgs e)
         {
             int newQty = (int)numericQuantity.Value;

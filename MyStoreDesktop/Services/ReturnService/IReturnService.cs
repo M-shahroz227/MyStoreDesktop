@@ -6,6 +6,7 @@ namespace MyStoreDesktop.Services
     {
         void ReturnProduct(int billId, int billProductId, string currentUser);
         void ModifyReturnedProduct(int billId, int billProductId, int newQuantity, decimal newPrice, string currentUser);
+        BillProduct GetBillProduct(int billId, int billProductId);
 
 
     }
