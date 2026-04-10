@@ -1,6 +1,12 @@
 # 🛒 MyStoreDesktop
 
-A desktop-based Store Management System built using .NET that helps manage products, sales, and inventory efficiently. This application is designed to simplify daily store operations with an easy-to-use interface and structured data management.
+A powerful desktop-based Store Management System built using .NET, designed to manage products, inventory, and sales operations efficiently. This application provides a complete POS (Point of Sale) experience with modern UI and additional features like QR code generation.
+
+---
+
+## 🧠 Project Overview
+
+MyStoreDesktop is designed for small to medium-sized businesses to handle daily store operations such as product management, billing, and sales tracking. It simplifies workflows with an intuitive interface and structured data handling.
 
 ---
 
@@ -8,9 +14,11 @@ A desktop-based Store Management System built using .NET that helps manage produ
 
 * 🧾 Product Management (Add, Update, Delete)
 * 📦 Inventory Tracking
-* 💰 Sales Management
+* 💰 Sales & Billing System (POS)
 * 🔍 Search & Filter Products
-* 📊 Basic Data Handling with SQL Server
+* 🧮 Auto Calculation (Subtotal, Discount, Tax, Total)
+* 📊 SQL Server Database Integration
+* 🔳 QR Code Generation & Printing
 * 🖥️ User-friendly Desktop Interface
 
 ---
@@ -18,20 +26,26 @@ A desktop-based Store Management System built using .NET that helps manage produ
 ## 🛠️ Technologies Used
 
 * **.NET (C#)**
-* **Windows Forms / Desktop UI**
+* **Windows Forms**
 * **SQL Server**
-* **Entity Framework (if used)**
+* **Entity Framework Core**
 
 ---
 
 ## 🏗️ Project Structure
 
-The project follows a basic layered structure:
+* **UI Layer (Windows Forms)** – User Interface
+* **Business Logic Layer (Services)** – Core functionality
+* **Data Access Layer** – Database communication
+* **Models** – Data structures
 
-* **UI Layer (Forms)** – Handles user interaction
-* **Business Logic Layer (Services)** – Processes application logic
-* **Data Access Layer** – Communicates with database
-* **Models** – Defines data structures
+---
+
+![POS Screen](images/pos.png)
+
+### 📦 Product Management + QR Code
+
+![Product Screen](images/product.png)
 
 ---
 
@@ -43,11 +57,11 @@ The project follows a basic layered structure:
    git clone https://github.com/M-shahroz227/MyStoreDesktop.git
    ```
 
-2. Open the project in **Visual Studio**
+2. Open in **Visual Studio**
 
-3. Configure the database:
+3. Configure Database:
 
-   * Update connection string in `app.config` or `appsettings.json`
+   * Update connection string in `app.config`
 
 4. Run the application:
 
@@ -55,19 +69,29 @@ The project follows a basic layered structure:
 
 ---
 
+## 📌 Key Learnings
+
+* Implemented layered architecture
+* Built complete POS system logic
+* Integrated SQL Server with .NET
+* Developed QR code generation feature
+* Improved CRUD operations handling
+
+---
+
 ## 🎯 Future Improvements
 
-* 🔐 Add Authentication & Authorization (Login System)
+* 🔐 Authentication & Authorization (Login System)
 * 👥 Role-based Access (Admin/User)
-* 📈 Advanced Reporting (Sales Reports)
-* 🧾 Invoice Generation
-* 🌐 Convert into Web Application (ASP.NET Core + React)
+* 📈 Advanced Reports & Analytics
+* 🧾 Invoice / Receipt Printing
+* 🌐 Convert into Web App (ASP.NET Core + React)
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Feel free to fork this repository and submit a pull request.
+Contributions are welcome! Feel free to fork and submit a pull request.
 
 ---
 
